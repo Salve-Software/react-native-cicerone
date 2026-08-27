@@ -94,4 +94,4 @@ android/generated
 nitrogen/
 
 # Screen recording the committed assets are encoded from
-assets/*-source.gif
+assets/*-source.*
