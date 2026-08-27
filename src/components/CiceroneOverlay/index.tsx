@@ -48,6 +48,7 @@ export const CiceroneOverlay: React.FC<ICiceroneOverlayProps> = (props) => {
           {...cardProps}
           layout={layout}
           width={cardWidth}
+          containerHeight={screen.height}
           isExiting={isExiting}
           style={options.cardStyle}
         />

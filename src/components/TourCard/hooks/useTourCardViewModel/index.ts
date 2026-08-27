@@ -1,11 +1,19 @@
 import type { ITourCardProps } from '@/components/TourCard/types';
 import { useMemo } from 'react';
-import { useWindowDimensions } from 'react-native';
 import { formatStepLabel } from '@/utils';
 
 export const useTourCardViewModel = (props: ITourCardProps, measuredHeight: number) => {
-  const { step, index, total, isLast, labels, palette, layout, placement } = props;
-  const screen = useWindowDimensions();
+  const {
+    step,
+    index,
+    total,
+    isLast,
+    labels,
+    palette,
+    layout,
+    placement,
+    containerHeight,
+  } = props;
 
   const label = useMemo(() => {
     if (step.label) return step.label;
@@ -15,8 +23,8 @@ export const useTourCardViewModel = (props: ITourCardProps, measuredHeight: numb
 
   const anchorY = useMemo(() => {
     if (placement === 'bottom') return layout.top ?? 0;
-    return screen.height - (layout.bottom ?? 0);
-  }, [placement, layout.top, layout.bottom, screen.height]);
+    return containerHeight - (layout.bottom ?? 0);
+  }, [placement, layout.top, layout.bottom, containerHeight]);
 
   const heightOffset = placement === 'bottom' ? 0 : measuredHeight;
 

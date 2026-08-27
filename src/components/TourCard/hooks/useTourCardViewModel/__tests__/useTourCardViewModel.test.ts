@@ -1,11 +1,11 @@
 import type { ITourCardProps } from '@/components/TourCard/types';
 import { describe, expect, it, jest } from '@jest/globals';
 import { renderHook } from '@testing-library/react-native';
-import { Dimensions } from 'react-native';
 import { DEFAULT_LABELS, DEFAULT_THEME } from '@/constants';
 import { useTourCardViewModel } from '@/components/TourCard/hooks/useTourCardViewModel';
 
 const CARD_HEIGHT = 180;
+const CONTAINER_HEIGHT = 800;
 
 const mountProps = (overrides: Partial<ITourCardProps> = {}): ITourCardProps => ({
   step: { id: 'reticle', title: 'Scan in bulk', text: '...' },
@@ -18,6 +18,7 @@ const mountProps = (overrides: Partial<ITourCardProps> = {}): ITourCardProps => 
   labels: DEFAULT_LABELS,
   layout: { left: 0, top: 0, arrowLeft: 10 },
   width: 284,
+  containerHeight: CONTAINER_HEIGHT,
   isExiting: false,
   next: jest.fn(),
   previous: jest.fn(),
@@ -135,7 +136,7 @@ describe('useTourCardViewModel', () => {
     });
 
     it('Hangs off the bottom edge when the card sits above the target', async () => {
-      const screenHeight = Dimensions.get('window').height;
+      const containerHeight = CONTAINER_HEIGHT;
       const { result } = await renderHook(() =>
         useTourCardViewModel(
           mountProps({
@@ -146,7 +147,24 @@ describe('useTourCardViewModel', () => {
         ),
       );
 
-      expect(result.current.anchorY).toBe(screenHeight - 400);
+      expect(result.current.anchorY).toBe(containerHeight - 400);
+    });
+
+    it('Measures against the container it was laid out in, not the window', async () => {
+      const bottom = 400;
+      const short = await renderHook(() =>
+        useTourCardViewModel(
+          mountProps({
+            placement: 'top',
+            layout: { left: 0, bottom, arrowLeft: 10 },
+            containerHeight: 700,
+          }),
+          CARD_HEIGHT,
+        ),
+      );
+
+      // The overlay box, not the window, is what `bottom` was computed against.
+      expect(short.result.current.anchorY).toBe(700 - bottom);
     });
 
     it('Does NOT move with the measured height, which would retarget the animation', async () => {
