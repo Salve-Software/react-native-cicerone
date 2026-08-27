@@ -145,16 +145,18 @@
   "release-it": {
     "git": {
       "commitMessage": "chore: release ${version}",
-      "tagName": "v${version}"
+      "tagName": "v${version}",
+      "requireBranch": "main"
     },
     "npm": {
-      "publish": true
+      "publish": false
     },
     "github": {
-      "release": true
+      "release": false
     },
     "plugins": {
       "@release-it/conventional-changelog": {
+        "infile": "CHANGELOG.md",
         "preset": {
           "name": "angular"
         }

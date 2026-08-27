@@ -1,0 +1,114 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Lint files
+        run: yarn lint
+
+      - name: Check formatting
+        run: yarn format:check
+
+      - name: Typecheck files
+        run: yarn typecheck
+
+      - name: Run unit tests
+        run: yarn test --maxWorkers=2
+
+  publish:
+    needs: verify
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          fetch-depth: 0
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      # Trusted publishing needs the OIDC support that landed in npm 11.5.1.
+      - name: Check npm supports trusted publishing
+        run: |
+          NPM_VERSION=$(npm --version)
+          echo "npm $NPM_VERSION"
+
+          if [[ "$(printf '%s\n11.5.1\n' "$NPM_VERSION" | sort -V | head -n1)" != "11.5.1" ]]; then
+            echo "::error::npm $NPM_VERSION is too old for OIDC trusted publishing, 11.5.1 or newer is required. Bump .nvmrc."
+            exit 1
+          fi
+
+      - name: Check the tag matches package.json
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          PKG=$(node -p "require('./package.json').version")
+
+          if [[ "$TAG" != "$PKG" ]]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match package.json version $PKG."
+            exit 1
+          fi
+
+      - name: Build package
+        run: yarn prepare
+
+      - name: Check the '@/' alias did not reach lib/
+        run: |
+          if grep -rq '@/' lib/; then
+            echo "::error::The '@/' alias leaked into lib/, consumers cannot resolve it."
+            grep -rn '@/' lib/
+            exit 1
+          fi
+
+      # The very first version goes up by hand, before npm can trust this workflow.
+      - name: Check whether the version is already on npm
+        id: npm
+        run: |
+          NAME=$(node -p "require('./package.json').name")
+          VERSION=$(node -p "require('./package.json').version")
+
+          if npm view "$NAME@$VERSION" version > /dev/null 2>&1; then
+            echo "npm already serves $NAME@$VERSION, skipping the publish."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Scripts already ran through `yarn prepare`, and husky has no business in CI.
+      - name: Publish to npm
+        if: steps.npm.outputs.skip != 'true'
+        run: npm publish --ignore-scripts --provenance --access public
+
+      - name: Create the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # A version heading is a digit after the hashes, section headings like '### Features' are not.
+          NOTES=$(awk '/^#{1,3} +\[?[0-9]/ { if (seen++) exit } seen' CHANGELOG.md 2> /dev/null || true)
+
+          if [[ -n "$NOTES" ]]; then
+            gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes "$NOTES"
+          else
+            gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --generate-notes
+          fi
