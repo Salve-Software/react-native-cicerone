@@ -8,4 +8,5 @@ export * from './resolveCardLayout';
 export * from './resolveGeometry';
 export * from './resolvePlacement';
 export * from './resolveScrollOffset';
+export * from './translateGeometry';
 export * from './wait';
