@@ -14,6 +14,7 @@ const mountProps = (overrides: Partial<ISpotlightProps> = {}): ISpotlightProps =
   },
   theme: DEFAULT_THEME,
   isHighlight: false,
+  isExiting: false,
   overlayPress: 'next',
   allowTargetInteraction: false,
   onPress: jest.fn(),

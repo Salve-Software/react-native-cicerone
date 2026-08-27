@@ -8,13 +8,13 @@ export const CiceroneProvider: React.FC<ICiceroneProviderProps> = (props) => {
   const { children } = props;
   const { geometry, ...controller } = useCiceroneProviderViewModel(props);
   const contextValue: ICiceroneContextValue = controller;
-  const { step, isRunning } = controller;
+  const { step, isVisible, isExiting } = controller;
 
   return (
     <CiceroneContext.Provider value={contextValue}>
       {children}
 
-      {isRunning && !!geometry && !!step && (
+      {isVisible && !!geometry && !!step && (
         <CiceroneOverlay
           geometry={geometry}
           step={step}
@@ -22,6 +22,7 @@ export const CiceroneProvider: React.FC<ICiceroneProviderProps> = (props) => {
           total={controller.total}
           isFirst={controller.isFirst}
           isLast={controller.isLast}
+          isExiting={isExiting}
           next={controller.next}
           previous={controller.previous}
           skip={controller.skip}

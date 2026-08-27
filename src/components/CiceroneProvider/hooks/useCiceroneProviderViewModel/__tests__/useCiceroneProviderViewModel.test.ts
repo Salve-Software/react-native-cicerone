@@ -216,6 +216,71 @@ describe('useCiceroneProviderViewModel', () => {
     });
   });
 
+  describe('exiting', () => {
+    it('Holds the overlay mounted with its geometry while it fades out', async () => {
+      const { result } = await renderViewModel();
+      await startTour(result);
+      await waitFor(() => expect(result.current.isRunning).toBe(true));
+
+      await act(async () => {
+        result.current.skip();
+      });
+
+      expect(result.current.isRunning).toBe(false);
+      expect(result.current.isExiting).toBe(true);
+      expect(result.current.isVisible).toBe(true);
+      expect(result.current.geometry).not.toBeNull();
+    });
+
+    it('Drops the geometry once the fade is over', async () => {
+      const { result } = await renderViewModel();
+      await startTour(result);
+      await waitFor(() => expect(result.current.isRunning).toBe(true));
+
+      await act(async () => {
+        result.current.skip();
+      });
+
+      await waitFor(() => expect(result.current.isVisible).toBe(false), {
+        timeout: 2000,
+      });
+      expect(result.current.geometry).toBeNull();
+      expect(result.current.isExiting).toBe(false);
+    });
+
+    it('Does NOT advance while fading out, so a stray press cannot revive it', async () => {
+      const { result } = await renderViewModel();
+      await startTour(result);
+      await waitFor(() => expect(result.current.isRunning).toBe(true));
+
+      await act(async () => {
+        result.current.skip();
+      });
+      await act(async () => {
+        result.current.next();
+      });
+
+      expect(result.current.isRunning).toBe(false);
+      expect(result.current.index).toBe(0);
+    });
+
+    it('Reports the reason once, not again when the fade lands', async () => {
+      const onStop = jest.fn();
+      const { result } = await renderViewModel({ onStop });
+      await startTour(result);
+      await waitFor(() => expect(result.current.isRunning).toBe(true));
+
+      await act(async () => {
+        result.current.skip();
+      });
+      await act(async () => {
+        result.current.skip();
+      });
+
+      expect(onStop).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('goTo', () => {
     it('Ignores an index outside the steps', async () => {
       const { result } = await renderViewModel();

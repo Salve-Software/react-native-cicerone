@@ -15,6 +15,12 @@ export const ANIMATION = {
   startDelay: 800,
 } as const;
 
+/** rtzBalOut: drops and shrinks slightly as it fades. */
+export const CARD_EXIT = {
+  toTranslateY: 14,
+  toScale: 0.92,
+} as const;
+
 /** The prototype peaks at 60% of the way in, then settles back. */
 export const CARD_ENTRANCE = {
   fromTranslateY: 16,

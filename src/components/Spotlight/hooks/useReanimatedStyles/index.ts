@@ -18,10 +18,11 @@ export interface IUseReanimatedStylesProps {
   scrimSpread: number;
   ringColor: string;
   isHighlight: boolean;
+  isExiting: boolean;
 }
 
 export const useReanimatedStyles = (props: IUseReanimatedStylesProps) => {
-  const { geometry, scrimSpread, ringColor, isHighlight } = props;
+  const { geometry, scrimSpread, ringColor, isHighlight, isExiting } = props;
   const easing = Easing.bezier(...ANIMATION.easeOutExpo);
 
   const holeX = useSharedValue(geometry.hole.x);
@@ -81,6 +82,11 @@ export const useReanimatedStyles = (props: IUseReanimatedStylesProps) => {
     ringX,
     ringY,
   ]);
+
+  useEffect(() => {
+    if (!isExiting) return;
+    fade.value = withTiming(0, { duration: ANIMATION.scrimOutDuration });
+  }, [isExiting, fade]);
 
   useEffect(() => {
     const duration = isHighlight

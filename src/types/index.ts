@@ -6,6 +6,7 @@ export type * from './ICiceroneController';
 export type * from './ICiceroneGeometry';
 export type * from './ICiceroneLabels';
 export type * from './ICiceroneOverlayPress';
+export type * from './ICiceronePhase';
 export type * from './ICiceronePlacement';
 export type * from './ICiceroneProviderProps';
 export type * from './ICiceroneRect';

@@ -2,6 +2,7 @@ import type { RefObject } from 'react';
 import type { HostInstance } from 'react-native';
 import type {
   ICiceroneGeometry,
+  ICiceronePhase,
   ICiceroneProviderProps,
   ICiceroneScrollHandle,
   ICiceroneStartOptions,
@@ -26,7 +27,7 @@ export const useCiceroneProviderViewModel = (props: ICiceroneProviderProps) => {
   } = props;
 
   const [index, setIndex] = useState(0);
-  const [isRunning, setIsRunning] = useState(false);
+  const [phase, setPhase] = useState<ICiceronePhase>('idle');
   const [geometry, setGeometry] = useState<ICiceroneGeometry | null>(null);
 
   const targetsRef = useRef(new Map<string, RefObject<HostInstance | null>>());
@@ -35,6 +36,13 @@ export const useCiceroneProviderViewModel = (props: ICiceroneProviderProps) => {
   // Guard so a repeated press cannot skip a step while the measurement runs.
   const isMeasuringRef = useRef(false);
   const runIdRef = useRef(0);
+  const phaseRef = useRef<ICiceronePhase>('idle');
+  const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const enterPhase = useCallback((next: ICiceronePhase) => {
+    phaseRef.current = next;
+    setPhase(next);
+  }, []);
 
   const activeStorage = storage ?? fallbackStorage.current;
   const total = steps.length;
@@ -74,14 +82,21 @@ export const useCiceroneProviderViewModel = (props: ICiceroneProviderProps) => {
 
   const stop = useCallback(
     (reason: ICiceroneStopReason = 'manual') => {
+      if (phaseRef.current !== 'running') return;
+
       runIdRef.current += 1;
       isMeasuringRef.current = false;
-      setIsRunning(false);
-      setGeometry(null);
       void markSeen();
       onStop?.(reason);
+
+      // Kept mounted with its geometry so the overlay has something to fade out.
+      enterPhase('exiting');
+      exitTimerRef.current = setTimeout(() => {
+        enterPhase('idle');
+        setGeometry(null);
+      }, ANIMATION.scrimOutDuration);
     },
-    [markSeen, onStop],
+    [markSeen, onStop, enterPhase],
   );
 
   const measureStep = useCallback(
@@ -134,22 +149,23 @@ export const useCiceroneProviderViewModel = (props: ICiceroneProviderProps) => {
     (options?: ICiceroneStartOptions) => {
       void (async () => {
         if (!options?.force && (await hasSeen())) return;
-        setIsRunning(true);
+        if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
+        enterPhase('running');
         onStart?.();
         await measureStep(0);
       })();
     },
-    [hasSeen, measureStep, onStart],
+    [hasSeen, measureStep, onStart, enterPhase],
   );
 
   const next = useCallback(() => {
-    if (isMeasuringRef.current) return;
+    if (isMeasuringRef.current || phaseRef.current !== 'running') return;
     if (index >= steps.length - 1) return stop('finished');
     void measureStep(index + 1);
   }, [index, measureStep, steps.length, stop]);
 
   const previous = useCallback(() => {
-    if (isMeasuringRef.current || index === 0) return;
+    if (isMeasuringRef.current || phaseRef.current !== 'running' || index === 0) return;
     void measureStep(index - 1);
   }, [index, measureStep]);
 
@@ -163,9 +179,18 @@ export const useCiceroneProviderViewModel = (props: ICiceroneProviderProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(
+    () => () => {
+      if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
+    },
+    [],
+  );
+
   return useMemo(
     () => ({
-      isRunning,
+      isRunning: phase === 'running',
+      isExiting: phase === 'exiting',
+      isVisible: phase !== 'idle',
       step,
       index,
       total,
@@ -183,7 +208,7 @@ export const useCiceroneProviderViewModel = (props: ICiceroneProviderProps) => {
       registerScroll,
     }),
     [
-      isRunning,
+      phase,
       step,
       index,
       total,

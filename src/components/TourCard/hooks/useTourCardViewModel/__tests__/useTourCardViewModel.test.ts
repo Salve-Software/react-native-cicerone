@@ -18,6 +18,7 @@ const mountProps = (overrides: Partial<ITourCardProps> = {}): ITourCardProps => 
   labels: DEFAULT_LABELS,
   layout: { left: 0, top: 0, arrowLeft: 10 },
   width: 284,
+  isExiting: false,
   next: jest.fn(),
   previous: jest.fn(),
   skip: jest.fn(),

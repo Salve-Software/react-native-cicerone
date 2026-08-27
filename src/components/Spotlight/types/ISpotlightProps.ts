@@ -5,6 +5,7 @@ export interface ISpotlightProps {
   geometry: ICiceroneGeometry;
   theme: ICiceroneTheme;
   isHighlight: boolean;
+  isExiting: boolean;
   overlayPress: ICiceroneOverlayPress;
   allowTargetInteraction: boolean;
   onPress: () => void;

@@ -10,7 +10,18 @@ import { useStyles } from './styles';
 
 /** Swappable wholesale through `renderCard`. */
 export const TourCard: React.FC<ITourCardProps> = (props) => {
-  const { step, palette, placement, layout, width, labels, next, skip, style } = props;
+  const {
+    step,
+    palette,
+    placement,
+    layout,
+    width,
+    labels,
+    next,
+    skip,
+    style,
+    isExiting,
+  } = props;
   const [height, setHeight] = useState(0);
   const { label, anchorTop, buttonLabel, isHighlight, hasGradient, isPlaced } =
     useTourCardViewModel(props, height);
@@ -20,6 +31,7 @@ export const TourCard: React.FC<ITourCardProps> = (props) => {
     top: anchorTop,
     index: props.index,
     isPlaced,
+    isExiting,
   });
 
   return (

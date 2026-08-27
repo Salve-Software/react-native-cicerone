@@ -5,7 +5,7 @@ import { TourCard } from '@/components/TourCard';
 import { useCiceroneOverlayViewModel } from './hooks/useCiceroneOverlayViewModel';
 
 export const CiceroneOverlay: React.FC<ICiceroneOverlayProps> = (props) => {
-  const { geometry, options } = props;
+  const { geometry, options, isExiting } = props;
   const {
     theme,
     isHighlight,
@@ -23,6 +23,7 @@ export const CiceroneOverlay: React.FC<ICiceroneOverlayProps> = (props) => {
         geometry={geometry}
         theme={theme}
         isHighlight={isHighlight}
+        isExiting={isExiting}
         overlayPress={overlayPress}
         allowTargetInteraction={allowTargetInteraction}
         onPress={onOverlayPress}
@@ -36,6 +37,7 @@ export const CiceroneOverlay: React.FC<ICiceroneOverlayProps> = (props) => {
           {...cardProps}
           layout={layout}
           width={cardWidth}
+          isExiting={isExiting}
           style={options.cardStyle}
         />
       )}

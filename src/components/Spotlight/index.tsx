@@ -8,7 +8,7 @@ import { useSpotlightViewModel } from '@/components/Spotlight/hooks/useSpotlight
 import { useStyles } from '@/components/Spotlight/styles';
 
 export const Spotlight: React.FC<ISpotlightProps> = (props) => {
-  const { geometry, theme, isHighlight, renderBackdrop } = props;
+  const { geometry, theme, isHighlight, isExiting, renderBackdrop } = props;
   const { scrimSpread, touchStrips, handlePress, isPressable, usesTouchStrips } =
     useSpotlightViewModel(props);
   const styles = useStyles(theme);
@@ -18,6 +18,7 @@ export const Spotlight: React.FC<ISpotlightProps> = (props) => {
       scrimSpread,
       ringColor: theme.ring,
       isHighlight,
+      isExiting,
     });
 
   return (
@@ -49,6 +50,7 @@ export const Spotlight: React.FC<ISpotlightProps> = (props) => {
       )}
 
       {isPressable &&
+        !isExiting &&
         (usesTouchStrips ? (
           <>
             <Pressable

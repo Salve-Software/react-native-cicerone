@@ -7,6 +7,7 @@ export interface ICiceroneOverlayProps {
   total: number;
   isFirst: boolean;
   isLast: boolean;
+  isExiting: boolean;
   next: () => void;
   previous: () => void;
   skip: () => void;

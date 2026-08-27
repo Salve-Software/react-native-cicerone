@@ -18,6 +18,7 @@ const mountProps = (
   total: 3,
   isFirst: true,
   isLast: false,
+  isExiting: false,
   next: jest.fn(),
   previous: jest.fn(),
   skip: jest.fn(),
