@@ -23,14 +23,14 @@ export const TourCard: React.FC<ITourCardProps> = (props) => {
     isExiting,
   } = props;
   const [height, setHeight] = useState(0);
-  const { label, anchorTop, buttonLabel, isHighlight, hasGradient, isPlaced } =
+  const { label, anchorY, heightOffset, buttonLabel, isHighlight, hasGradient } =
     useTourCardViewModel(props, height);
   const styles = useStyles(palette);
   const { cardStyle } = useReanimatedStyles({
     left: layout.left,
-    top: anchorTop,
+    anchorY,
+    heightOffset,
     index: props.index,
-    isPlaced,
     isExiting,
   });
 

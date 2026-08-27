@@ -118,52 +118,48 @@ describe('useTourCardViewModel', () => {
     });
   });
 
-  describe('anchorTop', () => {
-    it('Uses the layout top when the card sits below the target', async () => {
+  describe('anchorY', () => {
+    it('Hangs off the layout top when the card sits below the target', async () => {
       const { result } = await renderHook(() =>
         useTourCardViewModel(
-          mountProps({
-            placement: 'bottom',
-            layout: { left: 0, top: 300, arrowLeft: 10 },
-          }),
+          mountProps({ placement: 'bottom', layout: { left: 0, top: 300, arrowLeft: 10 } }),
           CARD_HEIGHT,
         ),
       );
 
-      expect(result.current.anchorTop).toBe(300);
+      expect(result.current.anchorY).toBe(300);
+      expect(result.current.heightOffset).toBe(0);
     });
 
-    it('Converts the bottom anchor into a top, so the card is never stretched', async () => {
+    it('Hangs off the bottom edge when the card sits above the target', async () => {
       const screenHeight = Dimensions.get('window').height;
       const { result } = await renderHook(() =>
         useTourCardViewModel(
-          mountProps({
-            placement: 'top',
-            layout: { left: 0, bottom: 400, arrowLeft: 10 },
-          }),
+          mountProps({ placement: 'top', layout: { left: 0, bottom: 400, arrowLeft: 10 } }),
           CARD_HEIGHT,
         ),
       );
 
-      expect(result.current.anchorTop).toBe(screenHeight - 400 - CARD_HEIGHT);
-    });
-  });
-
-  describe('isPlaced', () => {
-    it('Is true below the target even before measuring, where height does not matter', async () => {
-      const { result } = await renderHook(() =>
-        useTourCardViewModel(mountProps({ placement: 'bottom' }), 0),
-      );
-
-      expect(result.current.isPlaced).toBe(true);
+      expect(result.current.anchorY).toBe(screenHeight - 400);
     });
 
-    it('Is false above the target until the card has been measured', async () => {
+    it('Does NOT move with the measured height, which would retarget the animation', async () => {
+      const props = mountProps({
+        placement: 'top',
+        layout: { left: 0, bottom: 400, arrowLeft: 10 },
+      });
+      const short = await renderHook(() => useTourCardViewModel(props, 100));
+      const tall = await renderHook(() => useTourCardViewModel(props, 260));
+
+      expect(short.result.current.anchorY).toBe(tall.result.current.anchorY);
+    });
+
+    it('Carries the height as a separate offset the card applies itself', async () => {
       const { result } = await renderHook(() =>
-        useTourCardViewModel(mountProps({ placement: 'top' }), 0),
+        useTourCardViewModel(mountProps({ placement: 'top' }), CARD_HEIGHT),
       );
 
-      expect(result.current.isPlaced).toBe(false);
+      expect(result.current.heightOffset).toBe(CARD_HEIGHT);
     });
   });
 });

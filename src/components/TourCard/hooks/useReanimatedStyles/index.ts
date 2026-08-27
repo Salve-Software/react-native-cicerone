@@ -10,9 +10,10 @@ import { ANIMATION, CARD_ENTRANCE, CARD_EXIT } from '@/constants';
 
 export interface IUseReanimatedStylesProps {
   left: number;
-  top: number;
+  anchorY: number;
+  /** Height of the card when it hangs above the target, zero when below. */
+  heightOffset: number;
   index: number;
-  isPlaced: boolean;
   isExiting: boolean;
 }
 
@@ -20,36 +21,33 @@ export interface IUseReanimatedStylesProps {
 const EASE_OUT_EXPO = Easing.bezier(...ANIMATION.easeOutExpo);
 
 export const useReanimatedStyles = (props: IUseReanimatedStylesProps) => {
-  const { left, top, index, isPlaced, isExiting } = props;
+  const { left, anchorY, heightOffset, index, isExiting } = props;
 
   const entry = useSharedValue(0);
   const x = useSharedValue(left);
-  const y = useSharedValue(top);
+  const y = useSharedValue(anchorY);
   const exit = useSharedValue(0);
   const hasSettled = useSharedValue(false);
 
   useEffect(() => {
-    if (!isPlaced) return;
-
     const move = (value: number) =>
       hasSettled.value
         ? withTiming(value, { duration: ANIMATION.holeDuration, easing: EASE_OUT_EXPO })
         : value;
 
     x.value = move(left);
-    y.value = move(top);
+    y.value = move(anchorY);
     hasSettled.value = true;
-  }, [left, top, isPlaced, hasSettled, x, y]);
+  }, [left, anchorY, hasSettled, x, y]);
 
   // Replayed every step: the prototype alternates rtzBalA/rtzBalB to re-trigger it.
   useEffect(() => {
-    if (!isPlaced) return;
     entry.value = 0;
     entry.value = withTiming(1, {
       duration: ANIMATION.cardInDuration,
       easing: EASE_OUT_EXPO,
     });
-  }, [index, isPlaced, entry]);
+  }, [index, entry]);
 
   useEffect(() => {
     if (!isExiting) return;
@@ -59,7 +57,7 @@ export const useReanimatedStyles = (props: IUseReanimatedStylesProps) => {
   /** rtzBalA: rises past its resting spot at 60%, then settles back. */
   const cardStyle = useAnimatedStyle(() => ({
     left: x.value,
-    top: y.value,
+    top: y.value - heightOffset,
     opacity: interpolate(entry.value, [0, 0.6, 1], [0, 1, 1]) * (1 - exit.value),
     transform: [
       {

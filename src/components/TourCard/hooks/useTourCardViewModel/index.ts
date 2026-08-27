@@ -15,22 +15,24 @@ export const useTourCardViewModel = (props: ITourCardProps, measuredHeight: numb
   }, [step.label, total, labels.step, labels.stepSingle, index]);
 
   /**
-   * Anchored by the top even when the card sits above the target: setting `top`
-   * and `bottom` together with no height stretches the card between them, and an
-   * animated style cannot clear the anchor it stopped using.
+   * The edge the card hangs off, which depends on the step alone. Folding the
+   * measured height in here instead would retarget the running animation the
+   * moment onLayout reports a new height, restarting it mid-flight.
    */
-  const anchorTop = useMemo(() => {
+  const anchorY = useMemo(() => {
     if (placement === 'bottom') return layout.top ?? 0;
-    return screen.height - (layout.bottom ?? 0) - measuredHeight;
-  }, [placement, layout.top, layout.bottom, screen.height, measuredHeight]);
+    return screen.height - (layout.bottom ?? 0);
+  }, [placement, layout.top, layout.bottom, screen.height]);
+
+  /** Applied outside the animation, so a re-measure shifts without re-animating. */
+  const heightOffset = placement === 'bottom' ? 0 : measuredHeight;
 
   return {
     label,
-    anchorTop,
+    anchorY,
+    heightOffset,
     buttonLabel: isLast ? labels.last : labels.next,
     isHighlight: step.variant === 'highlight',
     hasGradient: !!palette.cardBackgroundGradient,
-    // Placing an unmeasured card above a target would put it in the wrong spot.
-    isPlaced: placement === 'bottom' || measuredHeight > 0,
   };
 };
