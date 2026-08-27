@@ -1,0 +1,46 @@
+{
+  "link.title.Docs": {
+    "message": "Documentação",
+    "description": "The title of the footer links column with title=Docs in the footer"
+  },
+  "link.title.More": {
+    "message": "Mais",
+    "description": "The title of the footer links column with title=More in the footer"
+  },
+  "link.title.Salve Software": {
+    "message": "Salve Software",
+    "description": "The title of the footer links column with title=Salve Software in the footer"
+  },
+  "link.item.label.Getting started": {
+    "message": "Começar",
+    "description": "The label of footer link with label=Getting started linking to /docs/getting-started"
+  },
+  "link.item.label.Theming": {
+    "message": "Temas",
+    "description": "The label of footer link with label=Theming linking to /docs/theming"
+  },
+  "link.item.label.API": {
+    "message": "API",
+    "description": "The label of footer link with label=API linking to /docs/api"
+  },
+  "link.item.label.How it works": {
+    "message": "Como funciona",
+    "description": "The label of footer link with label=How it works linking to /docs/how-it-works"
+  },
+  "link.item.label.Recipes": {
+    "message": "Receitas",
+    "description": "The label of footer link with label=Recipes linking to /docs/recipes"
+  },
+  "link.item.label.GitHub": {
+    "message": "GitHub",
+    "description": "The label of footer link with label=GitHub linking to https://github.com/Salve-Software/react-native-cicerone"
+  },
+  "link.item.label.npm": {
+    "message": "npm",
+    "description": "The label of footer link with label=npm linking to https://www.npmjs.com/package/@salve-software/react-native-cicerone"
+  },
+  "copyright": {
+    "message": "Feito pela Salve Software · Licença MIT",
+    "description": "The footer copyright"
+  }
+}
