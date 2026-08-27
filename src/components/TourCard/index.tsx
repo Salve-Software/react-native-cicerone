@@ -13,17 +13,10 @@ export const TourCard: React.FC<ITourCardProps> = (props) => {
   const { step, palette, placement, layout, width, labels, next, skip, style } = props;
   const { label, buttonLabel, isHighlight, hasGradient } = useTourCardViewModel(props);
   const styles = useStyles(palette);
-  const { cardStyle } = useReanimatedStyles();
+  const { cardStyle } = useReanimatedStyles({ layout, placement, index: props.index });
 
   return (
-    <Animated.View
-      style={[
-        styles.root,
-        { width, left: layout.left, top: layout.top, bottom: layout.bottom },
-        cardStyle,
-      ]}
-      testID="cicerone-card"
-    >
+    <Animated.View style={[styles.root, { width }, cardStyle]} testID="cicerone-card">
       <CardArrow
         placement={placement}
         left={layout.arrowLeft}
