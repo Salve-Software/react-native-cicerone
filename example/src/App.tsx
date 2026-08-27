@@ -1,20 +1,16 @@
-import { Text, View, StyleSheet } from 'react-native';
-import { multiply } from 'react-native-cicerone';
-
-const result = multiply(3, 7);
+import { StatusBar } from 'expo-status-bar';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Cicerone } from 'react-native-cicerone';
+import { DemoScreen } from './components/DemoScreen';
+import { TOUR_STEPS } from './constants';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Result: {result}</Text>
-    </View>
+    <SafeAreaProvider>
+      <StatusBar style="light" />
+      <Cicerone.Provider steps={TOUR_STEPS} tourKey="demo" allowTargetInteraction>
+        <DemoScreen />
+      </Cicerone.Provider>
+    </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
