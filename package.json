@@ -46,7 +46,14 @@
   "keywords": [
     "react-native",
     "ios",
-    "android"
+    "android",
+    "onboarding",
+    "tour",
+    "walkthrough",
+    "spotlight",
+    "coachmark",
+    "guided-tour",
+    "highlight"
   ],
   "repository": {
     "type": "git",
@@ -71,6 +78,7 @@
     "@react-native/eslint-config": "0.85.0",
     "@react-native/jest-preset": "0.85.0",
     "@release-it/conventional-changelog": "^11.0.1",
+    "@testing-library/react-native": "^14.0.1",
     "@types/react": "^19.2.0",
     "babel-plugin-module-resolver": "^5.0.2",
     "commitlint": "^21.0.2",
@@ -86,14 +94,17 @@
     "react": "19.2.0",
     "react-native": "0.83.10",
     "react-native-builder-bob": "^0.43.0",
+    "react-native-reanimated": "^4.5.1",
     "release-it": "^20.2.0",
+    "test-renderer": "^1.2.0",
     "tsc-alias": "^1.8.16",
     "turbo": "^2.9.16",
     "typescript": "^6.0.3"
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-reanimated": ">=3.0.0"
   },
   "workspaces": [
     "example"
@@ -157,7 +168,10 @@
     ],
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/src/$1"
-    }
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!((jest-)?react-native|@react-native(-community)?|react-native-reanimated|react-native-worklets)/)"
+    ]
   },
   "create-react-native-library": {
     "type": "library",
