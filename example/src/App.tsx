@@ -3,7 +3,11 @@ import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
+import {
+  SafeAreaProvider,
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 import { Cicerone } from '@salve-software/react-native-cicerone';
 import { DemoScreen } from '~/components/DemoScreen';
 import { ModeSwitcher } from '~/components/ModeSwitcher';
@@ -22,7 +26,7 @@ const Shell = () => {
 
   return (
     <View style={styles.root}>
-      <View style={styles.stage}>
+      <SafeAreaView style={styles.stage} edges={['top']}>
         {mode === 'demo' ? (
           <Cicerone.Provider steps={TOUR_STEPS} tourKey="demo" allowTargetInteraction>
             <DemoScreen />
@@ -30,7 +34,7 @@ const Shell = () => {
         ) : (
           <StorybookUI />
         )}
-      </View>
+      </SafeAreaView>
       <View style={[styles.bar, { paddingBottom: insets.bottom }]}>
         <ModeSwitcher mode={mode} onChange={setMode} />
       </View>
