@@ -37,6 +37,7 @@ export const useCiceroneProviderViewModel = (props: ICiceroneProviderProps) => {
   const runIdRef = useRef(0);
   const phaseRef = useRef<ICiceronePhase>('idle');
   const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hasAutoStartedRef = useRef(false);
 
   const enterPhase = useCallback((next: ICiceronePhase) => {
     phaseRef.current = next;
@@ -168,12 +169,24 @@ export const useCiceroneProviderViewModel = (props: ICiceroneProviderProps) => {
 
   const skip = useCallback(() => stop('skipped'), [stop]);
 
+  const startRef = useRef(start);
+  const startDelayRef = useRef(startDelay);
+
   useEffect(() => {
-    if (!autoStart) return;
-    const timer = setTimeout(() => start(), startDelay);
+    startRef.current = start;
+    startDelayRef.current = startDelay;
+  });
+
+  useEffect(() => {
+    if (!autoStart || hasAutoStartedRef.current) return;
+
+    const timer = setTimeout(() => {
+      hasAutoStartedRef.current = true;
+      startRef.current();
+    }, startDelayRef.current);
+
     return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [autoStart]);
 
   useEffect(
     () => () => {

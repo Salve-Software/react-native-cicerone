@@ -350,4 +350,68 @@ describe('useCiceroneProviderViewModel', () => {
       await waitFor(() => expect(before).toHaveBeenCalled());
     });
   });
+
+  describe('autoStart', () => {
+    it('Starts when autoStart flips to true after mount', async () => {
+      const storage = mountStorage();
+      const rendered = await renderHook(
+        (props: { autoStart: boolean }) =>
+          useCiceroneProviderViewModel({
+            children: null,
+            steps: STEPS,
+            tourKey: 'scanner',
+            storage,
+            startDelay: 0,
+            autoStart: props.autoStart,
+          }),
+        { initialProps: { autoStart: false } },
+      );
+
+      await act(async () => {
+        STEPS.forEach((step, i) => {
+          rendered.result.current.registerTarget(step.id, mountTargetRef(100 + i * 10));
+        });
+      });
+
+      expect(rendered.result.current.isRunning).toBe(false);
+
+      await rendered.rerender({ autoStart: true });
+
+      await waitFor(() => expect(rendered.result.current.isRunning).toBe(true));
+    });
+
+    it('Does NOT start again when autoStart stays true across renders', async () => {
+      const storage = mountStorage();
+      const rendered = await renderHook(
+        (props: { autoStart: boolean }) =>
+          useCiceroneProviderViewModel({
+            children: null,
+            steps: STEPS,
+            tourKey: 'scanner',
+            storage,
+            startDelay: 0,
+            autoStart: props.autoStart,
+          }),
+        { initialProps: { autoStart: true } },
+      );
+
+      await act(async () => {
+        STEPS.forEach((step, i) => {
+          rendered.result.current.registerTarget(step.id, mountTargetRef(100 + i * 10));
+        });
+      });
+
+      await waitFor(() => expect(rendered.result.current.isRunning).toBe(true));
+
+      await act(async () => {
+        rendered.result.current.next();
+      });
+
+      await waitFor(() => expect(rendered.result.current.index).toBe(1));
+
+      await rendered.rerender({ autoStart: true });
+
+      expect(rendered.result.current.index).toBe(1);
+    });
+  });
 });
