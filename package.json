@@ -141,7 +141,7 @@
       "customExportConditions": [
         "require",
         "react-native",
-        "<%- project.sourceCondition -%>"
+        "react-native-cicerone-source"
       ]
     },
     "modulePathIgnorePatterns": [
