@@ -8,10 +8,12 @@ export const useStyles = () =>
     root: {
       flex: 1,
       justifyContent: 'flex-start',
-      paddingTop: 120,
+      paddingTop: 96,
       paddingHorizontal: 24,
     },
-    rootBottom: { justifyContent: 'flex-end', paddingBottom: 140, paddingTop: 0 },
+    rootBottom: { justifyContent: 'flex-end', paddingBottom: 96, paddingTop: 0 },
+    /** A Target is a View; in a column it stretches unless told to hug. */
+    hug: { alignSelf: 'flex-start' },
     card: {
       height: 132,
       borderRadius: 24,
@@ -30,4 +32,13 @@ export const useStyles = () =>
       justifyContent: 'center',
     },
     label: { color: DEMO.muted, fontSize: 12, letterSpacing: 1.6, fontWeight: '700' },
+    replay: {
+      alignSelf: 'flex-start',
+      marginTop: 20,
+      paddingVertical: 8,
+      paddingHorizontal: 16,
+      borderRadius: 10,
+      backgroundColor: DEMO.surfaceAlt,
+    },
+    replayLabel: { color: DEMO.text, fontSize: 13, fontWeight: '700' },
   });
