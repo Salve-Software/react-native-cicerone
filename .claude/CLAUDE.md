@@ -1,4 +1,4 @@
-# react-native-cicerone
+# @salve-software/react-native-cicerone
 
 Guided onboarding tours for React Native. Published open source under the
 [Salve-Software](https://github.com/Salve-Software) org.

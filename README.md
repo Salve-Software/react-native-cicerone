@@ -1,4 +1,4 @@
-# react-native-cicerone
+# @salve-software/react-native-cicerone
 
 Guided onboarding tours for React Native. It handles the spotlight, you style the card.
 
@@ -15,7 +15,7 @@ about, and puts a card next to it.
 ## Installation
 
 ```sh
-npm install react-native-cicerone
+npm install @salve-software/react-native-cicerone
 ```
 
 `react-native-reanimated` is a peer dependency:
@@ -30,7 +30,7 @@ Wrap the screen in a provider, wrap each element in a `Target`, and give the pro
 of steps whose `id` matches those targets.
 
 ```tsx
-import { Cicerone, type ICiceroneStep } from 'react-native-cicerone';
+import { Cicerone, type ICiceroneStep } from '@salve-software/react-native-cicerone';
 
 const STEPS: ICiceroneStep[] = [
   {
