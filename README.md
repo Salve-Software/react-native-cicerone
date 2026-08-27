@@ -20,6 +20,10 @@ Cicerone dims the screen, cuts a hole around one element, and shows a card next 
 
 The existing tour libraries were written before the New Architecture and most still use `findNodeHandle`, which is deprecated. This one measures with `measureInWindow`, ships no native code of its own, and lets you render the card so the tour looks like your app instead of like a library.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Salve-Software/react-native-cicerone/main/assets/onboarding.gif" alt="A five step tour running in the example app" width="300">
+</p>
+
 ```tsx
 import { Cicerone, type ICiceroneStep } from '@salve-software/react-native-cicerone';
 

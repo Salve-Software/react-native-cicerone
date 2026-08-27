@@ -96,3 +96,6 @@ android/generated
 
 # React Native Nitro Modules
 nitrogen/
+
+# Screen recording the committed assets are encoded from
+assets/*-source.gif
