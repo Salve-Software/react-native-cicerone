@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { Cicerone } from 'react-native-cicerone';
+import { Cicerone } from '@salve-software/react-native-cicerone';
 import { DemoSection } from '~/components/DemoSection';
 import { useDemoScreenViewModel } from './hooks/useDemoScreenViewModel';
 import { useStyles } from './styles';

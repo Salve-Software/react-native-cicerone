@@ -1,4 +1,4 @@
-import type { ICiceroneStep } from 'react-native-cicerone';
+import type { ICiceroneStep } from '@salve-software/react-native-cicerone';
 
 /** Mirrors the Rotuz scanner tour: static targets, a scrolled one, and the upsell. */
 export const TOUR_STEPS: ICiceroneStep[] = [

@@ -1,5 +1,5 @@
 {
-  "name": "react-native-cicerone",
+  "name": "@salve-software/react-native-cicerone",
   "version": "0.1.0",
   "description": "Guided onboarding tours for React Native. It handles the spotlight, you style the card.",
   "main": "./lib/module/index.js",
@@ -66,7 +66,8 @@
   },
   "homepage": "https://github.com/Salve-Software/react-native-cicerone#readme",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^21.0.2",

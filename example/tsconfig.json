@@ -4,7 +4,7 @@
     // Declared here, not inherited: Metro reads this file to resolve the aliases
     // itself, so a stale babel transform cache cannot break the bundle.
     "paths": {
-      "react-native-cicerone": ["../src/index"],
+      "@salve-software/react-native-cicerone": ["../src/index"],
       "@/*": ["../src/*"],
       "~/*": ["./src/*"]
     }

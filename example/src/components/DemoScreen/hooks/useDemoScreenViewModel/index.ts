@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useCicerone } from 'react-native-cicerone';
+import { useCicerone } from '@salve-software/react-native-cicerone';
 
 export const useDemoScreenViewModel = () => {
   const { start, reset, isRunning, index, total } = useCicerone();
