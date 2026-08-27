@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.2](https://github.com/Salve-Software/react-native-cicerone/compare/v0.1.1...v0.1.2) (2026-08-27)
+
+### Bug Fixes
+
+- **provider:** honour autoStart after mount ([bd1afaf](https://github.com/Salve-Software/react-native-cicerone/commit/bd1afaff3baa7ce47bb83d948f169b64594466ac))
+
 ## [0.1.1](https://github.com/Salve-Software/react-native-cicerone/compare/v0.1.0...v0.1.1) (2026-08-27)
 
 ### Bug Fixes
