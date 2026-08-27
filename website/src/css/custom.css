@@ -1,0 +1,45 @@
+/* Palette taken from the tour itself, so the docs look like the thing they document. */
+:root {
+  --ifm-color-primary: #1f7042;
+  --ifm-color-primary-dark: #1c653b;
+  --ifm-color-primary-darker: #1a5f38;
+  --ifm-color-primary-darkest: #154e2e;
+  --ifm-color-primary-light: #227b49;
+  --ifm-color-primary-lighter: #24814c;
+  --ifm-color-primary-lightest: #299256;
+  --ifm-code-font-size: 92%;
+  --ifm-font-family-base:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.08);
+
+  --cicerone-ring: #5fd694;
+  --cicerone-gold: #ffd970;
+  --cicerone-surface: #1b231c;
+  --cicerone-border: #2a342b;
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #5fd694;
+  --ifm-color-primary-dark: #45cf84;
+  --ifm-color-primary-darker: #38cb7c;
+  --ifm-color-primary-darkest: #2ba766;
+  --ifm-color-primary-light: #79dda4;
+  --ifm-color-primary-lighter: #86e1ac;
+  --ifm-color-primary-lightest: #aeecc7;
+  --ifm-background-color: #0f1511;
+  --ifm-background-surface-color: #151d17;
+  --docusaurus-highlighted-code-line-bg: rgba(255, 255, 255, 0.1);
+}
+
+.navbar {
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+  backdrop-filter: saturate(180%) blur(12px);
+}
+
+.footer--dark {
+  --ifm-footer-background-color: #0b0f0c;
+}
+
+article h1 {
+  letter-spacing: -0.02em;
+}

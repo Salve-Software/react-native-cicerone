@@ -41,7 +41,10 @@
     "lint": "eslint \"**/*.{js,jsx,cjs,mjs,ts,tsx}\"",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint:fix": "eslint \"**/*.{js,jsx,cjs,mjs,ts,tsx}\" --fix"
+    "lint:fix": "eslint \"**/*.{js,jsx,cjs,mjs,ts,tsx}\" --fix",
+    "docs": "yarn --cwd website build && yarn --cwd website serve",
+    "docs:dev": "yarn --cwd website start",
+    "docs:build": "yarn --cwd website build"
   },
   "keywords": [
     "react-native",

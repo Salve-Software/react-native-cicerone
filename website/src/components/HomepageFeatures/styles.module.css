@@ -1,0 +1,43 @@
+.section {
+  padding: 4rem 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: 1px solid var(--ifm-toc-border-color);
+  background: var(--ifm-background-surface-color);
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.card:hover {
+  border-color: var(--cicerone-ring);
+  transform: translateY(-2px);
+}
+
+.icon {
+  font-size: 1.5rem;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+}
+
+.title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.body {
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.94rem;
+  line-height: 1.55;
+  margin: 0;
+}
