@@ -1,4 +1,4 @@
-import type { ICiceroneGeometry } from '@/types';
+import type { IUseReanimatedStylesProps } from './types';
 import { useEffect } from 'react';
 import {
   Easing,
@@ -12,13 +12,6 @@ import {
 } from 'react-native-reanimated';
 import { ANIMATION } from '@/constants';
 import { SPOTLIGHT } from '@/components/Spotlight/constants';
-
-export interface IUseReanimatedStylesProps {
-  geometry: ICiceroneGeometry;
-  ringColor: string;
-  isHighlight: boolean;
-  isExiting: boolean;
-}
 
 /** Built once: a new object each render would restart every effect using it. */
 const EASE_OUT_EXPO = Easing.bezier(...ANIMATION.easeOutExpo);

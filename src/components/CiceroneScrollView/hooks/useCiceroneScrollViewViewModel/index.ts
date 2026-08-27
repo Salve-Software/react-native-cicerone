@@ -1,15 +1,8 @@
-import type { ComponentRef } from 'react';
-import type {
-  HostInstance,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  ScrollView,
-} from 'react-native';
+import type { HostInstance, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import type { ICiceroneScrollContextValue } from '@/types';
 import type { ICiceroneScrollViewProps } from '@/components/CiceroneScrollView/types';
+import type { IScrollInstance } from './types';
 import { useCallback, useId, useMemo, useRef } from 'react';
-
-type IScrollInstance = ComponentRef<typeof ScrollView>;
 
 export const useCiceroneScrollViewViewModel = (props: ICiceroneScrollViewProps) => {
   const { onScroll, onContentSizeChange } = props;

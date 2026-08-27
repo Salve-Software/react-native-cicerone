@@ -1,4 +1,4 @@
-import type { ICiceroneGeometry } from '@/types';
+import type { IUseReanimatedPropsProps } from './types';
 import { useEffect } from 'react';
 import {
   Easing,
@@ -11,12 +11,6 @@ import { mountHolePath } from '@/utils';
 
 /** Built once: a new object each render would restart every effect using it. */
 const EASE_OUT_EXPO = Easing.bezier(...ANIMATION.easeOutExpo);
-
-export interface IUseReanimatedPropsProps {
-  geometry: ICiceroneGeometry;
-  isExiting: boolean;
-  screen: { width: number; height: number };
-}
 
 export const useReanimatedProps = (props: IUseReanimatedPropsProps) => {
   const { geometry, isExiting, screen } = props;

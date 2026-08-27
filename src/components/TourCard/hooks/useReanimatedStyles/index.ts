@@ -1,3 +1,4 @@
+import type { IUseReanimatedStylesProps } from './types';
 import { useEffect } from 'react';
 import {
   Easing,
@@ -7,15 +8,6 @@ import {
   withTiming,
 } from 'react-native-reanimated';
 import { ANIMATION, CARD_ENTRANCE, CARD_EXIT } from '@/constants';
-
-export interface IUseReanimatedStylesProps {
-  left: number;
-  anchorY: number;
-  /** Height of the card when it hangs above the target, zero when below. */
-  heightOffset: number;
-  index: number;
-  isExiting: boolean;
-}
 
 /** Built once: a new object each render would restart every effect using it. */
 const EASE_OUT_EXPO = Easing.bezier(...ANIMATION.easeOutExpo);
