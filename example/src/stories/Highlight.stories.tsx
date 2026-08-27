@@ -12,14 +12,14 @@ type Story = StoryObj<typeof meta>;
 /** Gradient card, sweeping sheen, sparkles, and a ring pulsing towards gold. */
 export const Highlight: Story = {
   args: {
-    targetLabel: 'PREMIUM',
+    targetLabel: 'PRO',
     step: {
-      title: 'Rotuz Premium',
-      text: 'Search without scanning, work offline, and get healthier alternatives.',
+      title: 'Highlight steps',
+      text: 'Own palette, a sheen across the card, and sparkles around the ring.',
       padding: 8,
       radius: 20,
       variant: 'highlight',
-      label: 'ROTUZ PREMIUM',
+      label: 'HIGHLIGHT',
     },
   },
 };

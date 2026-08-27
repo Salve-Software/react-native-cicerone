@@ -18,8 +18,8 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     step: {
-      title: 'Scan in bulk',
-      text: 'Run several products in a row without stopping — every read is automatic.',
+      title: 'Anything can be a target',
+      text: 'Wrap it in Cicerone.Target and the hole follows whatever it measures.',
       padding: 12,
       radius: 24,
     },
@@ -45,8 +45,8 @@ export const SingleStep: Story = {
     ...Default.args,
     step: {
       ...Default.args.step,
-      title: 'Only tip',
-      text: 'No counter on a one-step tour.',
+      title: 'One step only',
+      text: 'The counter collapses when there is nothing to count.',
     },
   },
 };
