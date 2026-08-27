@@ -1,5 +1,18 @@
 # Changelog
 
+# [0.2.0](https://github.com/Salve-Software/react-native-cicerone/compare/v0.1.2...v0.2.0) (2026-08-27)
+
+- feat(provider)!: drop the built-in seen storage ([d94a51b](https://github.com/Salve-Software/react-native-cicerone/commit/d94a51b0e2d2bad1cfa04161db0b2e2210cf14a9))
+
+### BREAKING CHANGES
+
+- storage, tourKey and showOnce are gone from
+  CiceroneProvider, along with reset() and start's force option.
+  ICiceroneStorage, ICiceroneStartOptions and createMemoryStorage are no
+  longer exported. Gate the tour with autoStart and persist it yourself.
+
+Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+
 ## [0.1.2](https://github.com/Salve-Software/react-native-cicerone/compare/v0.1.1...v0.1.2) (2026-08-27)
 
 ### Bug Fixes
