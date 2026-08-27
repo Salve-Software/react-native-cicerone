@@ -10,7 +10,20 @@ module.exports = function (api) {
   return getConfig(
     {
       presets: ['babel-preset-expo'],
+      plugins: [
+        [
+          'module-resolver',
+          {
+            // Both, and absolute: library files are transformed by this config too.
+            alias: {
+              '@': path.resolve(root, 'src'),
+              '~': path.resolve(__dirname, 'src'),
+            },
+            extensions: ['.ts', '.tsx', '.js', '.jsx'],
+          },
+        ],
+      ],
     },
-    { root, pkg }
+    { root, pkg },
   );
 };
