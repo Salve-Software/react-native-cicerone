@@ -16,9 +16,11 @@ export interface IUseReanimatedStylesProps {
   isExiting: boolean;
 }
 
+/** Built once: a new object each render would restart every effect using it. */
+const EASE_OUT_EXPO = Easing.bezier(...ANIMATION.easeOutExpo);
+
 export const useReanimatedStyles = (props: IUseReanimatedStylesProps) => {
   const { left, top, index, isPlaced, isExiting } = props;
-  const easing = Easing.bezier(...ANIMATION.easeOutExpo);
 
   const entry = useSharedValue(0);
   const x = useSharedValue(left);
@@ -31,20 +33,23 @@ export const useReanimatedStyles = (props: IUseReanimatedStylesProps) => {
 
     const move = (value: number) =>
       hasSettled.value
-        ? withTiming(value, { duration: ANIMATION.holeDuration, easing })
+        ? withTiming(value, { duration: ANIMATION.holeDuration, easing: EASE_OUT_EXPO })
         : value;
 
     x.value = move(left);
     y.value = move(top);
     hasSettled.value = true;
-  }, [left, top, isPlaced, easing, hasSettled, x, y]);
+  }, [left, top, isPlaced, hasSettled, x, y]);
 
   // Replayed every step: the prototype alternates rtzBalA/rtzBalB to re-trigger it.
   useEffect(() => {
     if (!isPlaced) return;
     entry.value = 0;
-    entry.value = withTiming(1, { duration: ANIMATION.cardInDuration, easing });
-  }, [index, isPlaced, entry, easing]);
+    entry.value = withTiming(1, {
+      duration: ANIMATION.cardInDuration,
+      easing: EASE_OUT_EXPO,
+    });
+  }, [index, isPlaced, entry]);
 
   useEffect(() => {
     if (!isExiting) return;

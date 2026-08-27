@@ -21,9 +21,11 @@ export interface IUseReanimatedStylesProps {
   isExiting: boolean;
 }
 
+/** Built once: a new object each render would restart every effect using it. */
+const EASE_OUT_EXPO = Easing.bezier(...ANIMATION.easeOutExpo);
+
 export const useReanimatedStyles = (props: IUseReanimatedStylesProps) => {
   const { geometry, scrimSpread, ringColor, isHighlight, isExiting } = props;
-  const easing = Easing.bezier(...ANIMATION.easeOutExpo);
 
   const holeX = useSharedValue(geometry.hole.x);
   const holeY = useSharedValue(geometry.hole.y);
@@ -46,7 +48,7 @@ export const useReanimatedStyles = (props: IUseReanimatedStylesProps) => {
   useEffect(() => {
     const move = (value: number) =>
       hasSettled.value
-        ? withTiming(value, { duration: ANIMATION.holeDuration, easing })
+        ? withTiming(value, { duration: ANIMATION.holeDuration, easing: EASE_OUT_EXPO })
         : value;
 
     holeX.value = move(geometry.hole.x);
@@ -63,11 +65,13 @@ export const useReanimatedStyles = (props: IUseReanimatedStylesProps) => {
     if (!hasSettled.value) {
       hasSettled.value = true;
       fade.value = withTiming(1, { duration: ANIMATION.scrimInDuration });
-      ringEntry.value = withTiming(1, { duration: ANIMATION.ringInDuration, easing });
+      ringEntry.value = withTiming(1, {
+        duration: ANIMATION.ringInDuration,
+        easing: EASE_OUT_EXPO,
+      });
     }
   }, [
     geometry,
-    easing,
     fade,
     hasSettled,
     holeHeight,
