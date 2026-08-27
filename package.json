@@ -47,14 +47,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/eumaninho54/react-native-cicerone.git"
+    "url": "git+https://github.com/Salve-Software/react-native-cicerone.git"
   },
-  "author": "salvesoftware <angelo.omarzinho@outlook.com> (https://github.com/eumaninho54)",
+  "author": "Salve Software (https://github.com/Salve-Software)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/eumaninho54/react-native-cicerone/issues"
+    "url": "https://github.com/Salve-Software/react-native-cicerone/issues"
   },
-  "homepage": "https://github.com/eumaninho54/react-native-cicerone#readme",
+  "homepage": "https://github.com/Salve-Software/react-native-cicerone#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
