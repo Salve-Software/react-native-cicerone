@@ -4,14 +4,16 @@ import { StyleSheet, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Cicerone } from '@salve-software/react-native-cicerone';
 import { DemoScreen } from '~/components/DemoScreen';
 import { ModeSwitcher } from '~/components/ModeSwitcher';
-import { DEMO } from '~/constants';
+import { DEMO, TOUR_STEPS } from '~/constants';
 import { StorybookUI } from '~storybook';
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: DEMO.background },
   stage: { flex: 1 },
+  bar: { backgroundColor: DEMO.surface },
 });
 
 const Shell = () => {
@@ -21,9 +23,15 @@ const Shell = () => {
   return (
     <View style={styles.root}>
       <View style={styles.stage}>
-        {mode === 'demo' ? <DemoScreen /> : <StorybookUI />}
+        {mode === 'demo' ? (
+          <Cicerone.Provider steps={TOUR_STEPS} tourKey="demo" allowTargetInteraction>
+            <DemoScreen />
+          </Cicerone.Provider>
+        ) : (
+          <StorybookUI />
+        )}
       </View>
-      <View style={{ paddingBottom: insets.bottom }}>
+      <View style={[styles.bar, { paddingBottom: insets.bottom }]}>
         <ModeSwitcher mode={mode} onChange={setMode} />
       </View>
     </View>
