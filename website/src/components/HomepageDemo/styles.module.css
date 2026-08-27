@@ -20,12 +20,12 @@
   margin: 0 auto 2.5rem;
 }
 
-/* The bezel is part of the recording, so the radius only has to clip its black corners. */
+/* The recording is cropped inside the bezel, so this is what gives it back. */
 .video {
   display: block;
   width: 300px;
   max-width: 72vw;
   margin: 0 auto;
-  border-radius: 32px;
+  border-radius: 28px;
   filter: drop-shadow(0 22px 55px rgba(0, 0, 0, 0.45));
 }
