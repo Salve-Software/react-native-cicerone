@@ -5,32 +5,32 @@ const FEATURES = [
   {
     icon: '📦',
     title: 'No native code',
-    body: 'Pure TypeScript. Nothing of ours to link, nothing of ours to rebuild.',
+    body: 'Pure TypeScript. Nothing of ours to link or rebuild.',
   },
   {
     icon: '🎯',
     title: 'New Architecture ready',
-    body: 'Measures with measureInWindow, never the deprecated findNodeHandle.',
+    body: 'Measures with measureInWindow, not the deprecated findNodeHandle.',
   },
   {
     icon: '📜',
     title: 'Scroll aware',
-    body: 'A target below the fold is scrolled into view, allowed to settle, and only then measured.',
+    body: 'A target below the fold gets scrolled into view, then measured once the scroll settles.',
   },
   {
     icon: '🎨',
     title: 'Your card, or ours',
-    body: 'A styled card works out of the box, and renderCard replaces it while the spotlight stays.',
+    body: 'The built in card works out of the box, and renderCard swaps it without losing the spotlight.',
   },
   {
     icon: '🧭',
-    title: 'Placement that follows',
-    body: 'The card takes the side with room, and the arrow moves when clamping pulls the two apart.',
+    title: 'Placement follows the target',
+    body: 'The card takes the side with room, and the arrow slides when clamping pulls them apart.',
   },
   {
     icon: '🪆',
-    title: 'Nested-safe',
-    body: 'The overlay works in its own box, so a provider inside a sheet still lands on target.',
+    title: 'Works when nested',
+    body: 'The overlay uses its own box, so a provider inside a sheet still lands on target.',
   },
 ];
 

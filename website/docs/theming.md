@@ -5,8 +5,8 @@ title: Theming
 
 # Theming
 
-Every colour has a default taken from the design the library was built for. You override any
-subset — palettes merge field by field, so you never have to restate the whole thing.
+Every color has a default. You override whatever you want and the rest stays, because
+palettes merge field by field.
 
 ```tsx
 <Cicerone.Provider
@@ -18,36 +18,36 @@ subset — palettes merge field by field, so you never have to restate the whole
   }}>
 ```
 
-## What is in a theme
+## What a theme holds
 
 | Field       | What it paints                           |
 | ----------- | ---------------------------------------- |
 | `scrim`     | The dim over everything outside the hole |
 | `ring`      | The outline around the target            |
-| `ringGlow`  | The halo radiating from the ring         |
-| `ringWidth` | Thickness of the ring                    |
-| `card`      | The default card palette                 |
-| `highlight` | The palette a highlight step switches to |
+| `ringGlow`  | The halo around the ring                 |
+| `ringWidth` | Ring thickness                           |
+| `card`      | Default card palette                     |
+| `highlight` | Palette used by highlight steps          |
 
 ## Card palettes
 
-Both `card` and `highlight` take the same shape:
+`card` and `highlight` take the same shape.
 
-| Field                             | What it paints                                               |
-| --------------------------------- | ------------------------------------------------------------ |
-| `cardBackground`                  | Card fill                                                    |
-| `cardBackgroundGradient`          | Second gradient stop; omit it and the card is a solid colour |
-| `arrowBackground`                 | The diamond pinned to the card edge                          |
-| `label`                           | The step counter or custom label                             |
-| `title` / `text`                  | Card copy                                                    |
-| `skip`                            | The skip link                                                |
-| `buttonBackground` / `buttonText` | The advance button                                           |
+| Field                             | What it paints                                        |
+| --------------------------------- | ----------------------------------------------------- |
+| `cardBackground`                  | Card fill                                             |
+| `cardBackgroundGradient`          | Second gradient stop. Leave it out for a solid color. |
+| `arrowBackground`                 | The little diamond on the card edge                   |
+| `label`                           | Step counter or custom label                          |
+| `title` / `text`                  | Card copy                                             |
+| `skip`                            | The skip link                                         |
+| `buttonBackground` / `buttonText` | The advance button                                    |
 
 ## Highlight steps
 
-A step with `variant: 'highlight'` switches to the second palette and turns on three extras:
-a gradient card, a sheen sweeping across it, and sparkles orbiting the target. The ring also
-pulses towards the highlight colour instead of holding steady.
+Setting `variant: 'highlight'` switches to the second palette and turns on three extras: a
+gradient card, a sheen that sweeps across it, and sparkles around the target. The ring also
+pulses toward the highlight color instead of staying flat.
 
 ```ts
 {
@@ -59,9 +59,9 @@ pulses towards the highlight colour instead of holding steady.
 }
 ```
 
-It is loud on purpose. Use it for an upsell or a new feature, not for every other step.
+It is loud on purpose. Save it for an upsell or a new feature, not for every other step.
 
-Recolouring it is the same partial merge:
+Recoloring works the same way:
 
 ```tsx
 theme={{
@@ -77,7 +77,7 @@ theme={{
 
 ## Labels
 
-Defaults are English. `{{current}}` and `{{total}}` are interpolated:
+Defaults are in English. `{{current}}` and `{{total}}` get replaced.
 
 ```tsx
 labels={{
@@ -89,15 +89,15 @@ labels={{
 }}
 ```
 
-`stepSingle` is what a one-step tour shows, since a counter reading "1 of 1" says nothing.
+`stepSingle` is what shows on a one step tour, since "1 of 1" tells nobody anything.
 
-A step can also carry its own `label`, which replaces the counter for that step alone — that
-is how the Premium example above reads `PREMIUM` instead of `TIP 5 OF 5`.
+A step can also carry its own `label`, which replaces the counter for that step only. That is
+how the Premium example above reads `PREMIUM` instead of `TIP 5 OF 5`.
 
 ## Replacing the card
 
-When theming is not enough, `renderCard` hands you everything the built-in card uses and
-takes over completely. The spotlight, the ring and the placement stay.
+When theming is not enough, `renderCard` gives you everything the built in card uses and lets
+you draw your own. The spotlight, ring and placement stay as they are.
 
 ```tsx
 <Cicerone.Provider
@@ -115,5 +115,5 @@ takes over completely. The spotlight, the ring and the placement stay.
 />
 ```
 
-You are responsible for positioning it. The `placement` and `layout` you receive tell you
-which side the tour picked and where it would have put its own card.
+Positioning is on you. The `placement` and `layout` you get tell you which side the tour
+picked and where it would have put its own card.

@@ -5,7 +5,7 @@ title: Targets
 
 # Targets
 
-A `Target` marks the element a step points at. It takes an `id`, and a step with the same
+A `Target` marks the element a step points at. Give it an `id` and the step with the same
 `id` will measure it.
 
 ```tsx
@@ -16,13 +16,13 @@ A `Target` marks the element a step points at. It takes an `id`, and a step with
 
 ## A Target is a View
 
-This is the one thing that surprises people, so it comes first.
+Read this one first, it trips up most people.
 
-`Target` wraps its child in a `View`, which means it takes part in layout like any other
-view. In a column it stretches to the full width — and then the tour measures the _wrapper_,
-not the thing you can see. A circular button ends up with a ring the width of the screen.
+`Target` puts a `View` around your element, so it behaves like any other view in the layout.
+Inside a column it stretches to the full width, and then the tour measures that wrapper
+instead of the thing you can see. A round button ends up with a ring as wide as the screen.
 
-For a target narrower than its container, tell it to hug:
+If your target is narrower than its container, tell it to shrink:
 
 ```tsx
 <Cicerone.Target id="scan-button" style={{ alignSelf: 'flex-start' }}>
@@ -30,33 +30,31 @@ For a target narrower than its container, tell it to hug:
 </Cicerone.Target>
 ```
 
-A target already inside a row, or one that is meant to span its container, needs nothing.
+Targets already inside a row, or ones meant to fill the container, work as they are.
 
-:::note Why not make it hug by default
-Because the opposite case is just as common: a card that should span its container would
-collapse. There is no default that is right for both, so `Target` takes a `style` prop and
-this page tells you when to use it.
+:::note Why isn't this the default
+Because the opposite case is just as common. A card that should span the container would
+collapse instead. No default works for both, so `Target` accepts a `style` prop and this
+page tells you when you need it.
 :::
 
 ## Shape of the hole
 
-Two fields on the step control it:
+Two fields on the step control it.
 
-| Field     | Effect                                                                                      |
-| --------- | ------------------------------------------------------------------------------------------- |
-| `padding` | Gap between the target and the ring. The band between them stays dimmed — that is the halo. |
-| `radius`  | Corner radius of the target. `'circle'` rounds by half of the shortest side.                |
+| Field     | Effect                                                                                       |
+| --------- | -------------------------------------------------------------------------------------------- |
+| `padding` | Space between the target and the ring. That band stays dimmed, which is what makes the halo. |
+| `radius`  | Corner radius of the target. Use `'circle'` to round by half the shortest side.              |
 
 ```ts
-{ id: 'scan-button', title: '…', text: '…', padding: 5, radius: 'circle' }
+{ id: 'scan-button', title: '...', text: '...', padding: 5, radius: 'circle' }
 ```
-
-The hole hugs the target; the ring sits `padding` px outside it.
 
 ## Targets inside a ScrollView
 
-Swap `ScrollView` for `Cicerone.ScrollView`. Targets inside it find it through context, so
-there is no ref to wire up.
+Use `Cicerone.ScrollView` instead of `ScrollView`. Targets find it through context, so there
+is no ref to pass around.
 
 ```tsx
 <Cicerone.ScrollView>
@@ -66,14 +64,14 @@ there is no ref to wire up.
 </Cicerone.ScrollView>
 ```
 
-When a step points at a target that is off-screen, the tour scrolls it into view, waits for
-the scroll to settle, and only then measures. A target already comfortably visible is left
-alone — scrolling it just to centre it would make the screen jump for nothing.
+When a step points at something off screen, the tour scrolls to it, waits for the scroll to
+finish, then measures. If the target is already visible it does nothing, since scrolling just
+to center it would make the screen jump for no reason.
 
-## Targets that do not exist yet
+## Targets that are not mounted yet
 
-A step whose target never mounts ends the tour instead of stranding it on the previous step.
-If the target is behind something you have to open first, use `before`:
+If a step's target never shows up, the tour ends instead of getting stuck on the previous
+step. When the target lives behind something you have to open first, use `before`:
 
 ```ts
 {
@@ -85,4 +83,4 @@ If the target is behind something you have to open first, use `before`:
 }
 ```
 
-`before` runs ahead of the measurement, and `beforeDelay` waits for its animation to land.
+`before` runs before the measurement and `beforeDelay` waits for its animation to finish.

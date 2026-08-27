@@ -12,11 +12,9 @@
   <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License">
 </p>
 
----
+Cicerone dims the screen, cuts a hole around one element, and shows a card next to it. You give it a list of steps and mark the elements. It handles the rest.
 
-A cicerone is the guide who walks visitors through a place. This one walks users through your screens: it dims the background, punches a hole around the element you want to talk about, and puts a card next to it.
-
-The libraries that already do this were written before the New Architecture, and the popular ones still reach for `findNodeHandle`, which is deprecated. **react-native-cicerone** measures with `measureInWindow`, ships no native code of its own, and hands you the card so the tour looks like your app rather than like a library.
+The existing tour libraries were written before the New Architecture and most still use `findNodeHandle`, which is deprecated. This one measures with `measureInWindow`, ships no native code of its own, and lets you render the card so the tour looks like your app instead of like a library.
 
 ```tsx
 import { Cicerone, type ICiceroneStep } from '@salve-software/react-native-cicerone';
@@ -52,13 +50,13 @@ export const Scanner = () => (
 
 ## Features
 
-- **No native code** - pure TypeScript. Nothing to link, nothing of ours to rebuild.
-- **New Architecture ready** - measures with `measureInWindow`, never `findNodeHandle`.
-- **Scroll aware** - a target below the fold is scrolled into view, allowed to settle, and only then measured.
-- **Your card, or ours** - ships a styled card that works out of the box; `renderCard` replaces it entirely while the spotlight stays.
-- **Placement that follows the target** - the card takes whichever side has room, and the arrow moves when clamping to the screen edge pulls the two apart.
-- **Nested-safe** - the overlay works in its own box, so a provider inside a sheet or a screen with a header still lands on target.
-- **Bring your own storage** - the "already seen" flag goes through an adapter, so MMKV, AsyncStorage or nothing at all are equally fine.
+- **No native code.** Pure TypeScript. Nothing of ours to link or rebuild.
+- **New Architecture ready.** Measures with `measureInWindow`, never `findNodeHandle`.
+- **Handles scrolling.** A target below the fold gets scrolled into view, then measured once the scroll settles.
+- **Use our card or yours.** The built in one works out of the box, and `renderCard` swaps it out without losing the spotlight.
+- **Placement follows the target.** The card takes whichever side has room, and the arrow slides when clamping to the screen edge pulls them apart.
+- **Works when nested.** The overlay uses its own box, so a provider inside a sheet or under a header still lands on target.
+- **Bring your own storage.** The seen flag goes through an adapter, so MMKV, AsyncStorage or nothing at all all work.
 
 ## Installation
 
@@ -74,21 +72,19 @@ export const Scanner = () => (
 yarn add @salve-software/react-native-cicerone react-native-reanimated react-native-svg
 ```
 
-Both peers carry native code. On a bare project run `pod install`; on Expo run `npx expo install` so the versions match your SDK, since Reanimated is version-locked to the runtime it was built against.
+Both peers have native code, so run `pod install` after. On Expo use `npx expo install` so the versions match your SDK. Reanimated is tied to the runtime it was compiled against, and a mismatch crashes on startup rather than failing the build.
 
 ## Usage
 
-Full docs, API reference, and theming guide: **[salve-software.github.io/react-native-cicerone](https://salve-software.github.io/react-native-cicerone)**
+Full docs, API reference and theming guide live at **[salve-software.github.io/react-native-cicerone](https://salve-software.github.io/react-native-cicerone)**
 
 ## Contributing
 
-We welcome contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md) for setup instructions, branch/commit conventions, and the PR process.
+Contributions are welcome. See [CONTRIBUTING.md](./CONTRIBUTING.md) for setup, branch and commit conventions, and how PRs work here.
 
 ## License
 
 This project is licensed under the MIT License, see [LICENSE](./LICENSE) for details.
-
----
 
 <p align="center">
   Made by Salve Software

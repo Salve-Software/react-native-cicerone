@@ -5,17 +5,16 @@ title: Getting started
 
 # Getting started
 
-A cicerone is the guide who walks visitors through a place. This one walks users through
-your screens: it dims the background, punches a hole around the element you want to talk
-about, and puts a card next to it.
+Cicerone dims the screen, cuts a hole around one element, and shows a card next to it. You
+give it a list of steps and mark the elements. It handles the rest.
 
 ## Requirements
 
-| Component                 | Requirement                                             |
-| ------------------------- | ------------------------------------------------------- |
-| React Native              | 0.76.0 or higher, with the **New Architecture** enabled |
-| `react-native-reanimated` | 3.0.0 or higher, required peer dependency               |
-| `react-native-svg`        | 15.0.0 or higher, required peer dependency              |
+| Component                 | Requirement                                         |
+| ------------------------- | --------------------------------------------------- |
+| React Native              | 0.76.0 or higher, with the New Architecture enabled |
+| `react-native-reanimated` | 3.0.0 or higher, required peer dependency           |
+| `react-native-svg`        | 15.0.0 or higher, required peer dependency          |
 
 ## Install
 
@@ -23,14 +22,14 @@ about, and puts a card next to it.
 yarn add @salve-software/react-native-cicerone react-native-reanimated react-native-svg
 ```
 
-Both peers carry native code. On a bare project run `pod install` afterwards. On Expo, use
-`npx expo install` instead of adding them by hand — Reanimated is version-locked to the
-runtime it was built against, and a mismatch does not fail the bundle, it crashes at startup.
+Both peers have native code, so run `pod install` after. On Expo use `npx expo install`
+instead of adding them by hand. Reanimated is tied to the runtime it was compiled against,
+and a version mismatch does not break the bundle. It crashes on startup, which is much
+harder to debug.
 
 ## Your first tour
 
-Three pieces: a provider that holds the tour, targets that mark the elements, and steps that
-tie them together by `id`.
+You need three things: a provider, targets, and steps that reference the targets by `id`.
 
 ```tsx
 import { Cicerone, type ICiceroneStep } from '@salve-software/react-native-cicerone';
@@ -64,23 +63,25 @@ export const Scanner = () => (
 );
 ```
 
-The tour starts on its own the first time the screen mounts. It will not start again once it
-has been seen — provided you give it a `tourKey` **and** a [`storage`](./recipes#remembering-what-was-seen).
-Without storage the flag lives in memory and dies with the app.
+The tour runs by itself the first time the screen mounts, then never again. That only works
+if you pass both a `tourKey` and a [`storage`](./recipes#remembering-what-was-seen). Without
+storage the flag sits in memory and disappears when the app closes.
 
 ## Where to put the provider
 
-Wrap the screen, not the whole app, unless every screen shares one tour. The overlay renders
-as a sibling of the provider's children and works in the provider's own box, so a provider
-inside a bottom sheet or a screen with a header still lands on target.
+Wrap the screen, not the whole app, unless every screen shares the same tour.
 
-## Driving it yourself
+The overlay renders next to the provider's children and works inside the provider's own box.
+That means you can put it inside a bottom sheet or a screen with a header and it still lands
+on the right spot.
+
+## Controlling it yourself
 
 ```tsx
 const { start, stop, next, previous, skip, reset, index, total } = useCicerone();
 ```
 
-`start({ force: true })` runs a tour that was already marked as seen — useful for a "replay
-the tour" button. `reset()` clears the mark without running anything.
+`start({ force: true })` runs a tour that was already marked as seen, which is what you want
+behind a "show me again" button. `reset()` only clears the flag.
 
-Set `autoStart={false}` when you would rather decide the moment yourself.
+Pass `autoStart={false}` if you would rather pick the moment.
