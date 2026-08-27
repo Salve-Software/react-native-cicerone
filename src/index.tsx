@@ -1,8 +1,8 @@
-import { CiceroneProvider } from './components/CiceroneProvider';
+import { CiceroneProvider } from './providers/CiceroneProvider';
 import { CiceroneScrollView } from './components/CiceroneScrollView';
 import { Target } from './components/Target';
 
-export { CiceroneProvider } from './components/CiceroneProvider';
+export { CiceroneProvider } from './providers/CiceroneProvider';
 export { CiceroneScrollView } from './components/CiceroneScrollView';
 export { Target } from './components/Target';
 export { TourCard } from './components/TourCard';

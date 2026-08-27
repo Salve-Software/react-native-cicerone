@@ -122,7 +122,10 @@ describe('useTourCardViewModel', () => {
     it('Hangs off the layout top when the card sits below the target', async () => {
       const { result } = await renderHook(() =>
         useTourCardViewModel(
-          mountProps({ placement: 'bottom', layout: { left: 0, top: 300, arrowLeft: 10 } }),
+          mountProps({
+            placement: 'bottom',
+            layout: { left: 0, top: 300, arrowLeft: 10 },
+          }),
           CARD_HEIGHT,
         ),
       );
@@ -135,7 +138,10 @@ describe('useTourCardViewModel', () => {
       const screenHeight = Dimensions.get('window').height;
       const { result } = await renderHook(() =>
         useTourCardViewModel(
-          mountProps({ placement: 'top', layout: { left: 0, bottom: 400, arrowLeft: 10 } }),
+          mountProps({
+            placement: 'top',
+            layout: { left: 0, bottom: 400, arrowLeft: 10 },
+          }),
           CARD_HEIGHT,
         ),
       );

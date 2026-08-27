@@ -13,13 +13,12 @@ export const Spotlight: React.FC<ISpotlightProps> = (props) => {
   const { screen, touchStrips, handlePress, isPressable, usesTouchStrips } =
     useSpotlightViewModel(props);
   const styles = useStyles(theme);
-  const { holeStyle, ringStyle, glowStyle, sparkleAnchorStyle } =
-    useReanimatedStyles({
-      geometry,
-      ringColor: theme.ring,
-      isHighlight,
-      isExiting,
-    });
+  const { holeStyle, ringStyle, glowStyle, sparkleAnchorStyle } = useReanimatedStyles({
+    geometry,
+    ringColor: theme.ring,
+    isHighlight,
+    isExiting,
+  });
 
   return (
     <View style={styles.root} pointerEvents="box-none">

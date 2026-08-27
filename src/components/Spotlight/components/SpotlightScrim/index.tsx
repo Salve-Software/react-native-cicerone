@@ -20,8 +20,13 @@ export const SpotlightScrim: React.FC<ISpotlightScrimProps> = (props) => {
       style={StyleSheet.absoluteFill}
       width={screen.width}
       height={screen.height}
-      pointerEvents="none">
-      <AnimatedPath animatedProps={scrimAnimatedProps} fill={theme.scrim} fillRule="evenodd" />
+      pointerEvents="none"
+    >
+      <AnimatedPath
+        animatedProps={scrimAnimatedProps}
+        fill={theme.scrim}
+        fillRule="evenodd"
+      />
     </Svg>
   );
 };

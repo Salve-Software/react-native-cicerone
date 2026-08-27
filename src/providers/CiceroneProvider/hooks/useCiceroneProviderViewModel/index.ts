@@ -12,7 +12,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ANIMATION } from '@/constants';
 import { createMemoryStorage, mountSeenKey } from '@/storage';
 import { measureTarget, resolveGeometry, wait } from '@/utils';
-import { MEASURE } from '@/components/CiceroneProvider/constants';
+import { MEASURE } from '@/providers/CiceroneProvider/constants';
 
 export const useCiceroneProviderViewModel = (props: ICiceroneProviderProps) => {
   const {

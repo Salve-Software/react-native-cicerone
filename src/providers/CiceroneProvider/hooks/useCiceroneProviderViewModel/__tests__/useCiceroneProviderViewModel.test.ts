@@ -4,7 +4,7 @@ import type { ICiceroneStep, ICiceroneStorage } from '@/types';
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { act, renderHook, waitFor } from '@testing-library/react-native';
 import { mountSeenKey } from '@/storage';
-import { useCiceroneProviderViewModel } from '@/components/CiceroneProvider/hooks/useCiceroneProviderViewModel';
+import { useCiceroneProviderViewModel } from '@/providers/CiceroneProvider/hooks/useCiceroneProviderViewModel';
 
 const STEPS: ICiceroneStep[] = [
   { id: 'reticle', title: 'Escaneie em massa', text: '...', padding: 26, radius: 28 },
