@@ -1,6 +1,5 @@
 import type { ICiceroneContextValue } from '@/types';
 import type { ReactNode } from 'react';
-import React from 'react';
 import { describe, expect, it } from '@jest/globals';
 import { renderHook } from '@testing-library/react-native';
 import { CiceroneContext } from '@/context';
