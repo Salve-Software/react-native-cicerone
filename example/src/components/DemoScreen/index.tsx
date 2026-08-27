@@ -5,7 +5,7 @@ import { DemoSection } from '~/components/DemoSection';
 import { useDemoScreenViewModel } from './hooks/useDemoScreenViewModel';
 import { useStyles } from './styles';
 
-/** Exercises the three phases: static targets, a scrolled target, and the upsell. */
+/** One target per case the tour has to handle, in the order the steps visit them. */
 export const DemoScreen: React.FC = () => {
   const styles = useStyles();
   const { restart, progress } = useDemoScreenViewModel();
@@ -25,18 +25,18 @@ export const DemoScreen: React.FC = () => {
         </View>
 
         <DemoSection title="Static target" subtitle="Measured where it stands.">
-          <Cicerone.Target id="reticle">
-            <View style={styles.reticle}>
-              <Text style={styles.reticleLabel}>VIEWFINDER</Text>
+          <Cicerone.Target id="panel">
+            <View style={styles.panel}>
+              <Text style={styles.panelLabel}>ANY VIEW</Text>
             </View>
           </Cicerone.Target>
         </DemoSection>
 
         <DemoSection title="Circular target" subtitle="radius: 'circle'.">
           <View style={styles.row}>
-            <Cicerone.Target id="scanbtn">
-              <View style={styles.scanButton}>
-                <Text style={styles.scanGlyph}>+</Text>
+            <Cicerone.Target id="fab">
+              <View style={styles.fab}>
+                <Text style={styles.fabGlyph}>+</Text>
               </View>
             </Cicerone.Target>
             <Text style={styles.rowHint}>The hole rounds by half the shortest side.</Text>
@@ -44,37 +44,37 @@ export const DemoScreen: React.FC = () => {
         </DemoSection>
 
         <View style={styles.spacer}>
-          <Text style={styles.spacerText}>SCROLL DOWN</Text>
+          <Text style={styles.spacerText}>KEEP SCROLLING</Text>
         </View>
 
         <DemoSection title="Target below the fold" subtitle="The tour scrolls to it.">
-          <Cicerone.Target id="history">
-            <View style={styles.card}>
-              <Text style={styles.cardTitle}>History</Text>
-              <Text style={styles.cardText}>
-                Stored on the device — no account, no login.
+          <Cicerone.Target id="list">
+            <View style={styles.listCard}>
+              <Text style={styles.listTitle}>List item</Text>
+              <Text style={styles.listText}>
+                Anything you can render can be a target.
               </Text>
             </View>
           </Cicerone.Target>
         </DemoSection>
 
-        <DemoSection title="Card flips above" subtitle="Target in the bottom half.">
-          <Cicerone.Target id="score">
-            <View style={styles.score}>
-              <Text style={styles.scoreValue}>82</Text>
-              <Text style={styles.scoreLabel}>SCORE</Text>
+        <DemoSection title="Card flips above" subtitle="No room underneath.">
+          <Cicerone.Target id="stat">
+            <View style={styles.stat}>
+              <Text style={styles.statValue}>42</Text>
+              <Text style={styles.statLabel}>STAT</Text>
             </View>
           </Cicerone.Target>
         </DemoSection>
 
         <DemoSection title="Highlight step" subtitle="Own palette, sheen and sparkles.">
-          <Cicerone.Target id="premium">
-            <View style={styles.premium}>
+          <Cicerone.Target id="upgrade">
+            <View style={styles.upgrade}>
               <View>
-                <Text style={styles.premiumTitle}>Rotuz Premium</Text>
-                <Text style={styles.premiumText}>Offline, search and alternatives</Text>
+                <Text style={styles.upgradeTitle}>Upgrade to Pro</Text>
+                <Text style={styles.upgradeText}>The step every app saves for last</Text>
               </View>
-              <Text style={styles.premiumTitle}>→</Text>
+              <Text style={styles.upgradeTitle}>→</Text>
             </View>
           </Cicerone.Target>
         </DemoSection>

@@ -8,7 +8,7 @@ export const DEMO = {
   muted: '#8f9c8c',
   accent: '#2e9e5b',
   gold: '#ffd970',
-  reticleHeight: 158,
-  scanButtonSize: 74,
-  scoreSize: 120,
+  panelHeight: 158,
+  fabSize: 74,
+  statSize: 120,
 } as const;

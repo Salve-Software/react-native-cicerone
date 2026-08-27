@@ -9,8 +9,8 @@ export const useStyles = () =>
     wordmark: { color: DEMO.text, fontSize: 30, fontWeight: '800', letterSpacing: -1 },
     tagline: { color: DEMO.muted, fontSize: 13, marginTop: 4 },
 
-    reticle: {
-      height: DEMO.reticleHeight,
+    panel: {
+      height: DEMO.panelHeight,
       borderRadius: 28,
       borderWidth: 2,
       borderColor: DEMO.border,
@@ -18,34 +18,34 @@ export const useStyles = () =>
       alignItems: 'center',
       justifyContent: 'center',
     },
-    reticleLabel: { color: DEMO.muted, fontSize: 12, letterSpacing: 1.5 },
+    panelLabel: { color: DEMO.muted, fontSize: 12, letterSpacing: 1.5 },
 
     row: { flexDirection: 'row', alignItems: 'center', gap: 14 },
-    scanButton: {
-      width: DEMO.scanButtonSize,
-      height: DEMO.scanButtonSize,
-      borderRadius: DEMO.scanButtonSize / 2,
+    fab: {
+      width: DEMO.fabSize,
+      height: DEMO.fabSize,
+      borderRadius: DEMO.fabSize / 2,
       backgroundColor: DEMO.accent,
       alignItems: 'center',
       justifyContent: 'center',
     },
-    scanGlyph: { color: '#ffffff', fontSize: 26, fontWeight: '800' },
+    fabGlyph: { color: '#ffffff', fontSize: 26, fontWeight: '800' },
     rowHint: { color: DEMO.muted, fontSize: 13, flex: 1 },
 
-    card: {
+    listCard: {
       backgroundColor: DEMO.surface,
       borderRadius: 20,
       borderWidth: 1,
       borderColor: DEMO.border,
       padding: 16,
     },
-    cardTitle: { color: DEMO.text, fontSize: 15, fontWeight: '700' },
-    cardText: { color: DEMO.muted, fontSize: 13, marginTop: 4, lineHeight: 19 },
+    listTitle: { color: DEMO.text, fontSize: 15, fontWeight: '700' },
+    listText: { color: DEMO.muted, fontSize: 13, marginTop: 4, lineHeight: 19 },
 
-    score: {
-      width: DEMO.scoreSize,
-      height: DEMO.scoreSize,
-      borderRadius: DEMO.scoreSize / 2,
+    stat: {
+      width: DEMO.statSize,
+      height: DEMO.statSize,
+      borderRadius: DEMO.statSize / 2,
       borderWidth: 6,
       borderColor: DEMO.accent,
       alignSelf: 'center',
@@ -53,10 +53,10 @@ export const useStyles = () =>
       justifyContent: 'center',
       backgroundColor: DEMO.surface,
     },
-    scoreValue: { color: DEMO.text, fontSize: 34, fontWeight: '800' },
-    scoreLabel: { color: DEMO.muted, fontSize: 11, letterSpacing: 1.2 },
+    statValue: { color: DEMO.text, fontSize: 34, fontWeight: '800' },
+    statLabel: { color: DEMO.muted, fontSize: 11, letterSpacing: 1.2 },
 
-    premium: {
+    upgrade: {
       backgroundColor: DEMO.surfaceAlt,
       borderRadius: 20,
       borderWidth: 1,
@@ -66,8 +66,8 @@ export const useStyles = () =>
       alignItems: 'center',
       justifyContent: 'space-between',
     },
-    premiumTitle: { color: DEMO.gold, fontSize: 15, fontWeight: '800' },
-    premiumText: { color: DEMO.muted, fontSize: 12, marginTop: 2 },
+    upgradeTitle: { color: DEMO.gold, fontSize: 15, fontWeight: '800' },
+    upgradeText: { color: DEMO.muted, fontSize: 12, marginTop: 2 },
 
     spacer: { height: 560, justifyContent: 'center', alignItems: 'center' },
     spacerText: { color: DEMO.border, fontSize: 12, letterSpacing: 1.4 },

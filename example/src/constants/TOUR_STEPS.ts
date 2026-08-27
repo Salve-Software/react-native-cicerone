@@ -1,42 +1,42 @@
 import type { ICiceroneStep } from '@salve-software/react-native-cicerone';
 
-/** Mirrors the Rotuz scanner tour: static targets, a scrolled one, and the upsell. */
+/** One step per thing worth seeing: both shapes, a scrolled target, the flip, the highlight. */
 export const TOUR_STEPS: ICiceroneStep[] = [
   {
-    id: 'reticle',
-    title: 'Scan in bulk',
-    text: 'Run several products in a row without stopping — every read is automatic and lands in your list.',
+    id: 'panel',
+    title: 'One element at a time',
+    text: 'The screen dims, a hole opens around the target, and the card takes whichever side has more room.',
     padding: 26,
     radius: 28,
   },
   {
-    id: 'scanbtn',
-    title: 'Scanner always at hand',
-    text: 'This button opens the scanner from anywhere in the app.',
+    id: 'fab',
+    title: 'Round holes',
+    text: "Set radius to 'circle' and the hole rounds by half the shortest side, whatever the element measures.",
     padding: 5,
     radius: 'circle',
   },
   {
-    id: 'history',
-    title: 'Your history',
-    text: 'Everything you scan is stored on the device — no account, no login. This target sits below the fold, so the tour scrolls to it.',
+    id: 'list',
+    title: 'Below the fold',
+    text: 'This target was off screen a second ago. Inside a Cicerone.ScrollView the tour scrolls to it, then measures once the scroll settles.',
     padding: 8,
     radius: 24,
   },
   {
-    id: 'score',
-    title: 'The Rotuz Score',
-    text: 'From 0 (avoid) to 100 (excellent): nutrition, processing and additives in a single number.',
+    id: 'stat',
+    title: 'The card flips',
+    text: 'There is no room underneath down here, so the card went above the target and the arrow moved with it.',
     padding: 8,
     radius: 32,
   },
   {
-    id: 'premium',
-    title: 'Rotuz Premium',
-    text: 'Search without scanning, work offline in the shop, and get healthier alternatives for every product.',
+    id: 'upgrade',
+    title: 'Highlight steps',
+    text: 'Mark a step as highlight and it gets its own palette, a sheen across the card and sparkles around the ring.',
     padding: 6,
     radius: 20,
     variant: 'highlight',
-    label: 'ROTUZ PREMIUM',
+    label: 'HIGHLIGHT',
   },
 ];
