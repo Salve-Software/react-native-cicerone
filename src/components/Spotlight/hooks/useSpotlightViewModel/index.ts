@@ -4,14 +4,39 @@ import { useCallback, useMemo, useRef } from 'react';
 import { useWindowDimensions } from 'react-native';
 import { SPOTLIGHT } from '@/components/Spotlight/constants';
 
-/** How far the scrim has to reach from the hole to cover every screen edge. */
-const reachOf = (hole: ICiceroneRect, width: number, height: number) =>
-  Math.max(
+/**
+ * The scrim is a border, so its outer edge curves at the corners: reaching every
+ * screen edge is not enough, it has to reach every screen *corner* too. The arc
+ * is centred on the hole's own corner centre, with radius holeRadius + spread.
+ */
+const reachOf = (
+  hole: ICiceroneRect,
+  holeRadius: number,
+  width: number,
+  height: number,
+) => {
+  const left = hole.x + holeRadius;
+  const right = hole.x + hole.width - holeRadius;
+  const top = hole.y + holeRadius;
+  const bottom = hole.y + hole.height - holeRadius;
+
+  const corners =
+    Math.max(
+      Math.hypot(left, top),
+      Math.hypot(width - right, top),
+      Math.hypot(left, height - bottom),
+      Math.hypot(width - right, height - bottom),
+    ) - holeRadius;
+
+  const edges = Math.max(
     hole.x,
     width - (hole.x + hole.width),
     hole.y,
     height - (hole.y + hole.height),
   );
+
+  return Math.max(corners, edges);
+};
 
 export const useSpotlightViewModel = (props: ISpotlightProps) => {
   const { geometry, overlayPress, allowTargetInteraction, onPress } = props;
@@ -24,12 +49,17 @@ export const useSpotlightViewModel = (props: ISpotlightProps) => {
    * Distances are linear in the hole, so covering both ends covers the whole path.
    */
   const scrimSpread = useMemo(() => {
-    const reach = reachOf(geometry.hole, screen.width, screen.height);
+    const reach = reachOf(
+      geometry.hole,
+      geometry.holeRadius,
+      screen.width,
+      screen.height,
+    );
     const spread =
       Math.ceil(Math.max(reach, previousReach.current)) + SPOTLIGHT.scrimMargin;
     previousReach.current = reach;
     return spread;
-  }, [geometry.hole, screen.width, screen.height]);
+  }, [geometry.hole, geometry.holeRadius, screen.width, screen.height]);
 
   /** Invisible, so they are placed once per step rather than driven every frame. */
   const touchStrips = useMemo(() => {

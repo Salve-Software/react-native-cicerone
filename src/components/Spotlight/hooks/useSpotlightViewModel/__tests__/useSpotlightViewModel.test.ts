@@ -81,6 +81,37 @@ describe('useSpotlightViewModel', () => {
   });
 
   describe('scrimSpread', () => {
+    it('Reaches the far screen corner, not just the far edge', async () => {
+      const screen = Dimensions.get('window');
+      const hole = { x: 20, y: 430, width: 74, height: 74 };
+      const holeRadius = 37;
+      const { result } = await renderHook(() =>
+        useSpotlightViewModel(
+          mountProps({ geometry: { ...mountProps().geometry, hole, holeRadius } }),
+        ),
+      );
+
+      // The outer edge curves, so the arc centre is the hole's own corner centre.
+      const needed =
+        Math.max(
+          Math.hypot(hole.x + holeRadius, hole.y + holeRadius),
+          Math.hypot(
+            screen.width - (hole.x + hole.width - holeRadius),
+            hole.y + holeRadius,
+          ),
+          Math.hypot(
+            hole.x + holeRadius,
+            screen.height - (hole.y + hole.height - holeRadius),
+          ),
+          Math.hypot(
+            screen.width - (hole.x + hole.width - holeRadius),
+            screen.height - (hole.y + hole.height - holeRadius),
+          ),
+        ) - holeRadius;
+
+      expect(result.current.scrimSpread).toBeGreaterThanOrEqual(needed);
+    });
+
     it('Reaches every screen edge from the hole, or a corner would stay bright', async () => {
       const screen = Dimensions.get('window');
       const hole = { x: 10, y: 20, width: 100, height: 50 };
