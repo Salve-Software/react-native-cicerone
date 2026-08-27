@@ -18,7 +18,14 @@ const config: Config = {
   onBrokenLinks: 'throw',
   markdown: { hooks: { onBrokenMarkdownLinks: 'warn' } },
 
-  i18n: { defaultLocale: 'en', locales: ['en'] },
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'pt-BR'],
+    localeConfigs: {
+      en: { label: 'English' },
+      'pt-BR': { label: 'Português' },
+    },
+  },
 
   presets: [
     [
@@ -49,6 +56,7 @@ const config: Config = {
           label: 'API',
           position: 'left',
         },
+        { type: 'localeDropdown', position: 'right' },
         {
           href: 'https://www.npmjs.com/package/@salve-software/react-native-cicerone',
           label: 'npm',

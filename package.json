@@ -44,7 +44,8 @@
     "lint:fix": "eslint \"**/*.{js,jsx,cjs,mjs,ts,tsx}\" --fix",
     "docs": "yarn --cwd website build && yarn --cwd website serve",
     "docs:dev": "yarn --cwd website start",
-    "docs:build": "yarn --cwd website build"
+    "docs:build": "yarn --cwd website build",
+    "docs:translations": "yarn --cwd website write-translations --locale pt-BR"
   },
   "keywords": [
     "react-native",

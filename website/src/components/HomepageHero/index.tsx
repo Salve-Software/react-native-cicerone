@@ -1,4 +1,5 @@
 import Link from '@docusaurus/Link';
+import Translate, { translate } from '@docusaurus/Translate';
 import React from 'react';
 import styles from './styles.module.css';
 
@@ -27,24 +28,30 @@ export const HomepageHero = () => (
       <h1 className={styles.title}>
         cicerone<span className={styles.dot}>.</span>
       </h1>
+
       <p className={styles.tagline}>
-        Guided onboarding tours for React Native. It handles the spotlight, you style the
-        card.
+        <Translate id="hero.tagline">
+          Guided onboarding tours for React Native. It handles the spotlight, you style
+          the card.
+        </Translate>
       </p>
 
       <div className={styles.actions}>
         <Link className="button button--primary button--lg" to="/docs/getting-started">
-          Get started
+          <Translate id="hero.cta.start">Get started</Translate>
         </Link>
         <Link
           className="button button--secondary button--lg"
           to="https://github.com/Salve-Software/react-native-cicerone"
         >
-          GitHub
+          <Translate id="hero.cta.github">GitHub</Translate>
         </Link>
       </div>
 
-      <div className={styles.install}>
+      <div
+        className={styles.install}
+        title={translate({ id: 'hero.install.hint', message: 'Install with yarn' })}
+      >
         <span className={styles.prompt}>$</span>
         <span>yarn add @salve-software/react-native-cicerone</span>
       </div>
