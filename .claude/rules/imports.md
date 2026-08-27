@@ -27,12 +27,20 @@ import { CICERONE } from '@/constants';
 shared prefix makes `@/context` in the library resolve to `example/src/context`. Both aliases
 are declared with absolute paths for the same reason.
 
-Four places have to agree, and all four are already wired:
+Three places have to agree, and all three are already wired:
 
 - `tsconfig.json` → `paths`, for the editor and `yarn typecheck`
-- `babel.config.js` → `module-resolver`, for the library build
-- `example/babel.config.js` → `module-resolver`, for Metro
+- `babel.config.js` → `module-resolver`, for the library build only
+- `example/tsconfig.json` → `paths`, which Metro reads directly
 - `package.json` → `jest.moduleNameMapper`, for tests
+
+**The example resolves through Metro, not babel.** Expo enables `tsconfigPaths` by
+default, so `example/tsconfig.json` declares its `paths` outright instead of inheriting
+them — Metro does not follow `extends`. A `module-resolver` plugin there as well would be
+redundant, and worse: `api.cache(true)` freezes the babel config, so a stale transform
+cache resurfaces as `Unable to resolve module ~/components/...` on a device long after the
+config was fixed. If you ever see that error, `yarn example start --clear` proves whether
+it is a cache.
 
 ## The alias must not reach the published package
 
