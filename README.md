@@ -64,6 +64,20 @@ export const Scanner = () => (
 The tour starts on its own the first time the screen mounts, and never again once it has been
 seen — provided you give it a `tourKey` and a `storage`.
 
+### A Target is a View
+
+`Target` wraps its child in a `View`, so it takes part in layout like any other. In a column
+that means it stretches to the full width, and the tour measures the wrapper rather than the
+child. For a target narrower than its container, tell it to hug:
+
+```tsx
+<Cicerone.Target id="scan-button" style={{ alignSelf: 'flex-start' }}>
+  <ScanButton />
+</Cicerone.Target>
+```
+
+A target already inside a row, or one that is meant to span the container, needs nothing.
+
 ### Targets inside a ScrollView
 
 Swap `ScrollView` for `Cicerone.ScrollView`. Targets inside it find it on their own; there is

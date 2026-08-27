@@ -45,6 +45,16 @@ example/           demo app, its own workspace
 - **No design system, no i18n, no storage engine.** The library takes a `theme`, `labels` and
   a `storage` adapter instead. It has no opinion about which ones you use.
 
+## The Target wrapper
+
+`Target` renders a `View` around its child, so it is not layout-transparent. In a column it
+stretches, and then `measureInWindow` returns the wrapper instead of the thing the user sees
+— a circular button ends up with a full-width ring. Consumers fix it with
+`style={{ alignSelf: 'flex-start' }}`, which is why `Target` takes a `style` prop at all.
+
+Changing the default to hug would break the opposite case, where the target is meant to span
+its container. This stays documented rather than "fixed".
+
 ## The overlay
 
 `CiceroneProvider` owns state and measurement, and renders `CiceroneOverlay` as a sibling of
