@@ -1,5 +1,5 @@
 import type { ITourCardProps } from './types';
-import React from 'react';
+import React, { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { CardArrow } from './components/CardArrow';
@@ -11,12 +11,23 @@ import { useStyles } from './styles';
 /** Swappable wholesale through `renderCard`. */
 export const TourCard: React.FC<ITourCardProps> = (props) => {
   const { step, palette, placement, layout, width, labels, next, skip, style } = props;
-  const { label, buttonLabel, isHighlight, hasGradient } = useTourCardViewModel(props);
+  const [height, setHeight] = useState(0);
+  const { label, anchorTop, buttonLabel, isHighlight, hasGradient, isPlaced } =
+    useTourCardViewModel(props, height);
   const styles = useStyles(palette);
-  const { cardStyle } = useReanimatedStyles({ layout, placement, index: props.index });
+  const { cardStyle } = useReanimatedStyles({
+    left: layout.left,
+    top: anchorTop,
+    index: props.index,
+    isPlaced,
+  });
 
   return (
-    <Animated.View style={[styles.root, { width }, cardStyle]} testID="cicerone-card">
+    <Animated.View
+      style={[styles.root, { width }, cardStyle]}
+      onLayout={(event) => setHeight(event.nativeEvent.layout.height)}
+      testID="cicerone-card"
+    >
       <CardArrow
         placement={placement}
         left={layout.arrowLeft}

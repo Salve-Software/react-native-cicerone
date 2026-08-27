@@ -1,4 +1,3 @@
-import type { ICardLayout, ICiceronePlacement } from '@/types';
 import { useEffect } from 'react';
 import {
   Easing,
@@ -10,48 +9,45 @@ import {
 import { ANIMATION, CARD_ENTRANCE } from '@/constants';
 
 export interface IUseReanimatedStylesProps {
-  layout: ICardLayout;
-  placement: ICiceronePlacement;
+  left: number;
+  top: number;
   index: number;
+  isPlaced: boolean;
 }
 
 export const useReanimatedStyles = (props: IUseReanimatedStylesProps) => {
-  const { layout, placement, index } = props;
+  const { left, top, index, isPlaced } = props;
   const easing = Easing.bezier(...ANIMATION.easeOutExpo);
 
   const entry = useSharedValue(0);
-  const left = useSharedValue(layout.left);
-  const top = useSharedValue(layout.top ?? 0);
-  const bottom = useSharedValue(layout.bottom ?? 0);
-  const isBottom = useSharedValue(placement === 'bottom');
+  const x = useSharedValue(left);
+  const y = useSharedValue(top);
   const hasSettled = useSharedValue(false);
 
   useEffect(() => {
-    const nextIsBottom = placement === 'bottom';
-    // Crossing the target means changing anchor, so sliding would read as a jump.
-    const slides = hasSettled.value && isBottom.value === nextIsBottom;
+    if (!isPlaced) return;
+
     const move = (value: number) =>
-      slides ? withTiming(value, { duration: ANIMATION.holeDuration, easing }) : value;
+      hasSettled.value
+        ? withTiming(value, { duration: ANIMATION.holeDuration, easing })
+        : value;
 
-    left.value = move(layout.left);
-    if (layout.top !== undefined) top.value = move(layout.top);
-    if (layout.bottom !== undefined) bottom.value = move(layout.bottom);
-
-    isBottom.value = nextIsBottom;
+    x.value = move(left);
+    y.value = move(top);
     hasSettled.value = true;
-  }, [layout, placement, easing, bottom, hasSettled, isBottom, left, top]);
+  }, [left, top, isPlaced, easing, hasSettled, x, y]);
 
   // Replayed every step: the prototype alternates rtzBalA/rtzBalB to re-trigger it.
   useEffect(() => {
+    if (!isPlaced) return;
     entry.value = 0;
     entry.value = withTiming(1, { duration: ANIMATION.cardInDuration, easing });
-  }, [index, entry, easing]);
+  }, [index, isPlaced, entry, easing]);
 
   /** rtzBalA: rises past its resting spot at 60%, then settles back. */
   const cardStyle = useAnimatedStyle(() => ({
-    left: left.value,
-    top: isBottom.value ? top.value : undefined,
-    bottom: isBottom.value ? undefined : bottom.value,
+    left: x.value,
+    top: y.value,
     opacity: interpolate(entry.value, [0, 0.6, 1], [0, 1, 1]),
     transform: [
       {
