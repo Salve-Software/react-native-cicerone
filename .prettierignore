@@ -7,5 +7,7 @@ example/android
 example/ios
 example/.expo
 example/dist
+website/build
+website/.docusaurus
 example/.storybook/storybook.requires.ts
 yarn.lock
