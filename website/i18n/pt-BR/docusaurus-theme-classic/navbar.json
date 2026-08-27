@@ -1,8 +1,4 @@
 {
-  "title": {
-    "message": "cicerone",
-    "description": "The title in the navbar"
-  },
   "logo.alt": {
     "message": "react-native-cicerone",
     "description": "The alt text of navbar logo"

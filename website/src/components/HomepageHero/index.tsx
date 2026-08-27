@@ -1,4 +1,5 @@
 import Link from '@docusaurus/Link';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import Translate, { translate } from '@docusaurus/Translate';
 import React from 'react';
 import styles from './styles.module.css';
@@ -25,6 +26,8 @@ const BADGES = [
 export const HomepageHero = () => (
   <header className={styles.hero}>
     <div className="container">
+      <img className={styles.mark} src={useBaseUrl('/img/icon.svg')} alt="" />
+
       <h1 className={styles.title}>
         cicerone<span className={styles.dot}>.</span>
       </h1>

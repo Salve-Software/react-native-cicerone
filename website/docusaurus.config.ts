@@ -5,7 +5,7 @@ import { themes as prismThemes } from 'prism-react-renderer';
 const config: Config = {
   title: 'react-native-cicerone',
   tagline: 'Guided onboarding tours for React Native',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/favicon.svg',
 
   future: { v4: true, faster: true },
 
@@ -47,8 +47,13 @@ const config: Config = {
     image: 'img/banner.png',
     colorMode: { defaultMode: 'dark', respectPrefersColorScheme: true },
     navbar: {
-      title: 'cicerone',
-      logo: { alt: 'react-native-cicerone', src: 'img/logo.svg' },
+      // The wordmark carries the name, so the navbar has no title of its own.
+      logo: {
+        alt: 'react-native-cicerone',
+        src: 'img/logo.svg',
+        srcDark: 'img/logo-dark.svg',
+        width: 150,
+      },
       items: [
         { type: 'docSidebar', sidebarId: 'docs', position: 'left', label: 'Docs' },
         {
