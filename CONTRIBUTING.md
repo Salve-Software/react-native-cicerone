@@ -129,5 +129,6 @@ When you're sending a pull request:
 - Prefer small pull requests focused on one change.
 - Verify that linters and tests are passing.
 - Review the documentation to make sure it looks good.
-- Follow the pull request template when opening a pull request.
+- Fill in the [pull request template](.github/pull_request_template.md); the verification
+  checklist is the part reviewers rely on.
 - For pull requests that change the API or implementation, discuss with maintainers first by opening an issue.
