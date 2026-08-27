@@ -1,0 +1,31 @@
+.section {
+  padding: 3rem 0 5rem;
+  background:
+    radial-gradient(48% 60% at 50% 45%, rgba(95, 214, 148, 0.13), transparent 70%),
+    transparent;
+}
+
+.heading {
+  text-align: center;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.5rem;
+}
+
+.sub {
+  text-align: center;
+  color: var(--ifm-color-emphasis-700);
+  max-width: 38rem;
+  margin: 0 auto 2.5rem;
+}
+
+/* The bezel is part of the recording, so the radius only has to clip its black corners. */
+.video {
+  display: block;
+  width: 300px;
+  max-width: 72vw;
+  margin: 0 auto;
+  border-radius: 32px;
+  filter: drop-shadow(0 22px 55px rgba(0, 0, 0, 0.45));
+}

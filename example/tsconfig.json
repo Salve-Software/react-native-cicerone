@@ -1,6 +1,13 @@
 {
   "extends": "../tsconfig",
   "compilerOptions": {
-    // Avoid expo-cli auto-generating a tsconfig
+    // Declared here, not inherited: Metro reads this file to resolve the aliases
+    // itself, so a stale babel transform cache cannot break the bundle.
+    "paths": {
+      "@salve-software/react-native-cicerone": ["../src/index"],
+      "@/*": ["../src/*"],
+      "~/*": ["./src/*"],
+      "~storybook": ["./.storybook"]
+    }
   }
 }

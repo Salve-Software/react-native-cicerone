@@ -7,10 +7,12 @@ const root = path.resolve(__dirname, '..');
 module.exports = function (api) {
   api.cache(true);
 
+  // No module-resolver here on purpose: Metro resolves `@/` and `~/` from
+  // example/tsconfig.json, so a stale babel cache cannot break the bundle.
   return getConfig(
     {
       presets: ['babel-preset-expo'],
     },
-    { root, pkg }
+    { root, pkg },
   );
 };
