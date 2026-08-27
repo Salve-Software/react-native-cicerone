@@ -33,5 +33,5 @@ yarn example start # the demo app
 - **`yarn lint` is zero errors and zero warnings.** Not "mostly clean".
 - **Every view model has a test.** No exceptions worth arguing about.
 - **The published `lib/` must not contain `@/`.** `yarn prepare` resolves it; if you change
-  the build, verify with `grep -r '@/' lib/`.
+  the build, verify with `yarn verify:lib` — it also catches absolute paths.
 - **Never commit to `main`.** Branch first.
