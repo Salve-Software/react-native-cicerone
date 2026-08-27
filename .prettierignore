@@ -1,0 +1,10 @@
+node_modules
+lib
+.yarn
+.turbo
+.expo
+example/android
+example/ios
+example/.expo
+example/dist
+yarn.lock
