@@ -34,7 +34,7 @@
   "scripts": {
     "example": "yarn workspace react-native-cicerone-example",
     "clean": "del-cli lib",
-    "prepare": "bob build",
+    "prepare": "husky || true; bob build",
     "typecheck": "tsc",
     "release": "release-it --only-version",
     "test": "jest",
@@ -75,8 +75,9 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-ft-flow": "^3.0.11",
     "eslint-plugin-prettier": "^5.5.6",
+    "husky": "^9.1.7",
     "jest": "^29.7.0",
-    "lefthook": "^2.1.9",
+    "lint-staged": "^17.3.0",
     "prettier": "^3.8.3",
     "react": "19.2.0",
     "react-native": "0.83.10",
@@ -166,5 +167,12 @@
       "eslint"
     ],
     "version": "0.63.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,cjs,mjs}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.{json,md,yml,yaml}": "prettier --write"
   }
 }
