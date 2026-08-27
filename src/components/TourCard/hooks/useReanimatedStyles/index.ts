@@ -24,6 +24,7 @@ export const useReanimatedStyles = (props: IUseReanimatedStylesProps) => {
   const { left, anchorY, heightOffset, index, isExiting } = props;
 
   const entry = useSharedValue(0);
+  const appear = useSharedValue(0);
   const x = useSharedValue(left);
   const y = useSharedValue(anchorY);
   const exit = useSharedValue(0);
@@ -40,7 +41,11 @@ export const useReanimatedStyles = (props: IUseReanimatedStylesProps) => {
     hasSettled.value = true;
   }, [left, anchorY, hasSettled, x, y]);
 
-  // Replayed every step: the prototype alternates rtzBalA/rtzBalB to re-trigger it.
+  /**
+   * The rise and the settle replay each step, as the prototype does by
+   * alternating rtzBalA/rtzBalB. The fade does not: the card slides across the
+   * screen at the same time, and fading out on the way reads as a blink.
+   */
   useEffect(() => {
     entry.value = 0;
     entry.value = withTiming(1, {
@@ -48,6 +53,10 @@ export const useReanimatedStyles = (props: IUseReanimatedStylesProps) => {
       easing: EASE_OUT_EXPO,
     });
   }, [index, entry]);
+
+  useEffect(() => {
+    appear.value = withTiming(1, { duration: ANIMATION.cardInDuration });
+  }, [appear]);
 
   useEffect(() => {
     if (!isExiting) return;
@@ -58,7 +67,7 @@ export const useReanimatedStyles = (props: IUseReanimatedStylesProps) => {
   const cardStyle = useAnimatedStyle(() => ({
     left: x.value,
     top: y.value - heightOffset,
-    opacity: interpolate(entry.value, [0, 0.6, 1], [0, 1, 1]) * (1 - exit.value),
+    opacity: appear.value * (1 - exit.value),
     transform: [
       {
         translateY:
