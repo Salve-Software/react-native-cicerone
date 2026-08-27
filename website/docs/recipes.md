@@ -7,42 +7,47 @@ title: Recipes
 
 ## Remembering what was seen
 
-By default the flag lives in memory, so the tour comes back every time the app restarts.
-Pass anything with `getItem`, `setItem` and `removeItem`. Sync and async both work.
+The library keeps no record of it. It shows the tour, and whether the tour should show at all
+is your call — so no storage engine gets forced into your bundle.
+
+`autoStart` is the gate, and it starts the tour the moment it turns true, which means an
+async read costs you nothing.
 
 ```tsx
 import { MMKV } from 'react-native-mmkv';
 
 const mmkv = new MMKV();
 
-<Cicerone.Provider
-  steps={STEPS}
-  tourKey="scanner"
-  storage={{
-    getItem: (key) => mmkv.getString(key) ?? null,
-    setItem: (key, value) => mmkv.set(key, value),
-    removeItem: (key) => mmkv.delete(key),
-  }}>
+export const Scanner = () => {
+  const [seen, setSeen] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    setSeen(mmkv.getBoolean('tour.scanner') ?? false);
+  }, []);
+
+  return (
+    <Cicerone.Provider
+      steps={STEPS}
+      autoStart={seen === false}
+      onStop={() => mmkv.set('tour.scanner', true)}
+    >
+      {/* targets */}
+    </Cicerone.Provider>
+  );
+};
 ```
 
-AsyncStorage works the same way and its promises get awaited for you.
-
-The library has no opinion about which storage you use, which is why it does not depend on
-one.
+While `seen` is `null` the read has not landed yet and `autoStart` stays false, so the tour
+never flashes before you know the answer. AsyncStorage works the same way.
 
 ## A replay button
 
 ```tsx
-const { start, reset } = useCicerone();
-
-const replay = () => {
-  reset();
-  start({ force: true });
-};
+const { start } = useCicerone();
 ```
 
-`force` skips the seen check. `reset()` also clears the flag, so the tour would come back on
-the next launch too.
+`start()` runs the tour whenever you call it. Clearing your own flag, if you keep one, is up
+to you.
 
 ## Letting the user tap the highlighted element
 

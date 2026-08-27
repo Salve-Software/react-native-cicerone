@@ -44,7 +44,7 @@ const STEPS: ICiceroneStep[] = [
 ];
 
 export const Scanner = () => (
-  <Cicerone.Provider steps={STEPS} tourKey="scanner">
+  <Cicerone.Provider steps={STEPS}>
     <Cicerone.Target id="viewfinder">
       <Viewfinder />
     </Cicerone.Target>
@@ -64,7 +64,7 @@ export const Scanner = () => (
 - **Use our card or yours.** The built in one works out of the box, and `renderCard` swaps it out without losing the spotlight.
 - **Placement follows the target.** The card takes whichever side has room, and the arrow slides when clamping to the screen edge pulls them apart.
 - **Works when nested.** The overlay uses its own box, so a provider inside a sheet or under a header still lands on target.
-- **Bring your own storage.** The seen flag goes through an adapter, so MMKV, AsyncStorage or nothing at all all work.
+- **You own "already seen".** The library never touches storage; gate it with `autoStart` and persist however you like.
 
 ## Installation
 

@@ -20,9 +20,6 @@
   "anatomy.steps": {
     "message": "Texto, padding e raio de cada passo. O resto tem valor padrão."
   },
-  "anatomy.tourKey": {
-    "message": "A chave onde fica o registro de visto, para o tour rodar só uma vez."
-  },
   "anatomy.heading": {
     "message": "Três peças"
   },
@@ -403,5 +400,8 @@
   "theme.tags.tagsPageTitle": {
     "message": "Etiquetas",
     "description": "The title of the tag list page"
+  },
+  "anatomy.autoStart": {
+    "message": "O portão. Vire para true quando você decidir que o tour deve rodar."
   }
 }

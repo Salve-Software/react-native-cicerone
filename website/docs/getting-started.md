@@ -51,7 +51,7 @@ const STEPS: ICiceroneStep[] = [
 ];
 
 export const Scanner = () => (
-  <Cicerone.Provider steps={STEPS} tourKey="scanner">
+  <Cicerone.Provider steps={STEPS}>
     <Cicerone.Target id="viewfinder">
       <Viewfinder />
     </Cicerone.Target>
@@ -63,9 +63,9 @@ export const Scanner = () => (
 );
 ```
 
-The tour runs by itself the first time the screen mounts, then never again. That only works
-if you pass both a `tourKey` and a [`storage`](./recipes#remembering-what-was-seen). Without
-storage the flag sits in memory and disappears when the app closes.
+The tour runs by itself once the screen mounts. It runs every time, because the library
+keeps no record of what was seen — that is
+[yours to own](./recipes#remembering-what-was-seen).
 
 ## Where to put the provider
 
@@ -78,10 +78,10 @@ on the right spot.
 ## Controlling it yourself
 
 ```tsx
-const { start, stop, next, previous, skip, reset, index, total } = useCicerone();
+const { start, stop, next, previous, skip, index, total } = useCicerone();
 ```
 
-`start({ force: true })` runs a tour that was already marked as seen, which is what you want
-behind a "show me again" button. `reset()` only clears the flag.
+`start()` runs the tour whenever you call it, which is what a "show me again" button wants.
 
-Pass `autoStart={false}` if you would rather pick the moment.
+Pass `autoStart={false}` if you would rather pick the moment, and flip it back to `true` when
+you are ready — the tour starts as soon as it does.

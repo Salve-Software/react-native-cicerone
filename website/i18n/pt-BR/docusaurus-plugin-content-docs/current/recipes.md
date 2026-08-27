@@ -7,42 +7,47 @@ title: Receitas
 
 ## Lembrando o que já foi visto
 
-Por padrão o registro fica em memória, então o tour volta toda vez que o app reinicia. Passe
-qualquer coisa com `getItem`, `setItem` e `removeItem`. Síncrono e assíncrono funcionam.
+A lib não guarda esse registro. Ela mostra o tour, e se o tour deve aparecer é decisão sua —
+assim nenhum engine de storage entra no seu bundle à força.
+
+O `autoStart` é o portão, e ele inicia o tour no momento em que vira `true`, o que faz uma
+leitura assíncrona não custar nada.
 
 ```tsx
 import { MMKV } from 'react-native-mmkv';
 
 const mmkv = new MMKV();
 
-<Cicerone.Provider
-  steps={STEPS}
-  tourKey="scanner"
-  storage={{
-    getItem: (key) => mmkv.getString(key) ?? null,
-    setItem: (key, value) => mmkv.set(key, value),
-    removeItem: (key) => mmkv.delete(key),
-  }}>
+export const Scanner = () => {
+  const [seen, setSeen] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    setSeen(mmkv.getBoolean('tour.scanner') ?? false);
+  }, []);
+
+  return (
+    <Cicerone.Provider
+      steps={STEPS}
+      autoStart={seen === false}
+      onStop={() => mmkv.set('tour.scanner', true)}
+    >
+      {/* targets */}
+    </Cicerone.Provider>
+  );
+};
 ```
 
-O AsyncStorage funciona igual e as promises dele são aguardadas para você.
-
-A lib não tem opinião sobre qual storage você usa, e é por isso que ela não depende de
-nenhum.
+Enquanto `seen` for `null` a leitura ainda não chegou e o `autoStart` fica falso, então o tour
+nunca pisca antes de você saber a resposta. O AsyncStorage funciona igual.
 
 ## Um botão de repetir
 
 ```tsx
-const { start, reset } = useCicerone();
-
-const replay = () => {
-  reset();
-  start({ force: true });
-};
+const { start } = useCicerone();
 ```
 
-O `force` pula a checagem de visto. O `reset()` também limpa o registro, então o tour voltaria
-no próximo boot.
+`start()` roda o tour sempre que você chamar. Limpar o seu próprio registro, se você mantiver
+um, é com você.
 
 ## Deixar o usuário tocar no elemento destacado
 

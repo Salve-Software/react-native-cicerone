@@ -18,24 +18,22 @@ own if you prefer that.
 
 ## `Cicerone.Provider`
 
-| Prop                     | Type                                                    | Default         | What it does                                      |
-| ------------------------ | ------------------------------------------------------- | --------------- | ------------------------------------------------- |
-| `steps`                  | `ICiceroneStep[]`                                       | none            | The tour, in order                                |
-| `tourKey`                | `string`                                                | none            | Persistence key; without it nothing is remembered |
-| `autoStart`              | `boolean`                                               | `true`          | Start on mount when not yet seen                  |
-| `startDelay`             | `number`                                                | `800`           | Wait before auto-start, to let the screen settle  |
-| `storage`                | `ICiceroneStorage`                                      | in-memory       | Where the seen flag lives                         |
-| `theme`                  | `ICiceroneThemeOverride`                                | shipped palette | Colours, merged field by field                    |
-| `labels`                 | `Partial<ICiceroneLabels>`                              | English         | Button and counter text                           |
-| `overlayPress`           | `'next' \| 'skip' \| 'none'`                            | `'next'`        | What a press outside the target does              |
-| `allowTargetInteraction` | `boolean`                                               | `false`         | Let presses reach the highlighted element         |
-| `renderCard`             | `(props: ICiceroneCardProps) => ReactNode`              | built-in card   | Replace the card                                  |
-| `renderBackdrop`         | `(props) => ReactNode`                                  | none            | Draw inside the cut-out, e.g. a blur              |
-| `cardWidth`              | `number`                                                | `284`           | Card width                                        |
-| `cardStyle`              | `StyleProp<ViewStyle>`                                  | none            | Extra style on the default card                   |
-| `onStart`                | `() => void`                                            | none            | The tour began                                    |
-| `onStepChange`           | `(index: number, step: ICiceroneStep) => void`          | none            | A step became active                              |
-| `onStop`                 | `(reason: 'finished' \| 'skipped' \| 'manual') => void` | none            | The tour ended                                    |
+| Prop                     | Type                                                    | Default         | What it does                                     |
+| ------------------------ | ------------------------------------------------------- | --------------- | ------------------------------------------------ |
+| `steps`                  | `ICiceroneStep[]`                                       | none            | The tour, in order                               |
+| `autoStart`              | `boolean`                                               | `true`          | Start on its own; flip it true later to start    |
+| `startDelay`             | `number`                                                | `800`           | Wait before auto-start, to let the screen settle |
+| `theme`                  | `ICiceroneThemeOverride`                                | shipped palette | Colours, merged field by field                   |
+| `labels`                 | `Partial<ICiceroneLabels>`                              | English         | Button and counter text                          |
+| `overlayPress`           | `'next' \| 'skip' \| 'none'`                            | `'next'`        | What a press outside the target does             |
+| `allowTargetInteraction` | `boolean`                                               | `false`         | Let presses reach the highlighted element        |
+| `renderCard`             | `(props: ICiceroneCardProps) => ReactNode`              | built-in card   | Replace the card                                 |
+| `renderBackdrop`         | `(props) => ReactNode`                                  | none            | Draw inside the cut-out, e.g. a blur             |
+| `cardWidth`              | `number`                                                | `284`           | Card width                                       |
+| `cardStyle`              | `StyleProp<ViewStyle>`                                  | none            | Extra style on the default card                  |
+| `onStart`                | `() => void`                                            | none            | The tour began                                   |
+| `onStepChange`           | `(index: number, step: ICiceroneStep) => void`          | none            | A step became active                             |
+| `onStop`                 | `(reason: 'finished' \| 'skipped' \| 'manual') => void` | none            | The tour ended                                   |
 
 ## `Cicerone.Target`
 
@@ -70,19 +68,18 @@ component just listens in as well.
 Throws if you call it outside a provider. The message names the provider, so you do not end
 up chasing an `undefined` three frames later.
 
-| Field                | Type                                      | What it is                           |
-| -------------------- | ----------------------------------------- | ------------------------------------ |
-| `isRunning`          | `boolean`                                 | A step is on screen                  |
-| `step`               | `ICiceroneStep \| null`                   | The active step                      |
-| `index`              | `number`                                  | Zero-based position                  |
-| `total`              | `number`                                  | How many steps                       |
-| `isFirst` / `isLast` | `boolean`                                 | Where in the tour                    |
-| `start`              | `(options?: { force?: boolean }) => void` | Begin; `force` ignores the seen flag |
-| `stop`               | `() => void`                              | End it                               |
-| `next` / `previous`  | `() => void`                              | Move a step                          |
-| `skip`               | `() => void`                              | End it, reported as `skipped`        |
-| `goTo`               | `(index: number) => void`                 | Jump; out-of-range is ignored        |
-| `reset`              | `() => void`                              | Clear the seen mark                  |
+| Field                | Type                      | What it is                    |
+| -------------------- | ------------------------- | ----------------------------- |
+| `isRunning`          | `boolean`                 | A step is on screen           |
+| `step`               | `ICiceroneStep \| null`   | The active step               |
+| `index`              | `number`                  | Zero-based position           |
+| `total`              | `number`                  | How many steps                |
+| `isFirst` / `isLast` | `boolean`                 | Where in the tour             |
+| `start`              | `() => void`              | Begin the tour                |
+| `stop`               | `() => void`              | End it                        |
+| `next` / `previous`  | `() => void`              | Move a step                   |
+| `skip`               | `() => void`              | End it, reported as `skipped` |
+| `goTo`               | `(index: number) => void` | Jump; out-of-range is ignored |
 
 ## `ICiceroneCardProps`
 
@@ -97,15 +94,3 @@ What `renderCard` receives.
 | `palette`                             | `ICiceroneCardPalette` |
 | `labels`                              | `ICiceroneLabels`      |
 | `next` / `previous` / `skip` / `stop` | `() => void`           |
-
-## `ICiceroneStorage`
-
-```ts
-interface ICiceroneStorage {
-  getItem: (key: string) => string | null | Promise<string | null>;
-  setItem: (key: string, value: string) => void | Promise<void>;
-  removeItem: (key: string) => void | Promise<void>;
-}
-```
-
-`createMemoryStorage()` is exported for tests, and it is also the default.

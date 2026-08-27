@@ -52,7 +52,7 @@ const STEPS: ICiceroneStep[] = [
 ];
 
 export const Scanner = () => (
-  <Cicerone.Provider steps={STEPS} tourKey="scanner">
+  <Cicerone.Provider steps={STEPS}>
     <Cicerone.Target id="viewfinder">
       <Viewfinder />
     </Cicerone.Target>
@@ -64,9 +64,9 @@ export const Scanner = () => (
 );
 ```
 
-O tour roda sozinho na primeira vez que a tela monta, e nunca mais. Isso só vale se você
-passar `tourKey` **e** [`storage`](./recipes#lembrando-o-que-já-foi-visto). Sem storage o
-registro fica em memória e some quando o app fecha.
+O tour roda sozinho assim que a tela monta. Ele roda toda vez, porque a lib não guarda
+registro do que já foi visto — isso é
+[seu para controlar](./recipes#lembrando-o-que-já-foi-visto).
 
 ## Onde colocar o provider
 
@@ -79,10 +79,10 @@ lugar certo.
 ## Controlando na mão
 
 ```tsx
-const { start, stop, next, previous, skip, reset, index, total } = useCicerone();
+const { start, stop, next, previous, skip, index, total } = useCicerone();
 ```
 
-`start({ force: true })` roda um tour já marcado como visto, que é o que você quer atrás de
-um botão "ver de novo". `reset()` só limpa o registro.
+`start()` roda o tour sempre que você chamar, que é o que um botão "ver de novo" precisa.
 
-Passe `autoStart={false}` se preferir escolher o momento.
+Passe `autoStart={false}` se preferir escolher o momento, e vire para `true` quando estiver
+pronto — o tour começa assim que isso acontece.

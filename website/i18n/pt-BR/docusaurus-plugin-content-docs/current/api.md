@@ -21,10 +21,8 @@ sozinho, se você preferir.
 | Prop                     | Type                                                    | Default         | What it does                                            |
 | ------------------------ | ------------------------------------------------------- | --------------- | ------------------------------------------------------- |
 | `steps`                  | `ICiceroneStep[]`                                       | none            | O tour, em ordem                                        |
-| `tourKey`                | `string`                                                | none            | Persistence key; without it nothing is remembered       |
-| `autoStart`              | `boolean`                                               | `true`          | Inicia ao montar, se ainda não foi visto                |
+| `autoStart`              | `boolean`                                               | `true`          | Inicia sozinho; vire para `true` depois para iniciar    |
 | `startDelay`             | `number`                                                | `800`           | Espera antes do início automático, para a tela assentar |
-| `storage`                | `ICiceroneStorage`                                      | in-memory       | Onde fica o registro de visto                           |
 | `theme`                  | `ICiceroneThemeOverride`                                | shipped palette | Cores, mescladas campo a campo                          |
 | `labels`                 | `Partial<ICiceroneLabels>`                              | English         | Texto dos botões e do contador                          |
 | `overlayPress`           | `'next' \| 'skip' \| 'none'`                            | `'next'`        | O que um toque fora do alvo faz                         |
@@ -70,19 +68,18 @@ disparando, o componente só escuta junto.
 Lança erro se você chamar fora de um provider. A mensagem nomeia o provider, para você não
 ficar caçando um `undefined` três frames depois.
 
-| Field                | Type                                      | What it is                           |
-| -------------------- | ----------------------------------------- | ------------------------------------ |
-| `isRunning`          | `boolean`                                 | A step is on screen                  |
-| `step`               | `ICiceroneStep \| null`                   | The active step                      |
-| `index`              | `number`                                  | Zero-based position                  |
-| `total`              | `number`                                  | How many steps                       |
-| `isFirst` / `isLast` | `boolean`                                 | Where in the tour                    |
-| `start`              | `(options?: { force?: boolean }) => void` | Begin; `force` ignores the seen flag |
-| `stop`               | `() => void`                              | End it                               |
-| `next` / `previous`  | `() => void`                              | Move a step                          |
-| `skip`               | `() => void`                              | End it, reported as `skipped`        |
-| `goTo`               | `(index: number) => void`                 | Jump; out-of-range is ignored        |
-| `reset`              | `() => void`                              | Clear the seen mark                  |
+| Field                | Type                      | What it is                    |
+| -------------------- | ------------------------- | ----------------------------- |
+| `isRunning`          | `boolean`                 | A step is on screen           |
+| `step`               | `ICiceroneStep \| null`   | The active step               |
+| `index`              | `number`                  | Zero-based position           |
+| `total`              | `number`                  | How many steps                |
+| `isFirst` / `isLast` | `boolean`                 | Where in the tour             |
+| `start`              | `() => void`              | Comeca o tour                 |
+| `stop`               | `() => void`              | End it                        |
+| `next` / `previous`  | `() => void`              | Move a step                   |
+| `skip`               | `() => void`              | End it, reported as `skipped` |
+| `goTo`               | `(index: number) => void` | Jump; out-of-range is ignored |
 
 ## `ICiceroneCardProps`
 
@@ -97,15 +94,3 @@ O que o `renderCard` recebe.
 | `palette`                             | `ICiceroneCardPalette` |
 | `labels`                              | `ICiceroneLabels`      |
 | `next` / `previous` / `skip` / `stop` | `() => void`           |
-
-## `ICiceroneStorage`
-
-```ts
-interface ICiceroneStorage {
-  getItem: (key: string) => string | null | Promise<string | null>;
-  setItem: (key: string, value: string) => void | Promise<void>;
-  removeItem: (key: string) => void | Promise<void>;
-}
-```
-
-O `createMemoryStorage()` é exportado para testes, e também é o padrão.

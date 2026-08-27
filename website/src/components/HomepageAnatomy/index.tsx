@@ -5,7 +5,7 @@ import styles from './styles.module.css';
 
 const SNIPPET = `import { Cicerone } from '@salve-software/react-native-cicerone';
 
-<Cicerone.Provider steps={STEPS} tourKey="scanner">
+<Cicerone.Provider steps={STEPS} autoStart={shouldRun}>
   <Cicerone.Target id="viewfinder">
     <Viewfinder />
   </Cicerone.Target>
@@ -37,10 +37,10 @@ const PARTS = [
     ),
   },
   {
-    term: 'tourKey',
+    term: 'autoStart',
     desc: (
-      <Translate id="anatomy.tourKey">
-        The key the seen flag is stored under, so the tour only runs once.
+      <Translate id="anatomy.autoStart">
+        The gate. Flip it to true when you decide the tour should run.
       </Translate>
     ),
   },
