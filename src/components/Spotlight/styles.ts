@@ -7,20 +7,28 @@ export const useStyles = (theme: ICiceroneTheme) =>
     root: StyleSheet.absoluteFillObject,
     scrim: {
       position: 'absolute',
+      left: 0,
+      top: 0,
       borderColor: theme.scrim,
       backgroundColor: 'transparent',
     },
     backdrop: {
       position: 'absolute',
+      left: 0,
+      top: 0,
       overflow: 'hidden',
     },
     ring: {
       position: 'absolute',
+      left: 0,
+      top: 0,
       borderWidth: theme.ringWidth,
       borderColor: theme.ring,
     },
     glow: {
       position: 'absolute',
+      left: 0,
+      top: 0,
       borderWidth: theme.ringWidth,
       borderColor: theme.ringGlow,
       shadowColor: theme.ring,
@@ -31,6 +39,8 @@ export const useStyles = (theme: ICiceroneTheme) =>
     },
     sparkleAnchor: {
       position: 'absolute',
+      left: 0,
+      top: 0,
     },
     touchStrip: {
       position: 'absolute',

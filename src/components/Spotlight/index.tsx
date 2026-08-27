@@ -1,36 +1,24 @@
-import type { ISpotlightProps } from './types';
+import type { ISpotlightProps } from '@/components/Spotlight/types';
 import React from 'react';
 import { Pressable, View } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { Sparkles } from './components/Sparkles';
-import { useReanimatedStyles } from './hooks/useReanimatedStyles';
-import { useSpotlightViewModel } from './hooks/useSpotlightViewModel';
-import { useStyles } from './styles';
-
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+import { Sparkles } from '@/components/Spotlight/components/Sparkles';
+import { useReanimatedStyles } from '@/components/Spotlight/hooks/useReanimatedStyles';
+import { useSpotlightViewModel } from '@/components/Spotlight/hooks/useSpotlightViewModel';
+import { useStyles } from '@/components/Spotlight/styles';
 
 export const Spotlight: React.FC<ISpotlightProps> = (props) => {
   const { geometry, theme, isHighlight, renderBackdrop } = props;
-  const { screen, scrimSpread, handlePress, isPressable, usesTouchStrips } =
+  const { scrimSpread, touchStrips, handlePress, isPressable, usesTouchStrips } =
     useSpotlightViewModel(props);
   const styles = useStyles(theme);
-  const {
-    scrimStyle,
-    holeStyle,
-    ringStyle,
-    glowStyle,
-    sparkleAnchorStyle,
-    touchTopStyle,
-    touchBottomStyle,
-    touchLeftStyle,
-    touchRightStyle,
-  } = useReanimatedStyles({
-    geometry,
-    scrimSpread,
-    ringColor: theme.ring,
-    isHighlight,
-    screen,
-  });
+  const { scrimStyle, holeStyle, ringStyle, glowStyle, sparkleAnchorStyle } =
+    useReanimatedStyles({
+      geometry,
+      scrimSpread,
+      ringColor: theme.ring,
+      isHighlight,
+    });
 
   return (
     <View style={styles.root} pointerEvents="box-none">
@@ -44,7 +32,10 @@ export const Spotlight: React.FC<ISpotlightProps> = (props) => {
         </Animated.View>
       )}
 
-      <Animated.View style={[styles.scrim, scrimStyle]} pointerEvents="none" />
+      <Animated.View
+        style={[styles.scrim, { borderWidth: scrimSpread }, scrimStyle]}
+        pointerEvents="none"
+      />
       <Animated.View style={[styles.glow, glowStyle]} pointerEvents="none" />
       <Animated.View style={[styles.ring, ringStyle]} pointerEvents="none" />
 
@@ -60,23 +51,23 @@ export const Spotlight: React.FC<ISpotlightProps> = (props) => {
       {isPressable &&
         (usesTouchStrips ? (
           <>
-            <AnimatedPressable
-              style={[styles.touchStrip, styles.touchStripTop, touchTopStyle]}
+            <Pressable
+              style={[styles.touchStrip, styles.touchStripTop, touchStrips.top]}
               onPress={handlePress}
               testID="cicerone-touch-top"
             />
-            <AnimatedPressable
-              style={[styles.touchStrip, touchBottomStyle]}
+            <Pressable
+              style={[styles.touchStrip, touchStrips.bottom]}
               onPress={handlePress}
               testID="cicerone-touch-bottom"
             />
-            <AnimatedPressable
-              style={[styles.touchSide, touchLeftStyle]}
+            <Pressable
+              style={[styles.touchSide, touchStrips.left]}
               onPress={handlePress}
               testID="cicerone-touch-left"
             />
-            <AnimatedPressable
-              style={[styles.touchSide, touchRightStyle]}
+            <Pressable
+              style={[styles.touchSide, touchStrips.right]}
               onPress={handlePress}
               testID="cicerone-touch-right"
             />

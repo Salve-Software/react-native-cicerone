@@ -1,6 +1,7 @@
 import type { ISpotlightProps } from '@/components/Spotlight/types';
 import { describe, expect, it, jest } from '@jest/globals';
 import { renderHook } from '@testing-library/react-native';
+import { Dimensions } from 'react-native';
 import { DEFAULT_THEME } from '@/constants';
 import { useSpotlightViewModel } from '@/components/Spotlight/hooks/useSpotlightViewModel';
 
@@ -79,12 +80,68 @@ describe('useSpotlightViewModel', () => {
   });
 
   describe('scrimSpread', () => {
-    it('Reaches at least the longest screen side, so no corner is left bright', async () => {
-      const { result } = await renderHook(() => useSpotlightViewModel(mountProps()));
-
-      expect(result.current.scrimSpread).toBeGreaterThanOrEqual(
-        Math.max(result.current.screen.width, result.current.screen.height),
+    it('Reaches every screen edge from the hole, or a corner would stay bright', async () => {
+      const screen = Dimensions.get('window');
+      const hole = { x: 10, y: 20, width: 100, height: 50 };
+      const { result } = await renderHook(() =>
+        useSpotlightViewModel(
+          mountProps({ geometry: { ...mountProps().geometry, hole } }),
+        ),
       );
+
+      const needed = Math.max(
+        hole.x,
+        screen.width - (hole.x + hole.width),
+        hole.y,
+        screen.height - (hole.y + hole.height),
+      );
+
+      expect(result.current.scrimSpread).toBeGreaterThanOrEqual(needed);
+    });
+
+    it('Does NOT stretch to the screen diagonal for a centred hole', async () => {
+      const hole = {
+        x: Dimensions.get('window').width / 2 - 50,
+        y: Dimensions.get('window').height / 2 - 25,
+        width: 100,
+        height: 50,
+      };
+      const { result } = await renderHook(() =>
+        useSpotlightViewModel(
+          mountProps({ geometry: { ...mountProps().geometry, hole } }),
+        ),
+      );
+
+      expect(result.current.scrimSpread).toBeLessThan(Dimensions.get('window').height);
+    });
+  });
+
+  describe('touchStrips', () => {
+    it('Surrounds the hole without covering it', async () => {
+      const hole = { x: 10, y: 20, width: 100, height: 50 };
+      const { result } = await renderHook(() =>
+        useSpotlightViewModel(
+          mountProps({ geometry: { ...mountProps().geometry, hole } }),
+        ),
+      );
+      const { top, bottom, left, right } = result.current.touchStrips;
+
+      expect(top.height).toBe(hole.y);
+      expect(bottom.top).toBe(hole.y + hole.height);
+      expect(left.width).toBe(hole.x);
+      expect(right.left).toBe(hole.x + hole.width);
+    });
+
+    it('Clamps to zero for a hole hanging off the top left', async () => {
+      const hole = { x: -30, y: -40, width: 100, height: 50 };
+      const { result } = await renderHook(() =>
+        useSpotlightViewModel(
+          mountProps({ geometry: { ...mountProps().geometry, hole } }),
+        ),
+      );
+
+      expect(result.current.touchStrips.top.height).toBe(0);
+      expect(result.current.touchStrips.left.width).toBe(0);
     });
   });
 });

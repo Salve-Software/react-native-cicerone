@@ -18,11 +18,10 @@ export interface IUseReanimatedStylesProps {
   scrimSpread: number;
   ringColor: string;
   isHighlight: boolean;
-  screen: { width: number; height: number };
 }
 
 export const useReanimatedStyles = (props: IUseReanimatedStylesProps) => {
-  const { geometry, scrimSpread, ringColor, isHighlight, screen } = props;
+  const { geometry, scrimSpread, ringColor, isHighlight } = props;
   const easing = Easing.bezier(...ANIMATION.easeOutExpo);
 
   const holeX = useSharedValue(geometry.hole.x);
@@ -98,28 +97,29 @@ export const useReanimatedStyles = (props: IUseReanimatedStylesProps) => {
     );
   }, [isHighlight, pulse]);
 
-  /** The scrim is a giant border: the hollow middle becomes the rounded hole. */
+  /**
+   * Positioned with a transform, not left/top: layout props go through the
+   * shadow tree on every frame, transforms do not.
+   */
   const scrimStyle = useAnimatedStyle(() => ({
-    left: holeX.value - scrimSpread,
-    top: holeY.value - scrimSpread,
     width: holeWidth.value + scrimSpread * 2,
     height: holeHeight.value + scrimSpread * 2,
     borderRadius: holeRadius.value + scrimSpread,
-    borderWidth: scrimSpread,
     opacity: fade.value,
+    transform: [
+      { translateX: holeX.value - scrimSpread },
+      { translateY: holeY.value - scrimSpread },
+    ],
   }));
 
   const holeStyle = useAnimatedStyle(() => ({
-    left: holeX.value,
-    top: holeY.value,
     width: holeWidth.value,
     height: holeHeight.value,
     borderRadius: holeRadius.value,
+    transform: [{ translateX: holeX.value }, { translateY: holeY.value }],
   }));
 
   const ringStyle = useAnimatedStyle(() => ({
-    left: ringX.value,
-    top: ringY.value,
     width: ringWidth.value,
     height: ringHeight.value,
     borderRadius: ringRadius.value,
@@ -128,6 +128,8 @@ export const useReanimatedStyles = (props: IUseReanimatedStylesProps) => {
       ? interpolateColor(pulse.value, [0, 1], [ringColor, SPOTLIGHT.highlightRingColor])
       : ringColor,
     transform: [
+      { translateX: ringX.value },
+      { translateY: ringY.value },
       {
         scale: interpolate(
           ringEntry.value,
@@ -146,8 +148,6 @@ export const useReanimatedStyles = (props: IUseReanimatedStylesProps) => {
   }));
 
   const glowStyle = useAnimatedStyle(() => ({
-    left: ringX.value,
-    top: ringY.value,
     width: ringWidth.value,
     height: ringHeight.value,
     borderRadius: ringRadius.value,
@@ -158,48 +158,20 @@ export const useReanimatedStyles = (props: IUseReanimatedStylesProps) => {
         [0, 1],
         [SPOTLIGHT.glowMinOpacity, SPOTLIGHT.glowMaxOpacity],
       ),
-    transform: [{ scale: interpolate(pulse.value, [0, 1], [1, SPOTLIGHT.glowMaxScale]) }],
+    transform: [
+      { translateX: ringX.value },
+      { translateY: ringY.value },
+      { scale: interpolate(pulse.value, [0, 1], [1, SPOTLIGHT.glowMaxScale]) },
+    ],
   }));
 
   /** Sparkle offsets are relative to the ring, so they need its box. */
   const sparkleAnchorStyle = useAnimatedStyle(() => ({
-    left: ringX.value,
-    top: ringY.value,
     width: ringWidth.value,
     height: ringHeight.value,
     opacity: fade.value,
+    transform: [{ translateX: ringX.value }, { translateY: ringY.value }],
   }));
 
-  /** Four strips around the hole; without them a press on the target is swallowed. */
-  const touchTopStyle = useAnimatedStyle(() => ({ height: Math.max(holeY.value, 0) }));
-
-  const touchBottomStyle = useAnimatedStyle(() => ({
-    top: holeY.value + holeHeight.value,
-    height: Math.max(screen.height - holeY.value - holeHeight.value, 0),
-  }));
-
-  const touchLeftStyle = useAnimatedStyle(() => ({
-    top: holeY.value,
-    height: holeHeight.value,
-    width: Math.max(holeX.value, 0),
-  }));
-
-  const touchRightStyle = useAnimatedStyle(() => ({
-    top: holeY.value,
-    height: holeHeight.value,
-    left: holeX.value + holeWidth.value,
-    width: Math.max(screen.width - holeX.value - holeWidth.value, 0),
-  }));
-
-  return {
-    scrimStyle,
-    holeStyle,
-    ringStyle,
-    glowStyle,
-    sparkleAnchorStyle,
-    touchTopStyle,
-    touchBottomStyle,
-    touchLeftStyle,
-    touchRightStyle,
-  };
+  return { scrimStyle, holeStyle, ringStyle, glowStyle, sparkleAnchorStyle };
 };

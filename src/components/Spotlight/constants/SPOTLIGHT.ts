@@ -4,6 +4,8 @@ export const SPOTLIGHT = {
   glowMaxOpacity: 0.75,
   glowMaxScale: 1.06,
   glowShadowRadius: 18,
+  /** Slack on the scrim spread, so rounding can never expose a screen edge. */
+  scrimMargin: 2,
   ringInScale: 0.35,
   ringInRotate: -100,
   ringOvershootScale: 1.09,
