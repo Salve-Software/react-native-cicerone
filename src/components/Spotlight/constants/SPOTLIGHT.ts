@@ -1,4 +1,4 @@
-/** Ring glow and entrance, taken from the Rotuz clickable prototype. */
+/** Ring glow and entrance, taken from the clickable prototype. */
 export const SPOTLIGHT = {
   glowMinOpacity: 0.35,
   glowMaxOpacity: 0.75,

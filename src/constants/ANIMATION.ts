@@ -1,4 +1,4 @@
-/** Durations and curves taken from the Rotuz clickable prototype. */
+/** Durations and curves taken from the clickable prototype. */
 export const ANIMATION = {
   easeOutExpo: [0.22, 1, 0.36, 1],
   holeDuration: 550,

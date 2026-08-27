@@ -1,6 +1,6 @@
 import type { ICiceroneTheme } from '@/types';
 
-/** Palette taken from the Rotuz clickable prototype. */
+/** Palette taken from the clickable prototype. */
 export const DEFAULT_THEME: ICiceroneTheme = {
   scrim: 'rgba(11,18,13,.55)',
   ring: '#5fd694',

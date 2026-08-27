@@ -1,4 +1,4 @@
-/** Geometry taken from the Rotuz clickable prototype. */
+/** Geometry taken from the clickable prototype. */
 export const CICERONE = {
   stepPadding: 8,
   minRingRadius: 16,

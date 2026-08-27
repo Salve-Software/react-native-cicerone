@@ -1,4 +1,4 @@
-/** Geometry and typography taken from the Rotuz clickable prototype. */
+/** Geometry and typography taken from the clickable prototype. */
 export const TOUR_CARD = {
   radius: 20,
   paddingTop: 17,
