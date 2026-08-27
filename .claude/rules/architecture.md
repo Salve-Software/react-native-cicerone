@@ -34,6 +34,12 @@ example/           demo app, its own workspace
   giant rounded border, which needs no SVG.
 - **Nothing in `src/` may import from `example/`.** The example depends on the library, never
   the reverse.
+- **Never copy dependency versions from another project.** Run `npx expo install --fix` in
+  `example/` and let the SDK pick; then pin the root devDependency to the _same exact_
+  version so the workspace hoists one copy. Reanimated and `react-native-worklets` are
+  version-locked to each other and to the SDK's native binary — a mismatch does not fail the
+  bundle, it crashes at startup with `Exception in HostFunction` in `NativeWorklets`.
+  `npx expo install --check` is the fast way to confirm.
 - **No design system, no i18n, no storage engine.** The library takes a `theme`, `labels` and
   a `storage` adapter instead. It has no opinion about which ones you use.
 
