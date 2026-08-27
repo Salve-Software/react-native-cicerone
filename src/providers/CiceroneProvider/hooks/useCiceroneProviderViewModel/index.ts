@@ -5,22 +5,18 @@ import type {
   ICiceronePhase,
   ICiceroneProviderProps,
   ICiceroneScrollHandle,
-  ICiceroneStartOptions,
   ICiceroneStopReason,
 } from '@/types';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ANIMATION } from '@/constants';
-import { createMemoryStorage, mountSeenKey } from '@/storage';
 import { measureTarget, resolveGeometry, wait } from '@/utils';
 import { MEASURE } from '@/providers/CiceroneProvider/constants';
 
 export const useCiceroneProviderViewModel = (props: ICiceroneProviderProps) => {
   const {
     steps,
-    tourKey,
     autoStart = true,
     startDelay = ANIMATION.startDelay,
-    storage,
     onStart,
     onStepChange,
     onStop,
@@ -32,7 +28,6 @@ export const useCiceroneProviderViewModel = (props: ICiceroneProviderProps) => {
 
   const targetsRef = useRef(new Map<string, RefObject<HostInstance | null>>());
   const scrollsRef = useRef(new Map<string, ICiceroneScrollHandle>());
-  const fallbackStorage = useRef(createMemoryStorage());
   const isMeasuringRef = useRef(false);
   const runIdRef = useRef(0);
   const phaseRef = useRef<ICiceronePhase>('idle');
@@ -44,24 +39,8 @@ export const useCiceroneProviderViewModel = (props: ICiceroneProviderProps) => {
     setPhase(next);
   }, []);
 
-  const activeStorage = storage ?? fallbackStorage.current;
   const total = steps.length;
   const step = steps[index] ?? null;
-
-  const markSeen = useCallback(async () => {
-    if (!tourKey) return;
-    await activeStorage.setItem(mountSeenKey(tourKey), '1');
-  }, [activeStorage, tourKey]);
-
-  const hasSeen = useCallback(async () => {
-    if (!tourKey) return false;
-    return (await activeStorage.getItem(mountSeenKey(tourKey))) === '1';
-  }, [activeStorage, tourKey]);
-
-  const reset = useCallback(() => {
-    if (!tourKey) return;
-    void activeStorage.removeItem(mountSeenKey(tourKey));
-  }, [activeStorage, tourKey]);
 
   const registerTarget = useCallback(
     (id: string, ref: RefObject<HostInstance | null>) => {
@@ -86,7 +65,6 @@ export const useCiceroneProviderViewModel = (props: ICiceroneProviderProps) => {
 
       runIdRef.current += 1;
       isMeasuringRef.current = false;
-      void markSeen();
       onStop?.(reason);
 
       enterPhase('exiting');
@@ -95,7 +73,7 @@ export const useCiceroneProviderViewModel = (props: ICiceroneProviderProps) => {
         setGeometry(null);
       }, ANIMATION.scrimOutDuration);
     },
-    [markSeen, onStop, enterPhase],
+    [onStop, enterPhase],
   );
 
   const measureStep = useCallback(
@@ -143,18 +121,14 @@ export const useCiceroneProviderViewModel = (props: ICiceroneProviderProps) => {
     [measureStep, steps.length],
   );
 
-  const start = useCallback(
-    (options?: ICiceroneStartOptions) => {
-      void (async () => {
-        if (!options?.force && (await hasSeen())) return;
-        if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
-        enterPhase('running');
-        onStart?.();
-        await measureStep(0);
-      })();
-    },
-    [hasSeen, measureStep, onStart, enterPhase],
-  );
+  const start = useCallback(() => {
+    void (async () => {
+      if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
+      enterPhase('running');
+      onStart?.();
+      await measureStep(0);
+    })();
+  }, [measureStep, onStart, enterPhase]);
 
   const next = useCallback(() => {
     if (isMeasuringRef.current || phaseRef.current !== 'running') return;
@@ -212,7 +186,6 @@ export const useCiceroneProviderViewModel = (props: ICiceroneProviderProps) => {
       previous,
       skip,
       goTo,
-      reset,
       registerTarget,
       registerScroll,
     }),
@@ -228,7 +201,6 @@ export const useCiceroneProviderViewModel = (props: ICiceroneProviderProps) => {
       previous,
       skip,
       goTo,
-      reset,
       registerTarget,
       registerScroll,
     ],

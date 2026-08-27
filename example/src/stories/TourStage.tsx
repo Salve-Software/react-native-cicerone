@@ -25,7 +25,7 @@ const Replay = () => {
   if (isRunning) return null;
 
   return (
-    <Pressable style={styles.replay} onPress={() => start({ force: true })}>
+    <Pressable style={styles.replay} onPress={() => start()}>
       <Text style={styles.replayLabel}>Replay</Text>
     </Pressable>
   );

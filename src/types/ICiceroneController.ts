@@ -1,4 +1,3 @@
-import type { ICiceroneStartOptions } from './ICiceroneStartOptions';
 import type { ICiceroneStep } from './ICiceroneStep';
 
 export interface ICiceroneController {
@@ -8,11 +7,10 @@ export interface ICiceroneController {
   total: number;
   isFirst: boolean;
   isLast: boolean;
-  start: (options?: ICiceroneStartOptions) => void;
+  start: () => void;
   stop: () => void;
   next: () => void;
   previous: () => void;
   skip: () => void;
   goTo: (index: number) => void;
-  reset: () => void;
 }

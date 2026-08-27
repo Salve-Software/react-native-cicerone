@@ -28,7 +28,7 @@ const Shell = () => {
     <View style={styles.root}>
       <SafeAreaView style={styles.stage} edges={['top']}>
         {mode === 'demo' ? (
-          <Cicerone.Provider steps={TOUR_STEPS} tourKey="demo" allowTargetInteraction>
+          <Cicerone.Provider steps={TOUR_STEPS} allowTargetInteraction>
             <DemoScreen />
           </Cicerone.Provider>
         ) : (
