@@ -50,6 +50,26 @@ await unmount();
 
 A variable used inside `jest.mock()` needs a `mock` prefix — jest hoists the call.
 
+## Build easings at module scope
+
+`Easing.bezier(...)` returns a new object on every render. Listed in a dependency array,
+it makes the effect re-run every render — an entrance animation reset over and over reads
+as the card blinking. Build it once outside the hook.
+
+```ts
+// ❌ new identity every render
+const easing = Easing.bezier(0.22, 1, 0.36, 1);
+useEffect(() => {
+  entry.value = withTiming(1, { easing });
+}, [index, easing]);
+
+// ✅
+const EASE_OUT_EXPO = Easing.bezier(0.22, 1, 0.36, 1);
+```
+
+`react-hooks/exhaustive-deps` does not catch this: the dependency is declared correctly, it
+is the value that is unstable.
+
 ## Do not over-nest
 
 `Sparkle` is a sibling of `Sparkles` under `Spotlight/components/`, not a child of it. Four
