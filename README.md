@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Salve-Software/react-native-cicerone/main/assets/banner.png" alt="react-native-cicerone" width="1280">
+</p>
+
 <h1 align="center">react-native-cicerone</h1>
 
 <p align="center">
