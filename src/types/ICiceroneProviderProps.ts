@@ -7,7 +7,7 @@ import type { ICiceroneOverlayPress } from './ICiceroneOverlayPress';
 import type { ICiceroneStep } from './ICiceroneStep';
 import type { ICiceroneStopReason } from './ICiceroneStopReason';
 import type { ICiceroneStorage } from './ICiceroneStorage';
-import type { ICiceroneTheme } from './ICiceroneTheme';
+import type { ICiceroneThemeOverride } from './ICiceroneThemeOverride';
 
 export interface ICiceroneProviderProps {
   children: ReactNode;
@@ -15,7 +15,7 @@ export interface ICiceroneProviderProps {
   tourKey?: string;
   autoStart?: boolean;
   startDelay?: number;
-  theme?: Partial<ICiceroneTheme>;
+  theme?: ICiceroneThemeOverride;
   labels?: Partial<ICiceroneLabels>;
   overlayPress?: ICiceroneOverlayPress;
   allowTargetInteraction?: boolean;

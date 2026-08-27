@@ -19,4 +19,5 @@ export type * from './ICiceroneStepVariant';
 export type * from './ICiceroneStopReason';
 export type * from './ICiceroneStorage';
 export type * from './ICiceroneTheme';
+export type * from './ICiceroneThemeOverride';
 export type * from './IScrollDecision';

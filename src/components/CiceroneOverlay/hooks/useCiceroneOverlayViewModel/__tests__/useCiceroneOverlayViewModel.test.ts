@@ -44,7 +44,7 @@ describe('useCiceroneOverlayViewModel', () => {
             options: {
               children: null,
               steps: [],
-              theme: { card: { title: '#ff0000' } as never },
+              theme: { card: { title: '#ff0000' } },
             },
           }),
         ),
