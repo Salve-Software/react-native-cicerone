@@ -1,11 +1,9 @@
-const path = require('path');
-
 module.exports = {
   plugins: [
     [
       'module-resolver',
       {
-        alias: { '@': path.resolve(__dirname, 'src') },
+        alias: { '@': './src' },
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
       },
     ],

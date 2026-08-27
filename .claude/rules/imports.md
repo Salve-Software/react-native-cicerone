@@ -24,8 +24,13 @@ import { CICERONE } from '@/constants';
 | `~/`  | `example/src/` | the example app |
 
 **They must stay distinct.** The example's babel config also transforms library files, so a
-shared prefix makes `@/context` in the library resolve to `example/src/context`. Both aliases
-are declared with absolute paths for the same reason.
+shared prefix makes `@/context` in the library resolve to `example/src/context`.
+
+**`@` maps to `./src`, never to an absolute path.** `babel-plugin-module-resolver` emits the
+alias target verbatim, so `path.resolve(__dirname, 'src')` ships the build machine's own
+path — that is how `0.1.0` reached npm with `import ... from "/Users/.../src/constants"` in
+22 files. The example is safe either way: it has no `module-resolver`, Metro resolves both
+aliases from `example/tsconfig.json`.
 
 Three places have to agree, and all three are already wired:
 
@@ -51,7 +56,7 @@ default `false` it ignores `babel.config.js` and ships `import '@/constants'` to
 After touching anything in the build, verify:
 
 ```sh
-yarn prepare && grep -r '@/' lib/ && echo "LEAK" || echo "clean"
+yarn prepare && yarn verify:lib
 ```
 
 ## Order

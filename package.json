@@ -36,6 +36,7 @@
     "clean": "del-cli lib",
     "prepare": "husky || true; bob build && tsc-alias -p tsconfig.build.json --outDir lib/typescript",
     "typecheck": "tsc",
+    "verify:lib": "bash scripts/verify-lib.sh",
     "release": "release-it --only-version",
     "test": "jest",
     "lint": "eslint \"**/*.{js,jsx,cjs,mjs,ts,tsx}\"",

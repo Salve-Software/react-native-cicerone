@@ -73,13 +73,8 @@ jobs:
       - name: Build package
         run: yarn prepare
 
-      - name: Check the '@/' alias did not reach lib/
-        run: |
-          if grep -rq '@/' lib/; then
-            echo "::error::The '@/' alias leaked into lib/, consumers cannot resolve it."
-            grep -rn '@/' lib/
-            exit 1
-          fi
+      - name: Check lib/ is portable
+        run: yarn verify:lib
 
       # The very first version goes up by hand, before npm can trust this workflow.
       - name: Check whether the version is already on npm
