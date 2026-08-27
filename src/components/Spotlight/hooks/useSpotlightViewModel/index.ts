@@ -6,7 +6,6 @@ export const useSpotlightViewModel = (props: ISpotlightProps) => {
   const { geometry, overlayPress, allowTargetInteraction, onPress } = props;
   const screen = useWindowDimensions();
 
-  /** Invisible, so they are placed once per step rather than driven every frame. */
   const touchStrips = useMemo(() => {
     const { x, y, width, height } = geometry.hole;
     return {

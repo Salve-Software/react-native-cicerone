@@ -9,7 +9,6 @@ import {
 } from 'react-native-reanimated';
 import { ANIMATION, CARD_ENTRANCE, CARD_EXIT } from '@/constants';
 
-/** Built once: a new object each render would restart every effect using it. */
 const EASE_OUT_EXPO = Easing.bezier(...ANIMATION.easeOutExpo);
 
 export const useReanimatedStyles = (props: IUseReanimatedStylesProps) => {

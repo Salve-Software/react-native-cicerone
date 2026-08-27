@@ -33,7 +33,6 @@ export const useCiceroneProviderViewModel = (props: ICiceroneProviderProps) => {
   const targetsRef = useRef(new Map<string, RefObject<HostInstance | null>>());
   const scrollsRef = useRef(new Map<string, ICiceroneScrollHandle>());
   const fallbackStorage = useRef(createMemoryStorage());
-  // Guard so a repeated press cannot skip a step while the measurement runs.
   const isMeasuringRef = useRef(false);
   const runIdRef = useRef(0);
   const phaseRef = useRef<ICiceronePhase>('idle');
@@ -89,7 +88,6 @@ export const useCiceroneProviderViewModel = (props: ICiceroneProviderProps) => {
       void markSeen();
       onStop?.(reason);
 
-      // Kept mounted with its geometry so the overlay has something to fade out.
       enterPhase('exiting');
       exitTimerRef.current = setTimeout(() => {
         enterPhase('idle');
@@ -131,7 +129,6 @@ export const useCiceroneProviderViewModel = (props: ICiceroneProviderProps) => {
       }
 
       isMeasuringRef.current = false;
-      // A target that never mounted must not strand the tour on the previous step.
       if (runId === runIdRef.current) stop('finished');
     },
     [steps, stop, onStepChange],
@@ -175,7 +172,6 @@ export const useCiceroneProviderViewModel = (props: ICiceroneProviderProps) => {
     if (!autoStart) return;
     const timer = setTimeout(() => start(), startDelay);
     return () => clearTimeout(timer);
-    // Mount only: changing `steps` mid-tour must not restart it.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

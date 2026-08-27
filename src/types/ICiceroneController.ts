@@ -14,6 +14,5 @@ export interface ICiceroneController {
   previous: () => void;
   skip: () => void;
   goTo: (index: number) => void;
-  /** Clears the seen mark, so the tour can run again. */
   reset: () => void;
 }

@@ -7,7 +7,6 @@ export const ANIMATION = {
   scrimInDuration: 450,
   scrimOutDuration: 340,
   ringInDuration: 620,
-  /** Half cycle: rtzGlow runs 2.2s round trip. */
   glowPulseDuration: 1100,
   highlightGlowDuration: 900,
   sparkleDuration: 1600,

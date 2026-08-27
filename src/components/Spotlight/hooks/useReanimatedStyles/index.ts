@@ -34,7 +34,6 @@ export const useReanimatedStyles = (props: IUseReanimatedStylesProps) => {
   const fade = useSharedValue(0);
   const ringEntry = useSharedValue(0);
   const pulse = useSharedValue(0);
-  // The first step appears in place; only from the second on does the hole slide.
   const hasSettled = useSharedValue(false);
 
   useEffect(() => {
@@ -152,7 +151,6 @@ export const useReanimatedStyles = (props: IUseReanimatedStylesProps) => {
     ],
   }));
 
-  /** Sparkle offsets are relative to the ring, so they need its box. */
   const sparkleAnchorStyle = useAnimatedStyle(() => ({
     width: ringWidth.value,
     height: ringHeight.value,

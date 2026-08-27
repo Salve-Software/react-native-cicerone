@@ -28,7 +28,6 @@ export const useCiceroneScrollViewViewModel = (props: ICiceroneScrollViewProps) 
     [onContentSizeChange],
   );
 
-  // One node serves both roles: it scrolls, and it is the viewport we measure.
   const handleRef = useCallback((node: IScrollInstance | null) => {
     scrollRef.current = node;
     containerRef.current = node as HostInstance | null;
