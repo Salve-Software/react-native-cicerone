@@ -1,8 +1,9 @@
 import { fixupConfigRules } from '@eslint/compat';
 import { FlatCompat } from '@eslint/eslintrc';
 import js from '@eslint/js';
-import prettier from 'eslint-plugin-prettier';
 import { defineConfig } from 'eslint/config';
+import prettierConfig from 'eslint-config-prettier';
+import importPlugin from 'eslint-plugin-import';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -14,16 +15,69 @@ const compat = new FlatCompat({
   allConfig: js.configs.all,
 });
 
+const SOURCE_FILES = ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx'];
+
 export default defineConfig([
   {
-    extends: fixupConfigRules(compat.extends('@react-native', 'prettier')),
-    plugins: { prettier },
+    ignores: [
+      'lib/**',
+      'node_modules/**',
+      '.yarn/**',
+      'example/dist/**',
+      'example/android/**',
+      'example/ios/**',
+    ],
+  },
+  {
+    files: SOURCE_FILES,
+    extends: fixupConfigRules(compat.extends('@react-native')),
     rules: {
       'react/react-in-jsx-scope': 'off',
-      'prettier/prettier': 'error',
     },
   },
   {
-    ignores: ['node_modules/', 'lib/'],
+    plugins: { import: importPlugin },
+    rules: {
+      'no-void': ['error', { allowAsStatement: true }],
+      'import/no-named-as-default-member': 'off',
+      // `../../../..` chains hide where a module lives; reach for `@/` instead.
+      'import/no-relative-parent-imports': 'error',
+      'import/order': [
+        'error',
+        {
+          groups: [
+            'type',
+            ['builtin', 'external'],
+            'internal',
+            ['parent', 'sibling', 'index'],
+          ],
+          pathGroups: [
+            { pattern: '@/**', group: 'internal' },
+            { pattern: '~/**', group: 'internal' },
+          ],
+          pathGroupsExcludedImportTypes: ['type'],
+          'newlines-between': 'never',
+        },
+      ],
+    },
   },
+  {
+    settings: {
+      'import/resolver': {
+        node: { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
+      },
+    },
+  },
+  {
+    files: ['**/*.ts', '**/*.tsx'],
+    rules: {
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        { prefer: 'type-imports', fixStyle: 'separate-type-imports' },
+      ],
+      '@typescript-eslint/no-import-type-side-effects': 'error',
+      'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
+    },
+  },
+  prettierConfig,
 ]);
