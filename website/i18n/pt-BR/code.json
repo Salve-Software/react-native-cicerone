@@ -5,6 +5,12 @@
   "home.description": {
     "message": "Ele cuida do holofote, você estiliza o card. Sem código nativo, pronto para a New Architecture."
   },
+  "demo.heading": {
+    "message": "Veja rodando"
+  },
+  "demo.sub": {
+    "message": "Cinco passos no app de exemplo: o escurecimento, o furo em volta de cada alvo, a rolagem até um que está fora da tela, o card virando para cima e o destaque no fim."
+  },
   "anatomy.provider": {
     "message": "Guarda o tour, mede cada passo e desenha o overlay por cima dos filhos."
   },

@@ -2,6 +2,7 @@ import { translate } from '@docusaurus/Translate';
 import Layout from '@theme/Layout';
 import React from 'react';
 import { HomepageAnatomy } from '@site/src/components/HomepageAnatomy';
+import { HomepageDemo } from '@site/src/components/HomepageDemo';
 import { HomepageFeatures } from '@site/src/components/HomepageFeatures';
 import { HomepageHero } from '@site/src/components/HomepageHero';
 
@@ -20,6 +21,7 @@ export default function Home() {
     >
       <HomepageHero />
       <main>
+        <HomepageDemo />
         <HomepageAnatomy />
         <HomepageFeatures />
       </main>
