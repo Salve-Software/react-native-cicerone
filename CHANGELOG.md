@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.1](https://github.com/Salve-Software/react-native-cicerone/compare/v0.1.0...v0.1.1) (2026-08-27)
+
+### Bug Fixes
+
+- **build:** emit relative imports instead of absolute paths ([998d8b0](https://github.com/Salve-Software/react-native-cicerone/commit/998d8b05cb652b3d06cd3ce87d641f7672c76b8c))
+
 # 0.1.0 (2026-08-27)
 
 ### Bug Fixes
