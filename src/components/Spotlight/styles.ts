@@ -5,13 +5,6 @@ import { SPOTLIGHT } from './constants';
 export const useStyles = (theme: ICiceroneTheme) =>
   StyleSheet.create({
     root: StyleSheet.absoluteFillObject,
-    scrim: {
-      position: 'absolute',
-      left: 0,
-      top: 0,
-      borderColor: theme.scrim,
-      backgroundColor: 'transparent',
-    },
     backdrop: {
       position: 'absolute',
       left: 0,

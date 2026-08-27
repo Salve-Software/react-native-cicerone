@@ -1,7 +1,6 @@
 import type { ISpotlightProps } from '@/components/Spotlight/types';
 import { describe, expect, it, jest } from '@jest/globals';
 import { renderHook } from '@testing-library/react-native';
-import { Dimensions } from 'react-native';
 import { DEFAULT_THEME } from '@/constants';
 import { useSpotlightViewModel } from '@/components/Spotlight/hooks/useSpotlightViewModel';
 
@@ -77,74 +76,6 @@ describe('useSpotlightViewModel', () => {
       const { result } = await renderHook(() => useSpotlightViewModel(mountProps()));
 
       expect(result.current.usesTouchStrips).toBe(false);
-    });
-  });
-
-  describe('scrimSpread', () => {
-    it('Reaches the far screen corner, not just the far edge', async () => {
-      const screen = Dimensions.get('window');
-      const hole = { x: 20, y: 430, width: 74, height: 74 };
-      const holeRadius = 37;
-      const { result } = await renderHook(() =>
-        useSpotlightViewModel(
-          mountProps({ geometry: { ...mountProps().geometry, hole, holeRadius } }),
-        ),
-      );
-
-      // The outer edge curves, so the arc centre is the hole's own corner centre.
-      const needed =
-        Math.max(
-          Math.hypot(hole.x + holeRadius, hole.y + holeRadius),
-          Math.hypot(
-            screen.width - (hole.x + hole.width - holeRadius),
-            hole.y + holeRadius,
-          ),
-          Math.hypot(
-            hole.x + holeRadius,
-            screen.height - (hole.y + hole.height - holeRadius),
-          ),
-          Math.hypot(
-            screen.width - (hole.x + hole.width - holeRadius),
-            screen.height - (hole.y + hole.height - holeRadius),
-          ),
-        ) - holeRadius;
-
-      expect(result.current.scrimSpread).toBeGreaterThanOrEqual(needed);
-    });
-
-    it('Reaches every screen edge from the hole, or a corner would stay bright', async () => {
-      const screen = Dimensions.get('window');
-      const hole = { x: 10, y: 20, width: 100, height: 50 };
-      const { result } = await renderHook(() =>
-        useSpotlightViewModel(
-          mountProps({ geometry: { ...mountProps().geometry, hole } }),
-        ),
-      );
-
-      const needed = Math.max(
-        hole.x,
-        screen.width - (hole.x + hole.width),
-        hole.y,
-        screen.height - (hole.y + hole.height),
-      );
-
-      expect(result.current.scrimSpread).toBeGreaterThanOrEqual(needed);
-    });
-
-    it('Does NOT stretch to the screen diagonal for a centred hole', async () => {
-      const hole = {
-        x: Dimensions.get('window').width / 2 - 50,
-        y: Dimensions.get('window').height / 2 - 25,
-        width: 100,
-        height: 50,
-      };
-      const { result } = await renderHook(() =>
-        useSpotlightViewModel(
-          mountProps({ geometry: { ...mountProps().geometry, hole } }),
-        ),
-      );
-
-      expect(result.current.scrimSpread).toBeLessThan(Dimensions.get('window').height);
     });
   });
 

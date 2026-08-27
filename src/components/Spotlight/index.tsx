@@ -3,19 +3,19 @@ import React from 'react';
 import { Pressable, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { Sparkles } from '@/components/Spotlight/components/Sparkles';
+import { SpotlightScrim } from '@/components/Spotlight/components/SpotlightScrim';
 import { useReanimatedStyles } from '@/components/Spotlight/hooks/useReanimatedStyles';
 import { useSpotlightViewModel } from '@/components/Spotlight/hooks/useSpotlightViewModel';
 import { useStyles } from '@/components/Spotlight/styles';
 
 export const Spotlight: React.FC<ISpotlightProps> = (props) => {
   const { geometry, theme, isHighlight, isExiting, renderBackdrop } = props;
-  const { scrimSpread, touchStrips, handlePress, isPressable, usesTouchStrips } =
+  const { screen, touchStrips, handlePress, isPressable, usesTouchStrips } =
     useSpotlightViewModel(props);
   const styles = useStyles(theme);
-  const { scrimStyle, holeStyle, ringStyle, glowStyle, sparkleAnchorStyle } =
+  const { holeStyle, ringStyle, glowStyle, sparkleAnchorStyle } =
     useReanimatedStyles({
       geometry,
-      scrimSpread,
       ringColor: theme.ring,
       isHighlight,
       isExiting,
@@ -33,9 +33,11 @@ export const Spotlight: React.FC<ISpotlightProps> = (props) => {
         </Animated.View>
       )}
 
-      <Animated.View
-        style={[styles.scrim, { borderWidth: scrimSpread }, scrimStyle]}
-        pointerEvents="none"
+      <SpotlightScrim
+        geometry={geometry}
+        theme={theme}
+        isExiting={isExiting}
+        screen={screen}
       />
       <Animated.View style={[styles.glow, glowStyle]} pointerEvents="none" />
       <Animated.View style={[styles.ring, ringStyle]} pointerEvents="none" />

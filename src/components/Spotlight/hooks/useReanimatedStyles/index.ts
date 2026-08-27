@@ -15,7 +15,6 @@ import { SPOTLIGHT } from '@/components/Spotlight/constants';
 
 export interface IUseReanimatedStylesProps {
   geometry: ICiceroneGeometry;
-  scrimSpread: number;
   ringColor: string;
   isHighlight: boolean;
   isExiting: boolean;
@@ -25,7 +24,7 @@ export interface IUseReanimatedStylesProps {
 const EASE_OUT_EXPO = Easing.bezier(...ANIMATION.easeOutExpo);
 
 export const useReanimatedStyles = (props: IUseReanimatedStylesProps) => {
-  const { geometry, scrimSpread, ringColor, isHighlight, isExiting } = props;
+  const { geometry, ringColor, isHighlight, isExiting } = props;
 
   const holeX = useSharedValue(geometry.hole.x);
   const holeY = useSharedValue(geometry.hole.y);
@@ -107,21 +106,6 @@ export const useReanimatedStyles = (props: IUseReanimatedStylesProps) => {
     );
   }, [isHighlight, pulse]);
 
-  /**
-   * Positioned with a transform, not left/top: layout props go through the
-   * shadow tree on every frame, transforms do not.
-   */
-  const scrimStyle = useAnimatedStyle(() => ({
-    width: holeWidth.value + scrimSpread * 2,
-    height: holeHeight.value + scrimSpread * 2,
-    borderRadius: holeRadius.value + scrimSpread,
-    opacity: fade.value,
-    transform: [
-      { translateX: holeX.value - scrimSpread },
-      { translateY: holeY.value - scrimSpread },
-    ],
-  }));
-
   const holeStyle = useAnimatedStyle(() => ({
     width: holeWidth.value,
     height: holeHeight.value,
@@ -183,5 +167,5 @@ export const useReanimatedStyles = (props: IUseReanimatedStylesProps) => {
     transform: [{ translateX: ringX.value }, { translateY: ringY.value }],
   }));
 
-  return { scrimStyle, holeStyle, ringStyle, glowStyle, sparkleAnchorStyle };
+  return { holeStyle, ringStyle, glowStyle, sparkleAnchorStyle };
 };

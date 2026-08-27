@@ -3,6 +3,7 @@ export * from './constants';
 export * from './formatStepLabel';
 export * from './measureInWindow';
 export * from './measureTarget';
+export * from './mountHolePath';
 export * from './resolveCardLayout';
 export * from './resolveGeometry';
 export * from './resolvePlacement';
