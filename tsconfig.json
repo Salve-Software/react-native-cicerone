@@ -2,14 +2,13 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "react-native-cicerone": ["./src/index"]
+      "react-native-cicerone": ["./src/index"],
+      "@/*": ["./src/*"],
+      "~/*": ["./example/src/*"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
-    "customConditions": [
-      "react-native-cicerone-source",
-      "react-native-strict-api"
-    ],
+    "customConditions": ["react-native-cicerone-source", "react-native-strict-api"],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "jsx": "react-jsx",
