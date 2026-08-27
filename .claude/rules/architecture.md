@@ -11,6 +11,7 @@ src/
   storage/         the "already seen" adapter
   utils/           one pure function per file
   hooks/           cross-cutting hooks (useCicerone)
+  providers/       one folder per provider, re-exported by its index
   components/      the tour surface
 
 example/           demo app, its own workspace
@@ -22,6 +23,7 @@ example/           demo app, its own workspace
 - Internal-only type → still `src/types/`; the barrel is cheap and the split is not worth it
 - Pure function with no React → `src/utils/`, with a test
 - Value from the prototype → the owning `constants/` folder
+- Anything that owns state for the tree below it → `src/providers/`, not `components/`
 - Component used by more than one component → `src/components/`
 - Subcomponent of one component → `components/` **inside** that component's folder
 - Component state → `hooks/use<Name>ViewModel/` next to the component
