@@ -6,6 +6,8 @@ export interface ISpotlightProps {
   theme: ICiceroneTheme;
   isHighlight: boolean;
   isExiting: boolean;
+  /** The overlay's own box, which is the window only when it sits at the root. */
+  screen: { width: number; height: number };
   overlayPress: ICiceroneOverlayPress;
   allowTargetInteraction: boolean;
   onPress: () => void;

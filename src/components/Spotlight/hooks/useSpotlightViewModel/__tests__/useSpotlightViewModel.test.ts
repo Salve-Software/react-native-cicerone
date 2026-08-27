@@ -14,6 +14,7 @@ const mountProps = (overrides: Partial<ISpotlightProps> = {}): ISpotlightProps =
   theme: DEFAULT_THEME,
   isHighlight: false,
   isExiting: false,
+  screen: { width: 400, height: 800 },
   overlayPress: 'next',
   allowTargetInteraction: false,
   onPress: jest.fn(),
@@ -80,6 +81,21 @@ describe('useSpotlightViewModel', () => {
   });
 
   describe('touchStrips', () => {
+    it('Measures against the overlay box, not the window it may be nested in', async () => {
+      const hole = { x: 10, y: 20, width: 100, height: 50 };
+      const { result } = await renderHook(() =>
+        useSpotlightViewModel(
+          mountProps({
+            geometry: { ...mountProps().geometry, hole },
+            screen: { width: 300, height: 400 },
+          }),
+        ),
+      );
+
+      expect(result.current.touchStrips.bottom.height).toBe(400 - hole.y - hole.height);
+      expect(result.current.touchStrips.right.width).toBe(300 - hole.x - hole.width);
+    });
+
     it('Surrounds the hole without covering it', async () => {
       const hole = { x: 10, y: 20, width: 100, height: 50 };
       const { result } = await renderHook(() =>

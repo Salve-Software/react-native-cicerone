@@ -1,10 +1,8 @@
 import type { ISpotlightProps } from '@/components/Spotlight/types';
 import { useCallback, useMemo } from 'react';
-import { useWindowDimensions } from 'react-native';
 
 export const useSpotlightViewModel = (props: ISpotlightProps) => {
-  const { geometry, overlayPress, allowTargetInteraction, onPress } = props;
-  const screen = useWindowDimensions();
+  const { geometry, overlayPress, allowTargetInteraction, onPress, screen } = props;
 
   const touchStrips = useMemo(() => {
     const { x, y, width, height } = geometry.hole;

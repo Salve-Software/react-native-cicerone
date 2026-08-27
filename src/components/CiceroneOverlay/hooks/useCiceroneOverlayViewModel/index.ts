@@ -5,14 +5,44 @@ import type {
   ICiceroneTheme,
 } from '@/types';
 import type { ICiceroneOverlayProps } from '@/components/CiceroneOverlay/types';
-import { useMemo } from 'react';
+import type { HostInstance } from 'react-native';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { useWindowDimensions } from 'react-native';
 import { CICERONE, DEFAULT_LABELS, DEFAULT_THEME } from '@/constants';
-import { resolveCardLayout, resolvePlacement } from '@/utils';
+import { resolveCardLayout, resolvePlacement, translateGeometry } from '@/utils';
 
 export const useCiceroneOverlayViewModel = (props: ICiceroneOverlayProps) => {
-  const { geometry, step, options } = props;
-  const screen = useWindowDimensions();
+  const { geometry: windowGeometry, step, options } = props;
+  const window = useWindowDimensions();
+  const rootRef = useRef<HostInstance | null>(null);
+  const [box, setBox] = useState({ x: 0, y: 0, width: 0, height: 0 });
+
+  /**
+   * The overlay is only absolute within whatever contains the provider, so it
+   * has to know where that box sits in the window before it can place anything.
+   */
+  const onRootLayout = useCallback(() => {
+    rootRef.current?.measureInWindow((x, y, width, height) => {
+      setBox((current) =>
+        current.x === x && current.y === y && current.height === height
+          ? current
+          : { x, y, width, height },
+      );
+    });
+  }, []);
+
+  const geometry = useMemo(
+    () => translateGeometry(windowGeometry, box),
+    [windowGeometry, box],
+  );
+
+  const screen = useMemo(
+    () => ({
+      width: box.width || window.width,
+      height: box.height || window.height,
+    }),
+    [box.width, box.height, window.width, window.height],
+  );
 
   const theme = useMemo<ICiceroneTheme>(
     () => ({
@@ -73,6 +103,10 @@ export const useCiceroneOverlayViewModel = (props: ICiceroneOverlayProps) => {
     cardWidth,
     layout,
     cardProps,
+    geometry,
+    screen,
+    rootRef,
+    onRootLayout,
     overlayPress,
     onOverlayPress,
     allowTargetInteraction: options.allowTargetInteraction ?? false,
