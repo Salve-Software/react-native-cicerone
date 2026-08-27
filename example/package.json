@@ -13,11 +13,14 @@
   },
   "dependencies": {
     "@expo/metro-runtime": "~55.0.12",
+    "@react-native-async-storage/async-storage": "2.2.0",
+    "@react-native-community/datetimepicker": "8.6.0",
     "expo": "~55.0.30",
     "expo-status-bar": "~55.0.6",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-native": "0.83.10",
+    "react-native-gesture-handler": "~2.30.0",
     "react-native-reanimated": "4.2.1",
     "react-native-safe-area-context": "~5.6.2",
     "react-native-svg": "15.15.3",
@@ -26,7 +29,12 @@
   },
   "private": true,
   "devDependencies": {
+    "@gorhom/bottom-sheet": "^5.2.14",
+    "@storybook/addon-ondevice-actions": "10.5.0",
+    "@storybook/addon-ondevice-controls": "10.5.0",
+    "@storybook/react-native": "10.5.0",
     "react-native-builder-bob": "^0.43.0",
-    "react-native-monorepo-config": "^0.4.0"
+    "react-native-monorepo-config": "^0.4.0",
+    "storybook": "^10.5.0"
   }
 }

@@ -4,7 +4,8 @@
     "paths": {
       "@salve-software/react-native-cicerone": ["./src/index"],
       "@/*": ["./src/*"],
-      "~/*": ["./example/src/*"]
+      "~/*": ["./example/src/*"],
+      "~storybook": ["./example/.storybook"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
