@@ -7,7 +7,6 @@ export const useStyles = () =>
     content: { padding: 20, paddingBottom: 140 },
     header: { marginBottom: 28 },
     wordmark: { color: DEMO.text, fontSize: 30, fontWeight: '800', letterSpacing: -1 },
-    wordmarkDot: { color: DEMO.accent },
     tagline: { color: DEMO.muted, fontSize: 13, marginTop: 4 },
 
     reticle: {

@@ -22,10 +22,6 @@
   margin-bottom: 0.6rem;
 }
 
-.dot {
-  color: var(--cicerone-ring);
-}
-
 .tagline {
   font-size: clamp(1.05rem, 2.4vw, 1.35rem);
   color: var(--ifm-color-emphasis-700);

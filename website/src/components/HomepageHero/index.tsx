@@ -28,9 +28,7 @@ export const HomepageHero = () => (
     <div className="container">
       <img className={styles.mark} src={useBaseUrl('/img/icon.svg')} alt="" />
 
-      <h1 className={styles.title}>
-        cicerone<span className={styles.dot}>.</span>
-      </h1>
+      <h1 className={styles.title}>cicerone</h1>
 
       <p className={styles.tagline}>
         <Translate id="hero.tagline">

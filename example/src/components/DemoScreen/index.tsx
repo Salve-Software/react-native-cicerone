@@ -18,9 +18,7 @@ export const DemoScreen: React.FC = () => {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.header}>
-          <Text style={styles.wordmark}>
-            cicerone<Text style={styles.wordmarkDot}>.</Text>
-          </Text>
+          <Text style={styles.wordmark}>cicerone</Text>
           <Text style={styles.tagline}>
             It handles the spotlight, you style the card.
           </Text>
