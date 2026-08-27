@@ -1,5 +1,7 @@
 # Changelog
 
+## [0.2.1](https://github.com/Salve-Software/react-native-cicerone/compare/v0.2.0...v0.2.1) (2026-08-27)
+
 # [0.2.0](https://github.com/Salve-Software/react-native-cicerone/compare/v0.1.2...v0.2.0) (2026-08-27)
 
 - feat(provider)!: drop the built-in seen storage ([d94a51b](https://github.com/Salve-Software/react-native-cicerone/commit/d94a51b0e2d2bad1cfa04161db0b2e2210cf14a9))
