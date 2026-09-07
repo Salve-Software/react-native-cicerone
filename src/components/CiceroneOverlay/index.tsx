@@ -10,8 +10,6 @@ export const CiceroneOverlay: React.FC<ICiceroneOverlayProps> = (props) => {
   const {
     theme,
     isHighlight,
-    cardWidth,
-    layout,
     cardProps,
     geometry,
     screen,
@@ -44,14 +42,7 @@ export const CiceroneOverlay: React.FC<ICiceroneOverlayProps> = (props) => {
       {options.renderCard ? (
         options.renderCard(cardProps)
       ) : (
-        <TourCard
-          {...cardProps}
-          layout={layout}
-          width={cardWidth}
-          containerHeight={screen.height}
-          isExiting={isExiting}
-          style={options.cardStyle}
-        />
+        <TourCard {...cardProps} style={options.cardStyle} />
       )}
     </View>
   );

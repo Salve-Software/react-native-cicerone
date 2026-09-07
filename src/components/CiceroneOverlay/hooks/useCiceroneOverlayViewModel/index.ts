@@ -84,12 +84,16 @@ export const useCiceroneOverlayViewModel = (props: ICiceroneOverlayProps) => {
       placement,
       palette,
       labels,
+      layout,
+      width: cardWidth,
+      containerHeight: screen.height,
+      isExiting: props.isExiting,
       next: props.next,
       previous: props.previous,
       skip: props.skip,
       stop: props.stop,
     }),
-    [step, props, placement, palette, labels],
+    [step, props, placement, palette, labels, layout, cardWidth, screen.height],
   );
 
   const overlayPress = options.overlayPress ?? 'next';
