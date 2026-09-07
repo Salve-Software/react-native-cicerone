@@ -85,12 +85,21 @@ ficar caçando um `undefined` três frames depois.
 
 O que o `renderCard` recebe.
 
-| Field                                 | Type                   |
-| ------------------------------------- | ---------------------- |
-| `step`                                | `ICiceroneStep`        |
-| `index` / `total`                     | `number`               |
-| `isFirst` / `isLast`                  | `boolean`              |
-| `placement`                           | `'top' \| 'bottom'`    |
-| `palette`                             | `ICiceroneCardPalette` |
-| `labels`                              | `ICiceroneLabels`      |
-| `next` / `previous` / `skip` / `stop` | `() => void`           |
+| Field                                  | Type                   |
+| -------------------------------------- | ---------------------- |
+| `step`                                 | `ICiceroneStep`        |
+| `index` / `total`                      | `number`               |
+| `isFirst` / `isLast`                   | `boolean`              |
+| `placement`                            | `'top' \| 'bottom'`    |
+| `palette`                              | `ICiceroneCardPalette` |
+| `labels`                               | `ICiceroneLabels`      |
+| `layout`                               | `ICardLayout`          |
+| `width`                                | `number`               |
+| `containerHeight`                      | `number`               |
+| `isExiting`                            | `boolean`              |
+| `next` / `previous` / `skip` / `stop`  | `() => void`           |
+
+`layout`, `width` e `containerHeight` são o que o card embutido usa para se posicionar ao
+lado do alvo — `left`/`arrowLeft` vêm de `layout`, ancorado em `containerHeight` conforme o
+`placement`. `isExiting` controla a animação de saída. Um `renderCard` customizado precisa
+dos quatro para se posicionar do mesmo jeito; veja [Trocando o card](./theming.md#trocando-o-card).

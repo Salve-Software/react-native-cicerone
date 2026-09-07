@@ -102,18 +102,24 @@ you draw your own. The spotlight, ring and placement stay as they are.
 ```tsx
 <Cicerone.Provider
   steps={STEPS}
-  renderCard={({ step, index, total, isLast, next, skip }) => (
-    <MyCard
-      title={step.title}
-      body={step.text}
-      counter={`${index + 1}/${total}`}
-      onNext={next}
-      onSkip={skip}
-      nextLabel={isLast ? 'Done' : 'Next'}
-    />
-  )}
+  renderCard={({ step, index, total, isLast, next, skip, placement, layout, width, containerHeight }) => {
+    const anchorY = placement === 'bottom' ? (layout.top ?? 0) : containerHeight - (layout.bottom ?? 0);
+
+    return (
+      <MyCard
+        style={{ position: 'absolute', left: layout.left, top: placement === 'bottom' ? anchorY : undefined, bottom: placement === 'top' ? containerHeight - anchorY : undefined, width }}
+        title={step.title}
+        body={step.text}
+        counter={`${index + 1}/${total}`}
+        onNext={next}
+        onSkip={skip}
+        nextLabel={isLast ? 'Done' : 'Next'}
+      />
+    );
+  }}
 />
 ```
 
-Positioning is on you. The `placement` and `layout` you get tell you which side the tour
-picked and where it would have put its own card.
+Positioning is on you. `placement` tells you which side the tour picked; `layout`, `width`
+and `containerHeight` are the same numbers `TourCard` itself uses to land there — see
+[`ICiceroneCardProps`](./api.md#iciceronecardprops) for what each one means.
