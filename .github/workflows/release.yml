@@ -2,15 +2,72 @@ name: Release
 
 on:
   push:
+    branches:
+      - main
     tags:
       - 'v*'
+  workflow_dispatch:
 
+# One release at a time, and never cancel one halfway.
 concurrency:
-  group: release-${{ github.ref }}
+  group: release
   cancel-in-progress: false
 
 jobs:
+  plan:
+    runs-on: ubuntu-latest
+
+    outputs:
+      release: ${{ steps.plan.outputs.release }}
+      cut: ${{ steps.plan.outputs.cut }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          fetch-depth: 0
+
+      # A tag push publishes what it points at; a push to main has to cut the version first.
+      - name: Decide what this run releases
+        id: plan
+        run: |
+          if [[ "$GITHUB_REF_TYPE" == "tag" ]]; then
+            TAG="${GITHUB_REF_NAME#v}"
+            PKG=$(node -p "require('./package.json').version")
+
+            if [[ "$TAG" != "$PKG" ]]; then
+              echo "::error::Tag $GITHUB_REF_NAME does not match package.json version $PKG."
+              exit 1
+            fi
+
+            echo "release=true" >> "$GITHUB_OUTPUT"
+            echo "cut=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          LAST_TAG=$(git describe --tags --abbrev=0 --match 'v*' 2> /dev/null || true)
+          RANGE=${LAST_TAG:+$LAST_TAG..HEAD}
+
+          # Piping into `grep -q` would close the pipe under git's feet, so read the log into a variable.
+          SUBJECTS=$(git log --no-merges --format='%s' $RANGE)
+          BODIES=$(git log --no-merges --format='%B' $RANGE)
+
+          # Only feat, fix, perf and breaking changes move the version — docs and chore ride along with the next one.
+          if grep -qE '^(feat|fix|perf)(\([^)]*\))?!?:' <<< "$SUBJECTS" \
+            || grep -qE '^[a-z]+(\([^)]*\))?!:' <<< "$SUBJECTS" \
+            || grep -qE '^BREAKING[ -]CHANGE:' <<< "$BODIES"; then
+            echo "Releasable commits since ${LAST_TAG:-the first commit}."
+            echo "release=true" >> "$GITHUB_OUTPUT"
+            echo "cut=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Nothing releasable since ${LAST_TAG:-the first commit}, skipping."
+            echo "release=false" >> "$GITHUB_OUTPUT"
+            echo "cut=false" >> "$GITHUB_OUTPUT"
+          fi
+
   verify:
+    needs: plan
+    if: needs.plan.outputs.release == 'true'
     runs-on: ubuntu-latest
 
     steps:
@@ -33,7 +90,9 @@ jobs:
         run: yarn test --maxWorkers=2
 
   publish:
-    needs: verify
+    needs:
+      - plan
+      - verify
     runs-on: ubuntu-latest
 
     permissions:
@@ -60,28 +119,34 @@ jobs:
             exit 1
           fi
 
-      - name: Check the tag matches package.json
-        run: |
-          TAG="${GITHUB_REF_NAME#v}"
-          PKG=$(node -p "require('./package.json').version")
-
-          if [[ "$TAG" != "$PKG" ]]; then
-            echo "::error::Tag $GITHUB_REF_NAME does not match package.json version $PKG."
-            exit 1
-          fi
-
+      # Building before the tag exists means a broken build fails without leaving a version behind.
       - name: Build package
         run: yarn prepare
 
       - name: Check lib/ is portable
         run: yarn verify:lib
 
+      # A push made with GITHUB_TOKEN does not start another workflow run, so this cannot loop.
+      - name: Cut the version
+        if: needs.plan.outputs.cut == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          yarn release-it --ci
+
+      - name: Resolve the released version
+        id: version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+
       # The very first version goes up by hand, before npm can trust this workflow.
       - name: Check whether the version is already on npm
         id: npm
         run: |
           NAME=$(node -p "require('./package.json').name")
-          VERSION=$(node -p "require('./package.json').version")
+          VERSION="${{ steps.version.outputs.version }}"
 
           if npm view "$NAME@$VERSION" version > /dev/null 2>&1; then
             echo "npm already serves $NAME@$VERSION, skipping the publish."
@@ -98,12 +163,18 @@ jobs:
       - name: Create the GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.version.outputs.tag }}
         run: |
+          if gh release view "$TAG" > /dev/null 2>&1; then
+            echo "The release $TAG already exists, nothing to create."
+            exit 0
+          fi
+
           # A version heading is a digit after the hashes, section headings like '### Features' are not.
           NOTES=$(awk '/^#{1,3} +\[?[0-9]/ { if (seen++) exit } seen' CHANGELOG.md 2> /dev/null || true)
 
           if [[ -n "$NOTES" ]]; then
-            gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes "$NOTES"
+            gh release create "$TAG" --title "$TAG" --notes "$NOTES"
           else
-            gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --generate-notes
+            gh release create "$TAG" --title "$TAG" --generate-notes
           fi
