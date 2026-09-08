@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.2](https://github.com/Salve-Software/react-native-cicerone/compare/v0.2.1...v0.2.2) (2026-09-08)
+
+### Bug Fixes
+
+- **overlay:** forward card positioning data ([36c69b2](https://github.com/Salve-Software/react-native-cicerone/commit/36c69b27ae5b0d5124c5f5af6420a5364682b36a)), closes [#4](https://github.com/Salve-Software/react-native-cicerone/issues/4)
+
 ## [0.2.1](https://github.com/Salve-Software/react-native-cicerone/compare/v0.2.0...v0.2.1) (2026-08-27)
 
 # [0.2.0](https://github.com/Salve-Software/react-native-cicerone/compare/v0.1.2...v0.2.0) (2026-08-27)
