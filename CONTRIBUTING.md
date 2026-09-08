@@ -98,13 +98,19 @@ Our pre-commit hooks verify that your commit message matches this format when co
 
 ### Publishing to npm
 
-We use [release-it](https://github.com/release-it/release-it) to make it easier to publish new versions. It handles common tasks like bumping version based on semver, creating tags and releases etc.
+Releases are automatic. Every push to `main` runs the `Release` workflow, which uses
+[release-it](https://github.com/release-it/release-it) to bump the version from the commit
+messages, write the `CHANGELOG.md`, tag, publish to npm and open the GitHub release.
 
-To publish new versions, run the following:
+Only `feat`, `fix`, `perf` and breaking changes cut a version. A push carrying nothing but
+`docs`, `test`, `chore` or `style` is skipped, and those commits ride along with the next
+release.
 
-```sh
-yarn release
-```
+Two escape hatches, for when the automatic run is not what you want:
+
+- **Run it by hand** — trigger `Release` through `workflow_dispatch` on `main`.
+- **Pick the version yourself** — `yarn release` locally, then push the tag it creates. The
+  workflow publishes whatever the tag points at, without cutting a new version.
 
 ### Scripts
 
