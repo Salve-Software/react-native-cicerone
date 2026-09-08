@@ -103,12 +103,30 @@ desenhar o seu. O holofote, o anel e o posicionamento continuam como estão.
 ```tsx
 <Cicerone.Provider
   steps={STEPS}
-  renderCard={({ step, index, total, isLast, next, skip, placement, layout, width, containerHeight }) => {
-    const anchorY = placement === 'bottom' ? (layout.top ?? 0) : containerHeight - (layout.bottom ?? 0);
+  renderCard={({
+    step,
+    index,
+    total,
+    isLast,
+    next,
+    skip,
+    placement,
+    layout,
+    width,
+    containerHeight,
+  }) => {
+    const anchorY =
+      placement === 'bottom' ? (layout.top ?? 0) : containerHeight - (layout.bottom ?? 0);
 
     return (
       <MyCard
-        style={{ position: 'absolute', left: layout.left, top: placement === 'bottom' ? anchorY : undefined, bottom: placement === 'top' ? containerHeight - anchorY : undefined, width }}
+        style={{
+          position: 'absolute',
+          left: layout.left,
+          top: placement === 'bottom' ? anchorY : undefined,
+          bottom: placement === 'top' ? containerHeight - anchorY : undefined,
+          width,
+        }}
         title={step.title}
         body={step.text}
         counter={`${index + 1}/${total}`}
