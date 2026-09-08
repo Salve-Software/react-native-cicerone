@@ -103,18 +103,42 @@ desenhar o seu. O holofote, o anel e o posicionamento continuam como estão.
 ```tsx
 <Cicerone.Provider
   steps={STEPS}
-  renderCard={({ step, index, total, isLast, next, skip }) => (
-    <MyCard
-      title={step.title}
-      body={step.text}
-      counter={`${index + 1}/${total}`}
-      onNext={next}
-      onSkip={skip}
-      nextLabel={isLast ? 'Pronto' : 'Próximo'}
-    />
-  )}
+  renderCard={({
+    step,
+    index,
+    total,
+    isLast,
+    next,
+    skip,
+    placement,
+    layout,
+    width,
+    containerHeight,
+  }) => {
+    const anchorY =
+      placement === 'bottom' ? (layout.top ?? 0) : containerHeight - (layout.bottom ?? 0);
+
+    return (
+      <MyCard
+        style={{
+          position: 'absolute',
+          left: layout.left,
+          top: placement === 'bottom' ? anchorY : undefined,
+          bottom: placement === 'top' ? containerHeight - anchorY : undefined,
+          width,
+        }}
+        title={step.title}
+        body={step.text}
+        counter={`${index + 1}/${total}`}
+        onNext={next}
+        onSkip={skip}
+        nextLabel={isLast ? 'Pronto' : 'Próximo'}
+      />
+    );
+  }}
 />
 ```
 
-O posicionamento fica com você. O `placement` e o `layout` que chegam dizem qual lado o tour
-escolheu e onde ele teria posto o próprio card.
+O posicionamento fica com você. `placement` diz qual lado o tour escolheu; `layout`, `width`
+e `containerHeight` são os mesmos números que o próprio `TourCard` usa para se posicionar —
+veja [`ICiceroneCardProps`](./api.md#iciceronecardprops) para o que cada um significa.

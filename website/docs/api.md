@@ -93,4 +93,13 @@ What `renderCard` receives.
 | `placement`                           | `'top' \| 'bottom'`    |
 | `palette`                             | `ICiceroneCardPalette` |
 | `labels`                              | `ICiceroneLabels`      |
+| `layout`                              | `ICardLayout`          |
+| `width`                               | `number`               |
+| `containerHeight`                     | `number`               |
+| `isExiting`                           | `boolean`              |
 | `next` / `previous` / `skip` / `stop` | `() => void`           |
+
+`layout`, `width` and `containerHeight` are what the built-in card uses to position itself
+next to the target — `left`/`arrowLeft` from `layout`, anchored against `containerHeight`
+depending on `placement`. `isExiting` drives the exit animation. A custom `renderCard` needs
+all four to place itself the same way; see [Replacing the card](./theming.md#replacing-the-card).

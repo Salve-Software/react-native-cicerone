@@ -111,6 +111,19 @@ describe('useCiceroneOverlayViewModel', () => {
     });
   });
 
+  describe('cardProps', () => {
+    it('Carries the positioning data renderCard needs to place itself', async () => {
+      const { result } = await renderHook(() =>
+        useCiceroneOverlayViewModel(mountProps()),
+      );
+
+      expect(result.current.cardProps.layout).toEqual(result.current.layout);
+      expect(result.current.cardProps.width).toBe(result.current.cardWidth);
+      expect(result.current.cardProps.containerHeight).toBe(result.current.screen.height);
+      expect(result.current.cardProps.isExiting).toBe(false);
+    });
+  });
+
   describe('cardWidth', () => {
     it('Uses the prototype width unless the consumer overrides it', async () => {
       const { result } = await renderHook(() =>

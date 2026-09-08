@@ -1,3 +1,4 @@
+import type { ICardLayout } from './ICardLayout';
 import type { ICiceroneCardPalette } from './ICiceroneCardPalette';
 import type { ICiceroneLabels } from './ICiceroneLabels';
 import type { ICiceronePlacement } from './ICiceronePlacement';
@@ -12,6 +13,11 @@ export interface ICiceroneCardProps {
   placement: ICiceronePlacement;
   palette: ICiceroneCardPalette;
   labels: ICiceroneLabels;
+  layout: ICardLayout;
+  width: number;
+  /** The overlay's box, which the layout was measured against. */
+  containerHeight: number;
+  isExiting: boolean;
   next: () => void;
   previous: () => void;
   skip: () => void;
