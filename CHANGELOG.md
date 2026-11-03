@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.3](https://github.com/Salve-Software/react-native-cicerone/compare/v0.2.2...v0.2.3) (2026-11-03)
+
+### Bug Fixes
+
+- preserve overlay hit area on modern React Native ([5138a5d](https://github.com/Salve-Software/react-native-cicerone/commit/5138a5de2839a3ced55089dc3d2c294f8406272f))
+
 ## [0.2.2](https://github.com/Salve-Software/react-native-cicerone/compare/v0.2.1...v0.2.2) (2026-09-08)
 
 ### Bug Fixes
