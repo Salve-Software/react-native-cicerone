@@ -4,7 +4,7 @@ import { SPOTLIGHT } from './constants';
 
 export const useStyles = (theme: ICiceroneTheme) =>
   StyleSheet.create({
-    root: StyleSheet.absoluteFillObject,
+    root: StyleSheet.absoluteFill,
     backdrop: {
       position: 'absolute',
       left: 0,

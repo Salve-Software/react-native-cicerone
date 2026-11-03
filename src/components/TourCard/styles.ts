@@ -21,7 +21,7 @@ export const useStyles = (palette: ICiceroneCardPalette) =>
       elevation: 16,
     },
     gradient: {
-      ...StyleSheet.absoluteFillObject,
+      ...StyleSheet.flatten(StyleSheet.absoluteFill),
       opacity: 0.9,
     },
     label: {
